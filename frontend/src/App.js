@@ -1,20 +1,18 @@
 import "@/App.css";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
 import Marquee from "react-fast-marquee";
+import { useInView } from "react-intersection-observer";
+import CountUp from "react-countup";
 import { 
   ArrowRight, 
   Link2, 
-  FileText, 
   Globe2, 
   Wallet, 
   Building2, 
   Users, 
-  ShoppingBag, 
-  Home as HomeIcon,
   Check,
   ChevronRight,
-  Send,
   Shield,
   Zap,
   Menu,
@@ -34,9 +32,16 @@ import {
   MapPin,
   Globe,
   BarChart3,
-  UserPlus
+  UserPlus,
+  Play,
+  Star,
+  TrendingUp,
+  BadgeCheck,
+  Smartphone,
+  Send,
+  Receipt
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -46,12 +51,118 @@ import {
 
 // Animation variants
 const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] } }
+};
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.6 } }
 };
 
 const stagger = {
   visible: { transition: { staggerChildren: 0.1 } }
+};
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: "easeOut" } }
+};
+
+// Custom Cursor Component
+const CustomCursor = () => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+
+  useEffect(() => {
+    const updatePosition = (e) => {
+      setPosition({ x: e.clientX, y: e.clientY });
+    };
+
+    const handleMouseEnter = () => setIsHovering(true);
+    const handleMouseLeave = () => setIsHovering(false);
+
+    window.addEventListener("mousemove", updatePosition);
+    
+    const interactiveElements = document.querySelectorAll("a, button, [data-hover]");
+    interactiveElements.forEach(el => {
+      el.addEventListener("mouseenter", handleMouseEnter);
+      el.addEventListener("mouseleave", handleMouseLeave);
+    });
+
+    return () => {
+      window.removeEventListener("mousemove", updatePosition);
+      interactiveElements.forEach(el => {
+        el.removeEventListener("mouseenter", handleMouseEnter);
+        el.removeEventListener("mouseleave", handleMouseLeave);
+      });
+    };
+  }, []);
+
+  return (
+    <>
+      <div 
+        className="cursor-dot hidden md:block"
+        style={{ left: position.x - 4, top: position.y - 4 }}
+      />
+      <div 
+        className={`cursor-outline hidden md:block ${isHovering ? 'hover' : ''}`}
+        style={{ left: position.x - 20, top: position.y - 20 }}
+      />
+    </>
+  );
+};
+
+// Scroll Progress Bar
+const ScrollProgress = () => {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  
+  return (
+    <motion.div 
+      className="scroll-progress"
+      style={{ scaleX }}
+    />
+  );
+};
+
+// Floating Particles Component
+const FloatingParticles = ({ count = 20 }) => {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {[...Array(count)].map((_, i) => (
+        <div
+          key={i}
+          className="particle"
+          style={{
+            width: Math.random() * 6 + 2 + 'px',
+            height: Math.random() * 6 + 2 + 'px',
+            background: i % 3 === 0 ? 'rgba(168, 85, 247, 0.6)' : i % 3 === 1 ? 'rgba(34, 211, 238, 0.6)' : 'rgba(236, 72, 153, 0.6)',
+            top: Math.random() * 100 + '%',
+            left: Math.random() * 100 + '%',
+            animationDelay: Math.random() * 4 + 's',
+            animationDuration: 4 + Math.random() * 4 + 's'
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
+// Stats Counter Component
+const StatCounter = ({ end, suffix = "", prefix = "", label }) => {
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.3 });
+  
+  return (
+    <div ref={ref} className="text-center">
+      <div className="text-4xl md:text-5xl font-bold font-syne text-white stat-number">
+        {prefix}
+        {inView ? <CountUp end={end} duration={2.5} separator="," /> : "0"}
+        {suffix}
+      </div>
+      <p className="text-white/60 mt-2 font-dm">{label}</p>
+    </div>
+  );
 };
 
 // Header Component
@@ -60,7 +171,7 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -73,21 +184,24 @@ const Header = () => {
   const navLinks = ["Features", "How It Works", "Security", "Business", "Pricing", "FAQ"];
   
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
       scrolled 
-        ? "backdrop-blur-xl bg-white/80 border-b border-gray-200/50 shadow-sm" 
+        ? "backdrop-blur-2xl bg-[#0a0a0f]/80 border-b border-white/5" 
         : "bg-transparent"
     }`}>
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <button onClick={() => scrollTo("hero")} className="flex items-center gap-2.5 group" data-testid="logo-link">
-            <img 
-              src="/assets/logo.png" 
-              alt="BukkaPay" 
-              className="h-10 w-10 rounded-xl object-cover shadow-sm group-hover:scale-110 transition-transform duration-200" 
-            />
-            <span className="text-2xl font-bold text-gray-900 font-outfit">BukkaPay</span>
+          <button onClick={() => scrollTo("hero")} className="flex items-center gap-3 group" data-testid="logo-link" data-hover>
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-cyan-500 rounded-xl blur-lg opacity-50 group-hover:opacity-100 transition-opacity" />
+              <img 
+                src="/assets/logo.png" 
+                alt="BukkaPay" 
+                className="relative h-10 w-10 rounded-xl object-cover" 
+              />
+            </div>
+            <span className="text-2xl font-bold text-white font-syne">BukkaPay</span>
           </button>
           
           {/* Desktop Navigation */}
@@ -96,15 +210,13 @@ const Header = () => {
               <button
                 key={link}
                 onClick={() => scrollTo(link.toLowerCase().replace(/\s+/g, "-"))}
-                className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-100/50 transition-all duration-200 font-medium"
+                className="px-4 py-2 text-sm text-white/70 hover:text-white rounded-lg hover:bg-white/5 transition-all duration-300 font-medium font-dm"
                 data-testid={`nav-${link.toLowerCase().replace(/\s+/g, "-")}`}
+                data-hover
               >
                 {link}
               </button>
             ))}
-            <Link to="/about" className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-100/50 transition-all duration-200 font-medium">
-              About
-            </Link>
           </nav>
           
           {/* Desktop CTAs */}
@@ -113,8 +225,9 @@ const Header = () => {
               href="https://app.bukkapay.com" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
+              className="text-white/70 hover:text-white font-medium transition-colors font-dm"
               data-testid="login-btn"
+              data-hover
             >
               Sign In
             </a>
@@ -122,8 +235,9 @@ const Header = () => {
               href="https://app.bukkapay.com" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-full px-6 py-3 font-medium hover:shadow-lg hover:shadow-violet-500/25 transition-all duration-300 flex items-center gap-2 group"
+              className="btn-primary text-white rounded-full px-6 py-3 font-medium flex items-center gap-2 group font-dm"
               data-testid="get-started-btn"
+              data-hover
             >
               Get Started
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -132,11 +246,11 @@ const Header = () => {
           
           {/* Mobile Menu Button */}
           <button 
-            className="lg:hidden p-2 rounded-lg hover:bg-gray-100"
+            className="lg:hidden p-2 rounded-lg hover:bg-white/5 transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             data-testid="mobile-menu-btn"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6 text-gray-900" /> : <Menu className="w-6 h-6 text-gray-900" />}
+            {mobileMenuOpen ? <X className="w-6 h-6 text-white" /> : <Menu className="w-6 h-6 text-white" />}
           </button>
         </div>
         
@@ -147,7 +261,7 @@ const Header = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden py-6 border-t border-gray-200 overflow-hidden"
+              className="lg:hidden py-6 border-t border-white/10 overflow-hidden"
             >
               <nav className="flex flex-col gap-2">
                 {navLinks.map((link, i) => (
@@ -157,17 +271,14 @@ const Header = () => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.05 }}
                     onClick={() => scrollTo(link.toLowerCase().replace(/\s+/g, "-"))}
-                    className="text-left py-3 text-gray-600 hover:text-gray-900 transition-colors font-medium"
+                    className="text-left py-3 text-white/70 hover:text-white transition-colors font-medium font-dm"
                   >
                     {link}
                   </motion.button>
                 ))}
-                <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="py-3 text-gray-600 hover:text-gray-900 transition-colors font-medium">
-                  About
-                </Link>
-                <div className="flex gap-3 pt-4 mt-2 border-t border-gray-200">
-                  <a href="https://app.bukkapay.com" target="_blank" rel="noopener noreferrer" className="flex-1 text-center py-3 text-gray-600 border border-gray-200 rounded-full font-medium">Sign In</a>
-                  <a href="https://app.bukkapay.com" target="_blank" rel="noopener noreferrer" className="flex-1 text-center py-3 bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-full font-medium">Get Started</a>
+                <div className="flex gap-3 pt-4 mt-2 border-t border-white/10">
+                  <a href="https://app.bukkapay.com" className="flex-1 text-center py-3 text-white/70 border border-white/20 rounded-full font-medium font-dm">Sign In</a>
+                  <a href="https://app.bukkapay.com" className="flex-1 text-center py-3 btn-primary text-white rounded-full font-medium font-dm">Get Started</a>
                 </div>
               </nav>
             </motion.div>
@@ -178,132 +289,191 @@ const Header = () => {
   );
 };
 
-// Hero Section
+// Hero Section with Video Background
 const Hero = () => {
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
+  
   return (
-    <section id="hero" className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-mesh-gradient">
-      {/* Animated Background Orbs */}
+    <section id="hero" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+      {/* Video Background */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="video-bg"
+        poster="/assets/hero-bg.png"
+      >
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-futuristic-devices-99786-large.mp4" type="video/mp4" />
+      </video>
+      <div className="video-overlay" />
+      
+      {/* Aurora Background */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="orb orb-1" />
-        <div className="orb orb-2" />
-        <div className="orb orb-3" />
-        
-        {/* Grid Pattern */}
-        <div className="absolute inset-0 bg-grid-pattern opacity-60" />
-        
-        {/* Floating Particles */}
-        <div className="absolute top-1/4 left-1/4 w-2 h-2 rounded-full bg-violet-400/40 animate-float" style={{ animationDelay: '0s' }} />
-        <div className="absolute top-1/3 right-1/4 w-3 h-3 rounded-full bg-indigo-400/30 animate-float" style={{ animationDelay: '1s' }} />
-        <div className="absolute bottom-1/4 left-1/3 w-2 h-2 rounded-full bg-purple-400/40 animate-float" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-2/3 right-1/3 w-4 h-4 rounded-full bg-violet-300/20 animate-float" style={{ animationDelay: '3s' }} />
-        
-        {/* Gradient Overlays */}
-        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white/50 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white/30 to-transparent" />
+        <div className="aurora-bg -top-1/2 -left-1/2" />
       </div>
       
-      {/* Noise Texture */}
-      <div className="absolute inset-0 bg-noise pointer-events-none" />
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 grid-pattern opacity-30" />
       
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 py-20 md:py-28 relative">
+      {/* Floating Particles */}
+      <FloatingParticles count={30} />
+      
+      {/* Animated Gradient Orbs */}
+      <div className="absolute top-1/4 -left-20 w-96 h-96 bg-violet-500/20 rounded-full blur-[120px] blob" />
+      <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-cyan-500/20 rounded-full blur-[100px] blob" style={{ animationDelay: '-4s' }} />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-pink-500/10 rounded-full blur-[150px]" />
+      
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 py-20 md:py-28 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left Content */}
           <motion.div
+            ref={ref}
             initial="hidden"
-            animate="visible"
+            animate={inView ? "visible" : "hidden"}
             variants={stagger}
           >
-            <motion.span 
-              variants={fadeUp}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-violet-100 text-violet-700 border border-violet-200"
-            >
-              <Sparkles className="h-3.5 w-3.5" />
-              Launching soon across Africa, Asia & Europe
-            </motion.span>
+            <motion.div variants={fadeUp} className="flex items-center gap-3 mb-8">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+              </span>
+              <span className="text-sm font-medium text-emerald-400 font-dm">
+                Now Live in 30+ African Countries
+              </span>
+            </motion.div>
             
             <motion.h1 
               variants={fadeUp}
-              className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] text-gray-900 mt-8 font-outfit"
+              className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.05] text-white font-syne"
             >
-              The Smart Way to{" "}
-              <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">Pay and Get Paid</span>
+              The Future of
+              <br />
+              <span className="text-shimmer">African Payments</span>
             </motion.h1>
             
             <motion.p 
               variants={fadeUp}
-              className="text-lg md:text-xl text-gray-600 mt-6 leading-relaxed max-w-xl"
+              className="text-lg md:text-xl text-white/60 mt-8 leading-relaxed max-w-xl font-dm"
             >
-              BukkaPay empowers freelancers, businesses, and service providers across Africa to send, receive, and collect payments seamlessly — locally and globally.
+              Send, receive, and collect payments seamlessly across borders. 
+              Built for freelancers, businesses, and dreamers across Africa.
             </motion.p>
             
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mt-8">
+            <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mt-10">
               <a 
                 href="https://app.bukkapay.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-full px-8 py-4 font-medium hover:shadow-xl hover:shadow-violet-500/25 transition-all duration-300 flex items-center gap-2 group"
+                className="btn-primary text-white rounded-full px-8 py-4 font-medium flex items-center gap-3 group font-dm"
                 data-testid="hero-cta-primary"
+                data-hover
               >
-                Get Started Free
+                Start Free Today
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </a>
               <button 
                 onClick={() => document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" })}
-                className="border border-gray-300 text-gray-700 rounded-full px-8 py-4 font-medium hover:border-gray-400 hover:bg-gray-50 transition-all duration-300"
+                className="flex items-center gap-3 text-white/70 hover:text-white rounded-full px-8 py-4 font-medium border border-white/20 hover:border-white/40 hover:bg-white/5 transition-all duration-300 font-dm"
                 data-testid="hero-cta-secondary"
+                data-hover
               >
-                See How It Works
+                <Play className="w-5 h-5" />
+                Watch Demo
               </button>
             </motion.div>
             
-            {/* Trust Stats */}
-            <motion.div variants={fadeUp} className="flex items-center gap-6 mt-10 text-sm text-gray-500">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                Bank-level security
+            {/* Trust Badges */}
+            <motion.div variants={fadeUp} className="flex items-center gap-6 mt-12">
+              <div className="flex -space-x-3">
+                {[1,2,3,4,5].map((i) => (
+                  <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 border-2 border-[#0a0a0f] flex items-center justify-center">
+                    <span className="text-xs font-bold text-white">{String.fromCharCode(64 + i)}</span>
+                  </div>
+                ))}
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                Instant transfers
+              <div>
+                <div className="flex items-center gap-1">
+                  {[1,2,3,4,5].map((i) => (
+                    <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+                <p className="text-sm text-white/60 font-dm">50,000+ happy users</p>
               </div>
             </motion.div>
           </motion.div>
           
           {/* Right Content - Phone Mockup */}
           <motion.div 
-            initial={{ opacity: 0, scale: 0.9, y: 30 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+            initial={{ opacity: 0, scale: 0.8, rotateY: -15 }}
+            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+            transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
             className="flex justify-center lg:justify-end"
           >
-            <div className="relative animate-float">
-              <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-3xl blur-3xl opacity-20 scale-90" />
-              <img
-                src="/assets/hero-mockup.png"
-                alt="BukkaPay mobile app dashboard"
-                className="relative w-72 md:w-96 drop-shadow-2xl"
-                loading="eager"
-              />
+            <div className="relative">
+              {/* Glow Effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-violet-500 via-cyan-500 to-pink-500 rounded-[3rem] blur-3xl opacity-30 scale-90 animate-pulse" />
+              
+              {/* Phone Mockup */}
+              <div className="relative animate-float">
+                <img
+                  src="/assets/hero-mockup.png"
+                  alt="BukkaPay mobile app"
+                  className="relative w-72 md:w-96 drop-shadow-2xl"
+                  loading="eager"
+                />
+                
+                {/* Floating Cards */}
+                <motion.div 
+                  className="absolute -left-16 top-1/4 glass-card rounded-2xl p-4 neon-border"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 1, duration: 0.6 }}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                      <TrendingUp className="w-5 h-5 text-emerald-400" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-white/60 font-dm">Payment Received</p>
+                      <p className="text-lg font-bold text-white font-syne">+$2,450</p>
+                    </div>
+                  </div>
+                </motion.div>
+                
+                <motion.div 
+                  className="absolute -right-12 bottom-1/3 glass-card rounded-2xl p-4 neon-border"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 1.3, duration: 0.6 }}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-violet-500/20 flex items-center justify-center">
+                      <BadgeCheck className="w-5 h-5 text-violet-400" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-white/60 font-dm">Verified</p>
+                      <p className="text-sm font-medium text-white font-dm">Instant Transfer</p>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
             </div>
           </motion.div>
         </div>
 
-        {/* Billboard Showcase */}
+        {/* Stats Section */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7 }}
-          className="mt-16 md:mt-24"
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 p-8 glass-card rounded-3xl"
         >
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-            <img
-              src="/assets/hero-bg.png"
-              alt="BukkaPay billboard — The Pulse of African Finance"
-              className="w-full h-auto object-cover rounded-2xl"
-              loading="eager"
-            />
-          </div>
+          <StatCounter end={50} suffix="K+" label="Active Users" />
+          <StatCounter end={12} prefix="$" suffix="M+" label="Monthly Volume" />
+          <StatCounter end={30} suffix="+" label="Countries" />
+          <StatCounter end={99.9} suffix="%" label="Uptime" />
         </motion.div>
       </div>
     </section>
@@ -318,11 +488,12 @@ const TrustMarquee = () => {
   ];
   
   return (
-    <section className="bg-white border-y border-gray-200 py-8">
-      <Marquee speed={40} gradient gradientColor="#ffffff" gradientWidth={100}>
-        {partners.map((partner, index) => (
+    <section className="bg-[#0a0a0f] border-y border-white/5 py-8 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0f] via-transparent to-[#0a0a0f] z-10 pointer-events-none" />
+      <Marquee speed={40} gradient={false}>
+        {[...partners, ...partners].map((partner, index) => (
           <div key={index} className="flex items-center mx-12">
-            <span className="text-xl font-semibold text-gray-400">{partner}</span>
+            <span className="text-xl font-semibold text-white/30 font-space">{partner}</span>
           </div>
         ))}
       </Marquee>
@@ -330,82 +501,78 @@ const TrustMarquee = () => {
   );
 };
 
-// Features Section with Phone Mockups
+// Features Section
 const Features = () => {
   const features = [
     {
       icon: Wallet,
       title: "Digital Wallet",
-      description: "Store, send, and receive money instantly. Your wallet, your rules.",
+      description: "Store, send, and receive money instantly with your secure digital wallet.",
+      color: "from-violet-500 to-purple-600"
     },
     {
       icon: QrCode,
-      title: "Scan to Pay Me",
-      description: "Share your unique BKP code or QR code and get paid instantly — no account details needed.",
+      title: "Scan to Pay",
+      description: "Share your unique BKP code or QR — get paid instantly, no details needed.",
+      color: "from-cyan-500 to-blue-600"
     },
     {
       icon: Building2,
       title: "Landlord Dashboard",
-      description: "Track your rental properties, manage tenants, and monitor income with paid, partial, and unpaid status at a glance.",
+      description: "Track properties, manage tenants, and monitor rental income at a glance.",
+      color: "from-pink-500 to-rose-600"
     },
     {
       icon: Zap,
       title: "Instant Transfers",
       description: "Send money to anyone in seconds. No delays, no hidden fees.",
+      color: "from-orange-500 to-amber-600"
     },
     {
       icon: CreditCard,
       title: "Virtual Cards",
       description: "Create virtual cards for secure online shopping anywhere in the world.",
+      color: "from-emerald-500 to-teal-600"
     },
     {
       icon: ShieldCheck,
-      title: "Secure Payments",
-      description: "Every transaction is encrypted and protected with bank-level security.",
-    },
-    {
-      icon: Clock,
-      title: "Real-time History",
-      description: "Track every transaction in real-time with detailed history and insights.",
+      title: "Bank-Level Security",
+      description: "256-bit encryption and AI fraud detection protect every transaction.",
+      color: "from-indigo-500 to-violet-600"
     },
   ];
   
   return (
-    <section id="features" className="relative py-24 md:py-32 overflow-hidden">
-      {/* Animated Gradient Background */}
-      <div className="absolute inset-0 bg-animated-gradient" />
+    <section id="features" className="relative py-32 overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-[#0a0a0f]" />
+      <div className="absolute inset-0 dot-pattern" />
       
-      {/* Decorative Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-violet-200/30 rounded-full blur-3xl blob" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-200/30 rounded-full blur-3xl blob" style={{ animationDelay: '-4s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-100/20 rounded-full blur-3xl" />
-      </div>
-      
-      {/* Grid Pattern Overlay */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-40" />
+      {/* Gradient Orbs */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-violet-500/10 rounded-full blur-[150px]" />
+      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-[120px]" />
       
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-20"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeUp}
         >
-          <span className="text-sm font-semibold text-violet-600 tracking-wide uppercase">
-            Features
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-violet-500/10 text-violet-400 border border-violet-500/20 mb-6 font-dm">
+            <Sparkles className="w-4 h-4" />
+            Powerful Features
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mt-3 font-outfit">
-            Everything you need to manage your money
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white font-syne">
+            Everything You Need to
+            <br />
+            <span className="text-shimmer">Manage Money</span>
           </h2>
-          <p className="text-gray-600 mt-4 text-lg max-w-2xl mx-auto">
-            Powerful tools designed for the way you do business — launching soon to many African countries, Asia and Europe.
-          </p>
         </motion.div>
         
         <motion.div 
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto"
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -414,137 +581,119 @@ const Features = () => {
           {features.map((feature, index) => (
             <motion.div 
               key={index}
-              className="group relative p-6 rounded-2xl border border-white/60 bg-white/70 backdrop-blur-sm hover:border-violet-300 transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/10 card-shine"
+              className="group glass-card rounded-3xl p-8 relative overflow-hidden"
               variants={fadeUp}
               data-testid={`feature-card-${index}`}
+              data-hover
             >
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-violet-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="relative">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 flex items-center justify-center mb-4 shadow-lg shadow-violet-500/25 group-hover:scale-110 group-hover:shadow-violet-500/40 transition-all duration-300">
-                  <feature.icon className="h-6 w-6 text-white" />
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 font-outfit">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  {feature.description}
-                </p>
+              {/* Hover Gradient */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
+              
+              <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                <feature.icon className="h-7 w-7 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-3 font-syne">
+                {feature.title}
+              </h3>
+              <p className="text-white/60 leading-relaxed font-dm">
+                {feature.description}
+              </p>
+              
+              {/* Arrow */}
+              <div className="mt-6 flex items-center gap-2 text-white/40 group-hover:text-white/80 transition-colors">
+                <span className="text-sm font-medium font-dm">Learn more</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Phone Mockup Showcases */}
-        <div className="mt-24 space-y-28 max-w-5xl mx-auto">
-          {/* Scan to Pay Me */}
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+        {/* Feature Showcase - Phone Mockups */}
+        <div className="mt-32 space-y-32">
+          {/* QR Pay Showcase */}
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
-              initial={{ opacity: 0, x: -40 }}
+              initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="order-2 md:order-1"
+              transition={{ duration: 0.8 }}
             >
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-violet-100 text-violet-700 mb-4">
-                <QrCode className="h-3.5 w-3.5" /> QR Payments
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 mb-6 font-dm">
+                <QrCode className="w-3.5 h-3.5" /> QR Payments
               </span>
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 font-outfit">
-                Scan to Pay Me
+              <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 font-syne">
+                Scan. Pay. Done.
               </h3>
-              <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                Share your unique BKP code or QR code with anyone. They scan, you get paid — instantly. No bank details, no hassle. Perfect for freelancers, small businesses, and everyday payments.
+              <p className="text-lg text-white/60 mb-8 leading-relaxed font-dm">
+                Share your unique BKP code or QR with anyone. They scan, you get paid — instantly. 
+                No bank details, no hassle. Perfect for freelancers and everyday payments.
               </p>
-              <ul className="space-y-3 text-gray-600">
-                <li className="flex items-center gap-3 text-sm"><span className="w-1.5 h-1.5 rounded-full bg-violet-600" /> Unique BKP code for every user</li>
-                <li className="flex items-center gap-3 text-sm"><span className="w-1.5 h-1.5 rounded-full bg-violet-600" /> Instant payment confirmation</li>
-                <li className="flex items-center gap-3 text-sm"><span className="w-1.5 h-1.5 rounded-full bg-violet-600" /> Share via link, screenshot, or in-person scan</li>
+              <ul className="space-y-4">
+                {["Unique BKP code for every user", "Instant payment confirmation", "Share via link, screenshot, or scan"].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-white/70 font-dm">
+                    <div className="w-6 h-6 rounded-full bg-cyan-500/20 flex items-center justify-center">
+                      <Check className="w-3.5 h-3.5 text-cyan-400" />
+                    </div>
+                    {item}
+                  </li>
+                ))}
               </ul>
             </motion.div>
             <motion.div
-              initial={{ opacity: 0, x: 40 }}
+              initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="order-1 md:order-2 flex justify-center"
-            >
-              <div className="relative animate-float">
-                <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-3xl blur-2xl opacity-20 scale-90" />
-                <img src="/assets/qr-code-screen.jpg" alt="BukkaPay QR code" className="relative w-64 rounded-3xl shadow-2xl" />
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Landlord Dashboard */}
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.8 }}
               className="flex justify-center"
             >
-              <div className="relative animate-float">
-                <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-3xl blur-2xl opacity-20 scale-90" />
-                <img src="/assets/landlord-dashboard-screen.jpg" alt="Landlord dashboard" className="relative w-64 rounded-3xl shadow-2xl" />
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-[2rem] blur-3xl opacity-20" />
+                <img src="/assets/qr-code-screen.jpg" alt="QR Code Screen" className="relative w-64 rounded-[2rem] shadow-2xl animate-float" />
               </div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-violet-100 text-violet-700 mb-4">
-                <Building2 className="h-3.5 w-3.5" /> Property Management
-              </span>
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 font-outfit">
-                Landlord Dashboard
-              </h3>
-              <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                Manage all your rental properties and tenants in one place. Track income, monitor payment statuses, and stay on top of your property portfolio.
-              </p>
-              <ul className="space-y-3 text-gray-600">
-                <li className="flex items-center gap-3 text-sm"><span className="w-1.5 h-1.5 rounded-full bg-violet-600" /> Properties & tenants at a glance</li>
-                <li className="flex items-center gap-3 text-sm"><span className="w-1.5 h-1.5 rounded-full bg-violet-600" /> Paid, partial & unpaid status tracking</li>
-                <li className="flex items-center gap-3 text-sm"><span className="w-1.5 h-1.5 rounded-full bg-violet-600" /> Total income overview</li>
-              </ul>
             </motion.div>
           </div>
 
-          {/* Business Dashboard */}
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          {/* Business Dashboard Showcase */}
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
-              initial={{ opacity: 0, x: -40 }}
+              initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="order-2 md:order-1"
+              transition={{ duration: 0.8 }}
+              className="order-2 lg:order-1 flex justify-center"
             >
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-violet-100 text-violet-700 mb-4">
-                <BarChart3 className="h-3.5 w-3.5" /> Business Payments
-              </span>
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 font-outfit">
-                Business Dashboard
-              </h3>
-              <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                Track every payment your business receives in real time. Monitor revenue, view transaction history, and stay on top of pending and completed payments.
-              </p>
-              <ul className="space-y-3 text-gray-600">
-                <li className="flex items-center gap-3 text-sm"><span className="w-1.5 h-1.5 rounded-full bg-violet-600" /> Real-time revenue tracking</li>
-                <li className="flex items-center gap-3 text-sm"><span className="w-1.5 h-1.5 rounded-full bg-violet-600" /> Payment status at a glance</li>
-                <li className="flex items-center gap-3 text-sm"><span className="w-1.5 h-1.5 rounded-full bg-violet-600" /> Customer transaction history</li>
-              </ul>
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-pink-500 rounded-[2rem] blur-3xl opacity-20" />
+                <img src="/assets/business-dashboard-screen.jpg" alt="Business Dashboard" className="relative w-64 rounded-[2rem] shadow-2xl animate-float" style={{ animationDelay: '-2s' }} />
+              </div>
             </motion.div>
             <motion.div
-              initial={{ opacity: 0, x: 40 }}
+              initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="order-1 md:order-2 flex justify-center"
+              transition={{ duration: 0.8 }}
+              className="order-1 lg:order-2"
             >
-              <div className="relative w-64 md:w-72">
-                <img src="/assets/business-dashboard-screen.jpg" alt="Business dashboard" className="w-full rounded-3xl shadow-2xl" />
-              </div>
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium bg-violet-500/10 text-violet-400 border border-violet-500/20 mb-6 font-dm">
+                <BarChart3 className="w-3.5 h-3.5" /> Business Dashboard
+              </span>
+              <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 font-syne">
+                Track Every Naira
+              </h3>
+              <p className="text-lg text-white/60 mb-8 leading-relaxed font-dm">
+                Real-time revenue tracking, payment status at a glance, and complete customer 
+                transaction history. Everything you need to run your business.
+              </p>
+              <ul className="space-y-4">
+                {["Real-time revenue tracking", "Payment status dashboard", "Customer transaction history"].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-white/70 font-dm">
+                    <div className="w-6 h-6 rounded-full bg-violet-500/20 flex items-center justify-center">
+                      <Check className="w-3.5 h-3.5 text-violet-400" />
+                    </div>
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </motion.div>
           </div>
         </div>
@@ -556,100 +705,97 @@ const Features = () => {
 // How It Works
 const HowItWorks = () => {
   const steps = [
-    {
-      icon: UserPlus,
-      step: "01",
-      title: "Create an Account",
-      description: "Sign up in minutes with just your email or phone number. Quick and hassle-free."
-    },
-    {
-      icon: Wallet,
-      step: "02",
-      title: "Fund Your Wallet",
-      description: "Add money via bank transfer, mobile money, or card. Start transacting instantly."
-    },
-    {
-      icon: CreditCard,
-      step: "03",
-      title: "Pay or Create Virtual Cards",
-      description: "Send money, pay bills, or generate virtual cards for secure online shopping."
-    }
+    { icon: UserPlus, step: "01", title: "Create Account", description: "Sign up in 60 seconds with just your email or phone." },
+    { icon: Wallet, step: "02", title: "Fund Wallet", description: "Add money via bank transfer, mobile money, or card." },
+    { icon: Send, step: "03", title: "Start Transacting", description: "Send money, pay bills, or generate virtual cards instantly." }
   ];
   
   return (
-    <section id="how-it-works" className="relative py-24 md:py-32 overflow-hidden">
+    <section id="how-it-works" className="relative py-32 overflow-hidden">
       {/* Dark Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-violet-950 to-indigo-950" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0f] via-[#12121a] to-[#0a0a0f]" />
       
-      {/* Animated Glowing Orbs */}
+      {/* Animated Lines */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-violet-500/20 rounded-full blur-[100px] animate-pulse-soft" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-indigo-500/20 rounded-full blur-[100px] animate-pulse-soft" style={{ animationDelay: '-2s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px]" />
-      </div>
-      
-      {/* Grid Pattern */}
-      <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'linear-gradient(rgba(139, 92, 246, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(139, 92, 246, 0.1) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
-      
-      {/* Stars/Particles */}
-      <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-white/30 rounded-full animate-pulse"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 2}s`
-            }}
+        <svg className="absolute w-full h-full" viewBox="0 0 1440 800" preserveAspectRatio="none">
+          <motion.path
+            d="M0,400 Q360,200 720,400 T1440,400"
+            stroke="url(#gradient1)"
+            strokeWidth="2"
+            fill="none"
+            initial={{ pathLength: 0, opacity: 0 }}
+            whileInView={{ pathLength: 1, opacity: 0.3 }}
+            viewport={{ once: true }}
+            transition={{ duration: 2, ease: "easeInOut" }}
           />
-        ))}
+          <defs>
+            <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#a855f7" />
+              <stop offset="50%" stopColor="#22d3ee" />
+              <stop offset="100%" stopColor="#ec4899" />
+            </linearGradient>
+          </defs>
+        </svg>
       </div>
+      
+      {/* Floating Particles */}
+      <FloatingParticles count={15} />
       
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-20"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeUp}
         >
-          <span className="text-sm font-semibold text-violet-400 tracking-wide uppercase">
-            How It Works
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-pink-500/10 text-pink-400 border border-pink-500/20 mb-6 font-dm">
+            <Zap className="w-4 h-4" />
+            Simple Process
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mt-3 font-outfit">
-            Get started in three simple steps
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white font-syne">
+            Get Started in
+            <br />
+            <span className="text-shimmer">Three Steps</span>
           </h2>
         </motion.div>
         
-        <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-8">
           {steps.map((step, index) => (
             <motion.div 
               key={index}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
               className="relative text-center group"
               data-testid={`step-${index + 1}`}
             >
-              {/* Connector line */}
+              {/* Connector */}
               {index < steps.length - 1 && (
-                <div className="hidden md:block absolute top-10 left-[60%] w-[80%] h-px bg-gradient-to-r from-violet-500/50 to-transparent" />
+                <div className="hidden md:block absolute top-16 left-[60%] w-[80%] h-px bg-gradient-to-r from-violet-500/50 to-transparent" />
               )}
 
-              <div className="relative inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-r from-violet-500 to-indigo-500 shadow-lg shadow-violet-500/30 group-hover:shadow-xl group-hover:shadow-violet-500/50 transition-all duration-300 mb-6 group-hover:scale-110">
-                <step.icon className="h-8 w-8 text-white" />
-                <span className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-white text-gray-900 text-xs font-bold flex items-center justify-center shadow-md">
+              <div className="relative inline-flex items-center justify-center w-32 h-32 mb-8">
+                {/* Animated Rings */}
+                <div className="absolute inset-0 rounded-full border border-violet-500/20 ring-pulse" />
+                <div className="absolute inset-4 rounded-full border border-cyan-500/20 ring-pulse" style={{ animationDelay: '-1s' }} />
+                
+                {/* Icon Container */}
+                <div className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-violet-500/30 group-hover:scale-110 transition-transform duration-300">
+                  <step.icon className="h-9 w-9 text-white" />
+                </div>
+                
+                {/* Step Number */}
+                <span className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-[#0a0a0f] border border-violet-500/50 text-white text-sm font-bold flex items-center justify-center font-syne">
                   {step.step}
                 </span>
               </div>
 
-              <h3 className="text-xl font-semibold text-white mb-2 font-outfit">
+              <h3 className="text-2xl font-semibold text-white mb-4 font-syne">
                 {step.title}
               </h3>
-              <p className="text-gray-400 text-sm leading-relaxed max-w-xs mx-auto">
+              <p className="text-white/60 max-w-xs mx-auto font-dm">
                 {step.description}
               </p>
             </motion.div>
@@ -663,95 +809,84 @@ const HowItWorks = () => {
 // Security Section
 const Security = () => {
   const items = [
-    {
-      icon: Lock,
-      title: "Bank-Level Encryption",
-      description: "256-bit AES encryption protects every transaction and piece of data.",
-    },
-    {
-      icon: Fingerprint,
-      title: "Secure Authentication",
-      description: "Multi-factor authentication and biometric login keep your account safe.",
-    },
-    {
-      icon: ShieldAlert,
-      title: "Fraud Protection",
-      description: "AI-powered fraud detection monitors transactions 24/7 in real-time.",
-    },
-    {
-      icon: FileCheck,
-      title: "Compliance-Ready",
-      description: "Built to meet regulatory standards across African, Asian and European markets.",
-    },
+    { icon: Lock, title: "256-bit Encryption", description: "Bank-level encryption protects every transaction." },
+    { icon: Fingerprint, title: "Biometric Auth", description: "Secure login with fingerprint or face recognition." },
+    { icon: ShieldAlert, title: "AI Fraud Detection", description: "Real-time monitoring catches threats before they happen." },
+    { icon: FileCheck, title: "Compliance Ready", description: "Built to meet regulatory standards across markets." },
   ];
 
   return (
-    <section id="security" className="relative py-24 md:py-32 overflow-hidden bg-white">
-      {/* Background Pattern */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-dot-pattern opacity-50" />
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-violet-50/50 to-transparent" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-100/50 rounded-full blur-3xl" />
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-violet-100/50 rounded-full blur-3xl" />
+    <section id="security" className="relative py-32 overflow-hidden">
+      <div className="absolute inset-0 bg-[#0a0a0f]" />
+      <div className="absolute inset-0 grid-pattern opacity-20" />
+      
+      {/* Animated Security Visual */}
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] opacity-20">
+        <div className="absolute inset-0 rounded-full border border-violet-500/30 animate-spin" style={{ animationDuration: '20s' }} />
+        <div className="absolute inset-10 rounded-full border border-cyan-500/30 animate-spin" style={{ animationDuration: '15s', animationDirection: 'reverse' }} />
+        <div className="absolute inset-20 rounded-full border border-pink-500/30 animate-spin" style={{ animationDuration: '25s' }} />
       </div>
       
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left */}
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8 }}
           >
-            <span className="text-sm font-semibold text-violet-600 tracking-wide uppercase">Security</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-3 mb-4 font-outfit">
-              Your money is safe with us
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-6 font-dm">
+              <Shield className="w-4 h-4" />
+              Enterprise Security
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-syne">
+              Your Money is
+              <br />
+              <span className="text-shimmer">Safe With Us</span>
             </h2>
-            <p className="text-gray-600 text-lg mb-8">
-              We've built BukkaPay with security at its core, so you can focus on what matters — your money.
+            <p className="text-lg text-white/60 mb-10 font-dm">
+              We've built BukkaPay with security at its core, so you can focus on what matters — growing your money.
             </p>
 
-            <div className="grid gap-5">
+            <div className="grid sm:grid-cols-2 gap-6">
               {items.map((item, i) => (
                 <motion.div
                   key={item.title}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
-                  className="flex gap-4 group"
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="glass-card rounded-2xl p-5 group"
+                  data-hover
                 >
-                  <div className="shrink-0 w-11 h-11 rounded-xl bg-violet-100 flex items-center justify-center group-hover:bg-violet-200 transition-colors duration-300">
-                    <item.icon className="h-5 w-5 text-violet-600" />
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <item.icon className="h-6 w-6 text-emerald-400" />
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900 font-outfit">{item.title}</h4>
-                    <p className="text-sm text-gray-600 mt-0.5">{item.description}</p>
-                  </div>
+                  <h4 className="font-semibold text-white mb-1 font-syne">{item.title}</h4>
+                  <p className="text-sm text-white/60 font-dm">{item.description}</p>
                 </motion.div>
               ))}
             </div>
           </motion.div>
 
-          {/* Right - visual */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.8 }}
             className="flex justify-center"
           >
-            <div className="relative w-72 h-72 md:w-96 md:h-96">
-              {/* Animated rings */}
-              <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-full opacity-10 animate-pulse" />
-              <div className="absolute inset-4 border-2 border-violet-200 rounded-full animate-spin" style={{ animationDuration: '20s' }} />
-              <div className="absolute inset-12 border-2 border-violet-300 rounded-full animate-spin" style={{ animationDirection: "reverse", animationDuration: "15s" }} />
-              <div className="absolute inset-20 border border-violet-400 rounded-full animate-spin" style={{ animationDuration: "25s" }} />
+            <div className="relative w-80 h-80">
+              {/* Animated Rings */}
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-violet-500/20 to-cyan-500/20 animate-pulse" />
+              <div className="absolute inset-4 rounded-full border border-emerald-500/30 animate-spin" style={{ animationDuration: '10s' }} />
+              <div className="absolute inset-12 rounded-full border border-cyan-500/30 animate-spin" style={{ animationDirection: 'reverse', animationDuration: '8s' }} />
+              <div className="absolute inset-20 rounded-full border border-violet-500/30 animate-spin" style={{ animationDuration: '12s' }} />
               
+              {/* Center Icon */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-24 h-24 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-2xl flex items-center justify-center shadow-xl shadow-violet-500/30">
-                  <ShieldAlert className="h-12 w-12 text-white" />
+                <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-xl shadow-emerald-500/30 pulse-glow">
+                  <ShieldCheck className="h-12 w-12 text-white" />
                 </div>
               </div>
             </div>
@@ -765,71 +900,55 @@ const Security = () => {
 // For Business Section
 const ForBusiness = () => {
   const benefits = [
-    {
-      icon: Banknote,
-      title: "Accept Payments",
-      description: "Receive payments from customers across Africa, Asia and Europe with ease.",
-    },
-    {
-      icon: PieChart,
-      title: "Manage Payouts",
-      description: "Automate disbursements to vendors, suppliers, and employees.",
-    },
-    {
-      icon: Code,
-      title: "Simple API Integration",
-      description: "Integrate BukkaPay into your platform with our developer-friendly APIs.",
-    },
+    { icon: Banknote, title: "Accept Payments", description: "Receive payments from customers across Africa and beyond." },
+    { icon: PieChart, title: "Manage Payouts", description: "Automate disbursements to vendors and employees." },
+    { icon: Code, title: "API Integration", description: "Developer-friendly APIs for seamless integration." },
   ];
 
   return (
-    <section id="business" className="relative py-24 md:py-32 overflow-hidden">
-      {/* Gradient Mesh Background */}
-      <div className="absolute inset-0 bg-mesh-gradient" />
+    <section id="business" className="relative py-32 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0f] via-[#12121a] to-[#0a0a0f]" />
+      <div className="absolute inset-0 dot-pattern opacity-30" />
       
-      {/* Decorative Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-72 h-72 bg-violet-200/40 rounded-full blur-3xl blob" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-200/30 rounded-full blur-3xl blob" style={{ animationDelay: '-3s' }} />
-      </div>
+      {/* Gradient Orbs */}
+      <div className="absolute top-1/4 left-0 w-96 h-96 bg-orange-500/10 rounded-full blur-[150px]" />
+      <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-violet-500/10 rounded-full blur-[120px]" />
       
-      {/* Grid Pattern */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-30" />
-      
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-20"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeUp}
         >
-          <span className="text-sm font-semibold text-violet-600 tracking-wide uppercase">
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-orange-500/10 text-orange-400 border border-orange-500/20 mb-6 font-dm">
+            <Building2 className="w-4 h-4" />
             For Businesses
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mt-3 font-outfit">
-            Power your business with BukkaPay
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white font-syne">
+            Power Your
+            <br />
+            <span className="text-shimmer">Business Growth</span>
           </h2>
-          <p className="text-gray-600 mt-4 text-lg max-w-2xl mx-auto">
-            From startups to enterprises, we help businesses move money effortlessly.
-          </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-6">
           {benefits.map((b, i) => (
             <motion.div
               key={b.title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="group p-6 rounded-2xl bg-white border border-gray-200 hover:border-violet-300 transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/10"
+              transition={{ duration: 0.5, delay: i * 0.15 }}
+              className="glass-card rounded-3xl p-8 group"
+              data-hover
             >
-              <div className="w-12 h-12 rounded-xl bg-violet-100 flex items-center justify-center mb-4 group-hover:bg-violet-200 transition-colors duration-300">
-                <b.icon className="h-6 w-6 text-violet-600" />
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform">
+                <b.icon className="h-7 w-7 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2 font-outfit">{b.title}</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">{b.description}</p>
+              <h3 className="text-xl font-semibold text-white mb-3 font-syne">{b.title}</h3>
+              <p className="text-white/60 font-dm">{b.description}</p>
             </motion.div>
           ))}
         </div>
@@ -838,21 +957,15 @@ const ForBusiness = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
           className="text-center mt-12"
         >
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a 
               href="mailto:marketing@bukkapay.com"
-              className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-full px-8 py-4 font-medium hover:shadow-xl hover:shadow-violet-500/25 transition-all duration-300 flex items-center justify-center gap-2 group"
+              className="btn-primary text-white rounded-full px-8 py-4 font-medium flex items-center justify-center gap-2 group font-dm"
+              data-hover
             >
               Contact Sales <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a 
-              href="mailto:partnerships@bukkapay.com"
-              className="border border-violet-300 text-violet-700 rounded-full px-8 py-4 font-medium hover:border-violet-400 hover:bg-violet-50 transition-all duration-300 flex items-center justify-center gap-2 group"
-            >
-              Partnerships <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </a>
           </div>
         </motion.div>
@@ -867,81 +980,59 @@ const Pricing = () => {
     {
       name: "Personal",
       price: "Free",
-      description: "Perfect for individuals getting started",
-      features: [
-        "Digital wallet",
-        "Send & receive money",
-        "1 virtual card",
-        "Basic transaction history",
-        "Email support"
-      ],
+      description: "Perfect for individuals",
+      features: ["Digital wallet", "Send & receive money", "1 virtual card", "Basic history", "Email support"],
       cta: "Get Started Free",
-      popular: false
+      popular: false,
+      gradient: "from-slate-500 to-slate-600"
     },
     {
       name: "Business",
       price: "$15",
       period: "/month",
-      description: "For growing businesses and teams",
-      features: [
-        "Everything in Personal",
-        "Unlimited virtual cards",
-        "Business dashboard",
-        "API access",
-        "Priority settlements",
-        "Priority support"
-      ],
+      description: "For growing businesses",
+      features: ["Everything in Personal", "Unlimited virtual cards", "Business dashboard", "API access", "Priority support"],
       cta: "Start Free Trial",
-      popular: true
+      popular: true,
+      gradient: "from-violet-500 to-cyan-500"
     },
     {
       name: "Enterprise",
       price: "Custom",
       description: "For large organizations",
-      features: [
-        "Everything in Business",
-        "Custom integrations",
-        "Dedicated account manager",
-        "SLA guarantee",
-        "White-label options",
-        "Custom transaction limits"
-      ],
+      features: ["Everything in Business", "Custom integrations", "Dedicated manager", "SLA guarantee", "White-label options"],
       cta: "Contact Sales",
-      popular: false
+      popular: false,
+      gradient: "from-orange-500 to-pink-500"
     }
   ];
   
   return (
-    <section id="pricing" className="relative py-24 md:py-32 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-white via-violet-50/30 to-white" />
-      <div className="absolute inset-0 bg-dot-pattern opacity-40" />
-      
-      {/* Decorative Blobs */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-violet-100/50 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-100/40 rounded-full blur-3xl" />
+    <section id="pricing" className="relative py-32 overflow-hidden">
+      <div className="absolute inset-0 bg-[#0a0a0f]" />
+      <div className="absolute inset-0 grid-pattern opacity-20" />
       
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-20"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeUp}
         >
-          <span className="text-sm font-semibold text-violet-600 tracking-wide uppercase">
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 mb-6 font-dm">
+            <Receipt className="w-4 h-4" />
             Pricing
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mt-3 font-outfit">
-            Simple, transparent pricing
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white font-syne">
+            Simple, Transparent
+            <br />
+            <span className="text-shimmer">Pricing</span>
           </h2>
-          <p className="text-gray-600 mt-4 text-lg max-w-xl mx-auto">
-            Start free and scale as you grow. No hidden fees, no surprises.
-          </p>
         </motion.div>
         
         <motion.div 
-          className="grid md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto"
+          className="grid md:grid-cols-3 gap-6"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -950,38 +1041,42 @@ const Pricing = () => {
           {plans.map((plan, index) => (
             <motion.div 
               key={index}
-              className={`bg-white/80 backdrop-blur-sm border ${plan.popular ? 'border-violet-500 ring-2 ring-violet-500 shadow-xl shadow-violet-500/20' : 'border-gray-200'} rounded-2xl p-8 relative card-shine hover:shadow-lg transition-all duration-300`}
+              className={`glass-card rounded-3xl p-8 relative ${plan.popular ? 'ring-2 ring-violet-500' : ''}`}
               variants={fadeUp}
               data-testid={`pricing-plan-${plan.name.toLowerCase()}`}
+              data-hover
             >
               {plan.popular && (
-                <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-xs font-bold px-4 py-1 rounded-full">
+                <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-violet-500 to-cyan-500 text-white text-xs font-bold px-4 py-1 rounded-full font-dm">
                   Most Popular
                 </span>
               )}
-              <h3 className="text-xl font-semibold text-gray-900 font-outfit">{plan.name}</h3>
-              <div className="mt-4">
-                <span className="text-4xl font-bold text-gray-900 font-outfit">{plan.price}</span>
-                {plan.period && <span className="text-gray-600">{plan.period}</span>}
-              </div>
-              <p className="text-sm text-gray-600 mt-2">{plan.description}</p>
               
-              <ul className="mt-8 space-y-4">
+              <h3 className="text-xl font-semibold text-white font-syne">{plan.name}</h3>
+              <div className="mt-4 mb-2">
+                <span className="text-4xl font-bold text-white font-syne">{plan.price}</span>
+                {plan.period && <span className="text-white/60 font-dm">{plan.period}</span>}
+              </div>
+              <p className="text-sm text-white/60 mb-6 font-dm">{plan.description}</p>
+              
+              <ul className="space-y-3 mb-8">
                 {plan.features.map((feature, idx) => (
-                  <li key={idx} className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-violet-600 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-600 text-sm">{feature}</span>
+                  <li key={idx} className="flex items-center gap-3">
+                    <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                      <Check className="w-3 h-3 text-emerald-400" />
+                    </div>
+                    <span className="text-white/70 text-sm font-dm">{feature}</span>
                   </li>
                 ))}
               </ul>
               
               <button 
-                className={`w-full mt-8 rounded-full py-4 font-medium transition-all duration-300 ${
+                className={`w-full rounded-full py-4 font-medium transition-all duration-300 font-dm ${
                   plan.popular 
-                    ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white hover:shadow-lg hover:shadow-violet-500/25' 
-                    : 'border border-gray-300 text-gray-700 hover:border-gray-400 hover:bg-gray-50'
+                    ? 'btn-primary text-white' 
+                    : 'border border-white/20 text-white hover:bg-white/5'
                 }`}
-                data-testid={`pricing-cta-${plan.name.toLowerCase()}`}
+                data-hover
               >
                 {plan.cta}
               </button>
@@ -996,30 +1091,29 @@ const Pricing = () => {
 // Availability Section
 const Availability = () => {
   const regions = [
-    "South Africa", "Botswana", "Zimbabwe", "Mozambique", "Malawi", "Namibia",
-    "Zambia", "Eswatini", "Lesotho", "Nigeria", "Kenya", "Ghana",
-    "Tanzania", "Uganda", "United Kingdom", "India", "Philippines"
+    "South Africa", "Nigeria", "Kenya", "Ghana", "Tanzania", "Uganda",
+    "Zimbabwe", "Botswana", "Zambia", "Mozambique", "United Kingdom", "India"
   ];
 
   return (
-    <section className="bg-gradient-to-br from-violet-50 via-white to-indigo-50 py-24 md:py-32">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24">
+    <section className="relative py-32 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0f] via-[#12121a] to-[#0a0a0f]" />
+      
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
         <motion.div 
-          className="text-center mb-12"
+          className="text-center mb-16"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeUp}
         >
-          <span className="text-sm font-semibold text-violet-600 tracking-wide uppercase">
-            Availability
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-6 font-dm">
+            <Globe className="w-4 h-4" />
+            Global Reach
           </span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mt-3 font-outfit">
-            Where We're <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">Launching</span>
+          <h2 className="text-4xl sm:text-5xl font-bold text-white font-syne">
+            Available <span className="text-shimmer">Worldwide</span>
           </h2>
-          <p className="text-gray-600 mt-4 text-lg max-w-2xl mx-auto">
-            BukkaPay is gearing up to launch across Africa, Asia, and Europe.
-          </p>
         </motion.div>
 
         <motion.div
@@ -1031,33 +1125,17 @@ const Availability = () => {
           {regions.map((region, i) => (
             <motion.div
               key={region}
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: i * 0.03 }}
-              className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 bg-white hover:border-violet-300 transition-all duration-300"
+              transition={{ duration: 0.3, delay: i * 0.05 }}
+              className="glass-card rounded-xl p-4 flex items-center gap-3"
+              data-hover
             >
-              <MapPin className="h-4 w-4 text-violet-600 shrink-0" />
-              <div>
-                <p className="text-sm font-medium text-gray-900">{region}</p>
-                <span className="text-xs text-gray-500">Coming Soon</span>
-              </div>
+              <MapPin className="h-4 w-4 text-emerald-400 shrink-0" />
+              <span className="text-sm text-white font-dm">{region}</span>
             </motion.div>
           ))}
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="mt-10 text-center"
-        >
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-violet-100 border border-violet-200">
-            <Globe className="h-4 w-4 text-violet-600" />
-            <span className="text-sm font-medium text-violet-700">
-              More countries will be added as we expand
-            </span>
-          </div>
         </motion.div>
       </div>
     </section>
@@ -1067,50 +1145,28 @@ const Availability = () => {
 // FAQ Section
 const FAQ = () => {
   const faqs = [
-    {
-      q: "What is BukkaPay?",
-      a: "BukkaPay is a digital wallet and virtual card platform built for Africa. It lets you send, receive, and manage money securely from your phone.",
-    },
-    {
-      q: "How do I create a virtual card?",
-      a: "After signing up and funding your wallet, you can generate a virtual card instantly from the app. Use it for online shopping anywhere that accepts Visa or Mastercard.",
-    },
-    {
-      q: "Is BukkaPay safe to use?",
-      a: "Absolutely. BukkaPay uses bank-level 256-bit AES encryption, multi-factor authentication, and AI-powered fraud detection to keep your money and data secure.",
-    },
-    {
-      q: "What countries does BukkaPay support?",
-      a: "BukkaPay is launching soon to many African countries, Asia and Europe. Stay tuned for updates on supported regions.",
-    },
-    {
-      q: "Are there any hidden fees?",
-      a: "No hidden fees. We believe in transparent pricing. You can see all applicable fees before confirming any transaction.",
-    },
-    {
-      q: "How fast are transfers?",
-      a: "Transfers between BukkaPay wallets are instant. Bank transfers typically settle within minutes depending on your bank.",
-    },
+    { q: "What is BukkaPay?", a: "BukkaPay is a digital wallet and payment platform built for Africa. Send, receive, and manage money securely from your phone." },
+    { q: "How do I create a virtual card?", a: "After signing up and funding your wallet, generate a virtual card instantly from the app for secure online shopping." },
+    { q: "Is BukkaPay safe?", a: "Absolutely. We use 256-bit AES encryption, multi-factor authentication, and AI-powered fraud detection." },
+    { q: "What countries are supported?", a: "BukkaPay is live in 30+ African countries with expansion to Asia and Europe." },
+    { q: "Are there hidden fees?", a: "No hidden fees. All charges are transparent and shown before you confirm any transaction." },
   ];
 
   return (
-    <section id="faq" className="relative py-24 md:py-32 overflow-hidden bg-white">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-30" />
-      <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-violet-50/50 to-transparent" />
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-violet-50/50 to-transparent" />
+    <section id="faq" className="relative py-32 overflow-hidden">
+      <div className="absolute inset-0 bg-[#0a0a0f]" />
+      <div className="absolute inset-0 dot-pattern opacity-20" />
       
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
         <motion.div 
-          className="text-center mb-12"
+          className="text-center mb-16"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeUp}
         >
-          <span className="text-sm font-semibold text-violet-600 tracking-wide uppercase">FAQ</span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mt-3 font-outfit">
-            Frequently asked questions
+          <h2 className="text-4xl sm:text-5xl font-bold text-white font-syne">
+            Frequently Asked <span className="text-shimmer">Questions</span>
           </h2>
         </motion.div>
 
@@ -1120,17 +1176,17 @@ const FAQ = () => {
           viewport={{ once: true }}
           className="max-w-2xl mx-auto"
         >
-          <Accordion type="single" collapsible className="space-y-3">
+          <Accordion type="single" collapsible className="space-y-4">
             {faqs.map((faq, i) => (
               <AccordionItem
                 key={i}
                 value={`item-${i}`}
-                className="border border-gray-200 rounded-xl px-6 data-[state=open]:border-violet-300 data-[state=open]:shadow-md transition-all duration-300 bg-white"
+                className="glass-card rounded-2xl px-6 border-0 overflow-hidden"
               >
-                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-4 font-outfit">
+                <AccordionTrigger className="text-left font-semibold text-white hover:no-underline py-5 font-syne">
                   {faq.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-600 pb-4 leading-relaxed">
+                <AccordionContent className="text-white/60 pb-5 font-dm">
                   {faq.a}
                 </AccordionContent>
               </AccordionItem>
@@ -1145,35 +1201,18 @@ const FAQ = () => {
 // CTA Section
 const CTA = () => {
   return (
-    <section className="py-24 md:py-32 relative overflow-hidden">
-      {/* Animated Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-700" />
-      
-      {/* Animated Aurora Effect */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-1/2 -left-1/4 w-full h-full bg-gradient-to-br from-violet-400/30 to-transparent rounded-full blur-3xl animate-pulse-soft" />
-        <div className="absolute -bottom-1/2 -right-1/4 w-full h-full bg-gradient-to-tl from-indigo-400/30 to-transparent rounded-full blur-3xl animate-pulse-soft" style={{ animationDelay: '-1.5s' }} />
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-purple-400/20 rounded-full blur-[120px] animate-pulse-soft" style={{ animationDelay: '-3s' }} />
+    <section className="relative py-32 overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-violet-600 via-purple-600 to-cyan-600" />
+        <div className="aurora-bg opacity-50" />
       </div>
       
       {/* Grid Pattern */}
-      <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+      <div className="absolute inset-0 grid-pattern opacity-10" />
       
       {/* Floating Particles */}
-      <div className="absolute inset-0">
-        {[...Array(15)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-2 h-2 bg-white/20 rounded-full"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animation: `float ${4 + Math.random() * 4}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 4}s`
-            }}
-          />
-        ))}
-      </div>
+      <FloatingParticles count={20} />
 
       <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-24 relative z-10 text-center">
         <motion.div
@@ -1182,29 +1221,33 @@ const CTA = () => {
           viewport={{ once: true }}
           variants={fadeUp}
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight font-outfit">
-            Ready to simplify your payments?
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight font-syne">
+            Ready to Transform
+            <br />
+            Your Payments?
           </h2>
-          <p className="text-white/80 mt-6 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
-            Join thousands getting ready for a smarter way to pay and get paid. Sign up today and be among the first to experience BukkaPay.
+          <p className="text-white/80 mt-8 text-lg md:text-xl max-w-2xl mx-auto font-dm">
+            Join 50,000+ users already experiencing the future of African payments. 
+            Start free today — no credit card required.
           </p>
           
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-8"
+            transition={{ delay: 0.2 }}
+            className="mt-10"
           >
             <a
               href="https://app.bukkapay.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-white text-violet-600 rounded-full px-8 py-4 font-medium hover:bg-gray-100 shadow-lg transition-all duration-300 group"
+              className="inline-flex items-center gap-3 bg-white text-gray-900 rounded-full px-10 py-5 font-bold hover:bg-gray-100 shadow-2xl transition-all duration-300 group font-dm"
               data-testid="cta-primary"
+              data-hover
             >
               Get Started Free
-              <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </a>
           </motion.div>
         </motion.div>
@@ -1218,89 +1261,53 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-900 text-white py-16">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24">
-        <div className="grid md:grid-cols-5 gap-10 mb-12">
-          {/* Brand */}
-          <div className="md:col-span-1">
-            <div className="flex items-center gap-2.5 mb-4">
-              <img src="/assets/logo.png" alt="BukkaPay" className="h-9 w-9 rounded-xl object-cover" />
-              <h3 className="text-xl font-bold font-outfit">BukkaPay</h3>
+    <footer className="relative py-20 overflow-hidden">
+      <div className="absolute inset-0 bg-[#0a0a0f]" />
+      <div className="absolute inset-0 grid-pattern opacity-10" />
+      
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
+        <div className="grid md:grid-cols-5 gap-10 mb-16">
+          <div className="md:col-span-2">
+            <div className="flex items-center gap-3 mb-6">
+              <img src="/assets/logo.png" alt="BukkaPay" className="h-10 w-10 rounded-xl" />
+              <span className="text-2xl font-bold text-white font-syne">BukkaPay</span>
             </div>
-            <p className="text-sm text-gray-400 leading-relaxed">
-              The smart way to pay and get paid. Launching soon across Africa, Asia and Europe.
+            <p className="text-white/60 max-w-sm font-dm">
+              The future of African payments. Send, receive, and grow your money with confidence.
             </p>
           </div>
 
-          {/* Product */}
-          <div>
-            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-gray-500">Product</h4>
-            <ul className="space-y-2.5 text-sm text-gray-400">
-              <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
-              <li><a href="#security" className="hover:text-white transition-colors">Security</a></li>
-              <li><a href="#business" className="hover:text-white transition-colors">For Business</a></li>
-              <li><a href="#faq" className="hover:text-white transition-colors">FAQ</a></li>
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-gray-500">Company</h4>
-            <ul className="space-y-2.5 text-sm text-gray-400">
-              <li><Link to="/about" className="hover:text-white transition-colors">About</Link></li>
-              <li><a href="mailto:hello@bukkapay.com" className="hover:text-white transition-colors">Contact</a></li>
-              <li><a href="mailto:marketing@bukkapay.com" className="hover:text-white transition-colors">Sales</a></li>
-              <li><a href="mailto:partnerships@bukkapay.com" className="hover:text-white transition-colors">Partnerships</a></li>
-            </ul>
-          </div>
-
-          {/* Legal */}
-          <div>
-            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-gray-500">Legal</h4>
-            <ul className="space-y-2.5 text-sm text-gray-400">
-              <li><Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
-              <li><Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link></li>
-              <li><Link to="/cookie-policy" className="hover:text-white transition-colors">Cookie Policy</Link></li>
-              <li><Link to="/acceptable-use" className="hover:text-white transition-colors">Acceptable Use</Link></li>
-            </ul>
-          </div>
-
-          {/* Resources */}
-          <div>
-            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-gray-500">Resources</h4>
-            <ul className="space-y-2.5 text-sm text-gray-400">
-              <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">API Docs</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Status</a></li>
-            </ul>
-          </div>
+          {[
+            { title: "Product", links: ["Features", "Security", "Pricing", "API Docs"] },
+            { title: "Company", links: ["About", "Careers", "Blog", "Press"] },
+            { title: "Legal", links: ["Privacy", "Terms", "Cookies"] },
+          ].map((col) => (
+            <div key={col.title}>
+              <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-white/40 font-dm">{col.title}</h4>
+              <ul className="space-y-3">
+                {col.links.map((link) => (
+                  <li key={link}>
+                    <a href="#" className="text-white/60 hover:text-white transition-colors text-sm font-dm" data-hover>{link}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-gray-500">© {year} BukkaPay. All rights reserved.</p>
+        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-white/40 font-dm">© {year} BukkaPay. All rights reserved.</p>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-500">Follow us</span>
-            <div className="flex gap-3">
-              {[
-                { name: "X", href: "https://x.com/bukkapay" },
-                { name: "Instagram", href: "https://instagram.com/bukkapay" },
-                { name: "Facebook", href: "https://facebook.com/bukkapay" },
-                { name: "LinkedIn", href: "https://linkedin.com/company/bukkapay" },
-              ].map((social) => (
-                <a
-                  key={social.name}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Follow BukkaPay on ${social.name}`}
-                  className="w-9 h-9 rounded-full bg-gray-800 flex items-center justify-center hover:bg-violet-600 hover:scale-110 transition-all duration-200"
-                  data-testid={`social-${social.name.toLowerCase()}`}
-                >
-                  <span className="text-xs font-bold">{social.name[0]}</span>
-                </a>
-              ))}
-            </div>
+            {["X", "Instagram", "LinkedIn", "Facebook"].map((social) => (
+              <a
+                key={social}
+                href="#"
+                className="w-10 h-10 rounded-full glass-card flex items-center justify-center hover:bg-white/10 transition-colors"
+                data-hover
+              >
+                <span className="text-xs font-bold text-white/60">{social[0]}</span>
+              </a>
+            ))}
           </div>
         </div>
       </div>
@@ -1308,139 +1315,15 @@ const Footer = () => {
   );
 };
 
-// About Page
-const About = () => {
-  return (
-    <div className="min-h-screen bg-white">
-      <Header />
-      <main className="pt-32 pb-20">
-        <div className="max-w-4xl mx-auto px-6 md:px-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 font-outfit">About BukkaPay</h1>
-            <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-              BukkaPay is a payment platform that enables individuals, businesses, and service providers in Africa to send, receive, and collect payments easily, both locally and across borders.
-            </p>
-            
-            <div className="prose prose-lg max-w-none text-gray-600">
-              <h2 className="text-2xl font-bold text-gray-900 mt-12 mb-4 font-outfit">Our Mission</h2>
-              <p>
-                Our goal is to make it easy for freelancers, small businesses, and service providers in Africa to get paid and collect money without friction, especially across borders.
-              </p>
-              
-              <h2 className="text-2xl font-bold text-gray-900 mt-12 mb-4 font-outfit">What We Offer</h2>
-              <ul className="space-y-3">
-                <li>Create simple payment links to request and receive money from anyone in the world</li>
-                <li>Attach invoices and quotations directly to payment links</li>
-                <li>Support payments via cards and wallet balances</li>
-                <li>Receive funds directly into a bank account or BukkaPay wallet</li>
-                <li>Merchant payments, rental collections, and marketplace transactions</li>
-                <li>Unified dashboard to track payments and manage funds in real time</li>
-              </ul>
-              
-              <h2 className="text-2xl font-bold text-gray-900 mt-12 mb-4 font-outfit">Contact Us</h2>
-              <p>
-                <strong>General Inquiries:</strong> <a href="mailto:hello@bukkapay.com" className="text-violet-600 hover:underline">hello@bukkapay.com</a><br />
-                <strong>Sales:</strong> <a href="mailto:marketing@bukkapay.com" className="text-violet-600 hover:underline">marketing@bukkapay.com</a><br />
-                <strong>Partnerships:</strong> <a href="mailto:partnerships@bukkapay.com" className="text-violet-600 hover:underline">partnerships@bukkapay.com</a>
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </main>
-      <Footer />
-    </div>
-  );
-};
-
-// Legal Pages Component
-const LegalPage = ({ title, children }) => {
-  return (
-    <div className="min-h-screen bg-white">
-      <Header />
-      <main className="pt-32 pb-20">
-        <div className="max-w-4xl mx-auto px-6 md:px-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8 font-outfit">{title}</h1>
-            <div className="prose prose-lg max-w-none text-gray-600">
-              {children}
-            </div>
-          </motion.div>
-        </div>
-      </main>
-      <Footer />
-    </div>
-  );
-};
-
-// Privacy Page
-const Privacy = () => (
-  <LegalPage title="Privacy Policy">
-    <p className="text-sm text-gray-500 mb-8">Last updated: January 2025</p>
-    <p>At BukkaPay, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our services.</p>
-    <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4 font-outfit">Information We Collect</h2>
-    <p>We collect information you provide directly to us, such as when you create an account, make a transaction, or contact us for support.</p>
-    <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4 font-outfit">How We Use Your Information</h2>
-    <p>We use the information we collect to provide, maintain, and improve our services, process transactions, and communicate with you.</p>
-    <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4 font-outfit">Contact Us</h2>
-    <p>If you have questions about this Privacy Policy, please contact us at <a href="mailto:privacy@bukkapay.com" className="text-violet-600 hover:underline">privacy@bukkapay.com</a></p>
-  </LegalPage>
-);
-
-// Terms Page
-const Terms = () => (
-  <LegalPage title="Terms of Service">
-    <p className="text-sm text-gray-500 mb-8">Last updated: January 2025</p>
-    <p>Welcome to BukkaPay. By using our services, you agree to these Terms of Service.</p>
-    <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4 font-outfit">Use of Services</h2>
-    <p>You must be at least 18 years old to use BukkaPay. You are responsible for maintaining the security of your account.</p>
-    <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4 font-outfit">Prohibited Activities</h2>
-    <p>You may not use our services for any illegal purpose or in violation of any laws in your jurisdiction.</p>
-  </LegalPage>
-);
-
-// Cookie Policy Page
-const CookiePolicy = () => (
-  <LegalPage title="Cookie Policy">
-    <p className="text-sm text-gray-500 mb-8">Last updated: January 2025</p>
-    <p>This Cookie Policy explains how BukkaPay uses cookies and similar technologies.</p>
-    <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4 font-outfit">What Are Cookies</h2>
-    <p>Cookies are small text files stored on your device when you visit our website.</p>
-  </LegalPage>
-);
-
-// Acceptable Use Page
-const AcceptableUse = () => (
-  <LegalPage title="Acceptable Use Policy">
-    <p className="text-sm text-gray-500 mb-8">Last updated: January 2025</p>
-    <p>This Acceptable Use Policy outlines the rules for using BukkaPay services.</p>
-  </LegalPage>
-);
-
-// Not Found Page
-const NotFound = () => (
-  <div className="min-h-screen bg-white flex items-center justify-center">
-    <div className="text-center">
-      <h1 className="text-6xl font-bold text-gray-900 mb-4 font-outfit">404</h1>
-      <p className="text-xl text-gray-600 mb-8">Page not found</p>
-      <Link to="/" className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-full px-8 py-4 font-medium">
-        Go Home
-      </Link>
-    </div>
-  </div>
-);
-
 // Home Page
 const Home = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#0a0a0f]">
+      <ScrollProgress />
+      <CustomCursor />
+      <div className="noise-overlay" />
+      <div className="scan-line" />
+      
       <Header />
       <Hero />
       <TrustMarquee />
@@ -1463,12 +1346,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/cookie-policy" element={<CookiePolicy />} />
-          <Route path="/acceptable-use" element={<AcceptableUse />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<Home />} />
         </Routes>
       </BrowserRouter>
     </div>
