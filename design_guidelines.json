@@ -1,0 +1,103 @@
+{
+  "project_name": "BukkaPay",
+  "domain": "Fintech / Payments (Africa)",
+  "theme": "Light Theme",
+  "archetype": "1 (Organic & Earthy)",
+  "color_palette": {
+    "background": "#F7F5F0",
+    "surface": "#FFFFFF",
+    "surface_secondary": "#EAE5D9",
+    "primary": "#1A362D",
+    "primary_hover": "#142922",
+    "accent": "#D1603D",
+    "text_primary": "#1A2421",
+    "text_secondary": "#586C62",
+    "border": "#E2DCD0"
+  },
+  "typography": {
+    "heading_font": "Outfit",
+    "body_font": "Manrope",
+    "quote_font": "Cormorant Garamond",
+    "hierarchy": {
+      "h1": "text-5xl sm:text-6xl tracking-tighter leading-none font-medium",
+      "h2": "text-3xl sm:text-4xl tracking-tight leading-tight font-medium",
+      "h3": "text-xl sm:text-2xl tracking-tight font-medium",
+      "body": "text-base leading-relaxed text-[#586C62]",
+      "overline": "text-xs tracking-[0.2em] uppercase font-bold text-[#D1603D]"
+    }
+  },
+  "spacing_and_layout": {
+    "container_padding": "px-6 md:px-12 lg:px-24",
+    "section_spacing": "py-24 md:py-32",
+    "bento_gap": "gap-6 md:gap-8",
+    "border_radius": "rounded-2xl",
+    "card_padding": "p-8 sm:p-10",
+    "grid_strategy": "TETRIS (Asymmetrical layouts, grid-cols-1 md:grid-cols-12, wide gaps, negative space)"
+  },
+  "surface_strategies": {
+    "header": "Glassmorphism: backdrop-blur-xl bg-[#F7F5F0]/80 border-b border-[#E2DCD0]/50 sticky top-0 z-50",
+    "cards": "Neumorphism/Tactile: bg-white border border-[#E2DCD0] shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300",
+    "cta_section": "Deep Forest Green background (#1A362D) with Bone White text (#F7F5F0)"
+  },
+  "components": {
+    "buttons": "rounded-full px-8 py-4 font-medium transition-all duration-300. Primary: bg-[#1A362D] text-white hover:bg-[#142922]. Accent: bg-[#D1603D] text-white hover:bg-[#B55234]. Outline: border border-[#E2DCD0] text-[#1A2421] hover:border-[#1A2421]",
+    "inputs": "Shadcn input customized: bg-white border-[#E2DCD0] focus:ring-2 focus:ring-[#1A362D] rounded-xl",
+    "icons": "lucide-react",
+    "animations": "Framer motion for staggered fade-ups (y: 20, opacity: 0). react-fast-marquee for partner logos."
+  },
+  "media": {
+    "hero_background": {
+      "url": "https://static.prod-images.emergentagent.com/jobs/c5bf3509-25f5-4086-8c12-fb0907efadd6/images/b79aaeabc5dc2c886e40be41857b0d1574b5936fa501ca384352a89633716e0c.png",
+      "description": "Subtle organic grain texture on a bone-white background. Use as absolute positioned background with -z-10 in the hero section.",
+      "category": "background"
+    },
+    "features": [
+      {
+        "url": "https://images.pexels.com/photos/6631414/pexels-photo-6631414.jpeg",
+        "description": "Cross-border payments abstract. Hands exchanging cards. Use in a bento card.",
+        "category": "cross_border"
+      },
+      {
+        "url": "https://images.pexels.com/photos/7688189/pexels-photo-7688189.jpeg",
+        "description": "Digital invoice review. Use in the invoices/quotations bento card.",
+        "category": "invoices"
+      }
+    ],
+    "use_cases": [
+      {
+        "url": "https://images.pexels.com/photos/36827824/pexels-photo-36827824.jpeg",
+        "description": "Lively outdoor market in Africa. Use for Merchants / Small Businesses section.",
+        "category": "merchants"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1765648763932-43a3e2f8f35c",
+        "description": "Young African freelancer woman with laptop. Use for Freelancers section.",
+        "category": "freelancers"
+      }
+    ],
+    "testimonials": [
+      {
+        "url": "https://images.pexels.com/photos/7413964/pexels-photo-7413964.jpeg",
+        "description": "Businessman in suit. Use for high-end client testimonial.",
+        "category": "testimonial_avatar"
+      }
+    ],
+    "logos": [
+      {
+        "url": "https://images.pexels.com/photos/259200/pexels-photo-259200.jpeg",
+        "description": "Visa and Mastercard macro shot. Use in trust or payment methods section.",
+        "category": "payment_methods"
+      }
+    ]
+  },
+  "instructions_to_main_agent": [
+    "1. Strictly use the exact hex codes provided in the color palette.",
+    "2. Avoid using pure #000000. Use #1A2421 (Deep Forest Black/Onyx).",
+    "3. Implement smooth scrolling using Lenis if possible.",
+    "4. Add a slow-moving marquee section below the hero for partner logos/trust indicators using `react-fast-marquee`.",
+    "5. Ensure all interactive and key informational elements have a `data-testid` attribute (kebab-case, role-based).",
+    "6. Bento grids should not fill perfectly. Leave negative space by using `col-span-12 md:col-span-8` vs `md:col-span-4` combinations.",
+    "7. Font pairing: Google Fonts 'Outfit' for headings, 'Manrope' for body.",
+    "8. No basic blue/purple SaaS gradients. Rely on the #F7F5F0 background and solid #FFFFFF cards with crisp borders to create a premium, tactile 'Old Money Tech' look."
+  ]
+}
