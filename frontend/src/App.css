@@ -484,6 +484,25 @@ button:focus-visible {
   animation: spin 20s linear infinite;
 }
 
+/* Hide any external badges or watermarks */
+#emergent-badge,
+[id*="emergent"],
+[class*="emergent"],
+a[href*="emergent.sh"],
+div[style*="Made with"],
+[style*="Made with Emergent"],
+a[style*="position: fixed"][style*="bottom: 16px"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    position: absolute !important;
+    left: -9999px !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
 /* Ring Animation */
 @keyframes ring-pulse {
   0%, 100% {
