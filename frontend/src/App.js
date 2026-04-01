@@ -181,13 +181,29 @@ const Header = () => {
 // Hero Section
 const Hero = () => {
   return (
-    <section id="hero" className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-gradient-to-br from-violet-50 via-white to-indigo-50">
-      {/* Background decorations */}
+    <section id="hero" className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-mesh-gradient">
+      {/* Animated Background Orbs */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 right-0 w-[600px] h-[600px] rounded-full bg-violet-500/5 blur-[100px]" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-indigo-500/5 blur-[100px]" />
-        <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+        <div className="orb orb-1" />
+        <div className="orb orb-2" />
+        <div className="orb orb-3" />
+        
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 bg-grid-pattern opacity-60" />
+        
+        {/* Floating Particles */}
+        <div className="absolute top-1/4 left-1/4 w-2 h-2 rounded-full bg-violet-400/40 animate-float" style={{ animationDelay: '0s' }} />
+        <div className="absolute top-1/3 right-1/4 w-3 h-3 rounded-full bg-indigo-400/30 animate-float" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-1/4 left-1/3 w-2 h-2 rounded-full bg-purple-400/40 animate-float" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-2/3 right-1/3 w-4 h-4 rounded-full bg-violet-300/20 animate-float" style={{ animationDelay: '3s' }} />
+        
+        {/* Gradient Overlays */}
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white/50 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white/30 to-transparent" />
       </div>
+      
+      {/* Noise Texture */}
+      <div className="absolute inset-0 bg-noise pointer-events-none" />
       
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 py-20 md:py-28 relative">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -355,10 +371,21 @@ const Features = () => {
   ];
   
   return (
-    <section id="features" className="bg-white py-24 md:py-32 relative">
-      <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+    <section id="features" className="relative py-24 md:py-32 overflow-hidden">
+      {/* Animated Gradient Background */}
+      <div className="absolute inset-0 bg-animated-gradient" />
       
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative">
+      {/* Decorative Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-violet-200/30 rounded-full blur-3xl blob" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-200/30 rounded-full blur-3xl blob" style={{ animationDelay: '-4s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-100/20 rounded-full blur-3xl" />
+      </div>
+      
+      {/* Grid Pattern Overlay */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-40" />
+      
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
         <motion.div 
           className="text-center mb-16"
           initial="hidden"
@@ -387,13 +414,13 @@ const Features = () => {
           {features.map((feature, index) => (
             <motion.div 
               key={index}
-              className="group relative p-6 rounded-2xl border border-gray-200 bg-white hover:border-violet-300 transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/10"
+              className="group relative p-6 rounded-2xl border border-white/60 bg-white/70 backdrop-blur-sm hover:border-violet-300 transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/10 card-shine"
               variants={fadeUp}
               data-testid={`feature-card-${index}`}
             >
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 opacity-0 group-hover:opacity-[0.03] transition-opacity duration-300" />
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-violet-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <div className="relative">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 flex items-center justify-center mb-4 shadow-lg shadow-violet-500/25 group-hover:scale-110 transition-transform duration-300">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 flex items-center justify-center mb-4 shadow-lg shadow-violet-500/25 group-hover:scale-110 group-hover:shadow-violet-500/40 transition-all duration-300">
                   <feature.icon className="h-6 w-6 text-white" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2 font-outfit">
@@ -550,10 +577,37 @@ const HowItWorks = () => {
   ];
   
   return (
-    <section id="how-it-works" className="bg-gradient-to-br from-violet-50 via-white to-indigo-50 py-24 md:py-32 relative overflow-hidden">
-      <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+    <section id="how-it-works" className="relative py-24 md:py-32 overflow-hidden">
+      {/* Dark Gradient Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-violet-950 to-indigo-950" />
       
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative">
+      {/* Animated Glowing Orbs */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-violet-500/20 rounded-full blur-[100px] animate-pulse-soft" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-indigo-500/20 rounded-full blur-[100px] animate-pulse-soft" style={{ animationDelay: '-2s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px]" />
+      </div>
+      
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'linear-gradient(rgba(139, 92, 246, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(139, 92, 246, 0.1) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
+      
+      {/* Stars/Particles */}
+      <div className="absolute inset-0">
+        {[...Array(20)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-white/30 rounded-full animate-pulse"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2 + Math.random() * 2}s`
+            }}
+          />
+        ))}
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
         <motion.div 
           className="text-center mb-16"
           initial="hidden"
@@ -561,10 +615,10 @@ const HowItWorks = () => {
           viewport={{ once: true }}
           variants={fadeUp}
         >
-          <span className="text-sm font-semibold text-violet-600 tracking-wide uppercase">
+          <span className="text-sm font-semibold text-violet-400 tracking-wide uppercase">
             How It Works
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mt-3 font-outfit">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mt-3 font-outfit">
             Get started in three simple steps
           </h2>
         </motion.div>
@@ -582,20 +636,20 @@ const HowItWorks = () => {
             >
               {/* Connector line */}
               {index < steps.length - 1 && (
-                <div className="hidden md:block absolute top-10 left-[60%] w-[80%] h-px bg-gray-300" />
+                <div className="hidden md:block absolute top-10 left-[60%] w-[80%] h-px bg-gradient-to-r from-violet-500/50 to-transparent" />
               )}
 
-              <div className="relative inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 shadow-lg shadow-violet-500/25 group-hover:shadow-xl group-hover:shadow-violet-500/30 transition-shadow duration-300 mb-6">
+              <div className="relative inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-r from-violet-500 to-indigo-500 shadow-lg shadow-violet-500/30 group-hover:shadow-xl group-hover:shadow-violet-500/50 transition-all duration-300 mb-6 group-hover:scale-110">
                 <step.icon className="h-8 w-8 text-white" />
-                <span className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-gray-900 text-white text-xs font-bold flex items-center justify-center shadow-md">
+                <span className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-white text-gray-900 text-xs font-bold flex items-center justify-center shadow-md">
                   {step.step}
                 </span>
               </div>
 
-              <h3 className="text-xl font-semibold text-gray-900 mb-2 font-outfit">
+              <h3 className="text-xl font-semibold text-white mb-2 font-outfit">
                 {step.title}
               </h3>
-              <p className="text-gray-600 text-sm leading-relaxed max-w-xs mx-auto">
+              <p className="text-gray-400 text-sm leading-relaxed max-w-xs mx-auto">
                 {step.description}
               </p>
             </motion.div>
@@ -632,8 +686,16 @@ const Security = () => {
   ];
 
   return (
-    <section id="security" className="bg-white py-24 md:py-32 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24">
+    <section id="security" className="relative py-24 md:py-32 overflow-hidden bg-white">
+      {/* Background Pattern */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-dot-pattern opacity-50" />
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-violet-50/50 to-transparent" />
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-100/50 rounded-full blur-3xl" />
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-violet-100/50 rounded-full blur-3xl" />
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left */}
           <motion.div
@@ -721,8 +783,18 @@ const ForBusiness = () => {
   ];
 
   return (
-    <section id="business" className="bg-gradient-to-br from-violet-50 via-white to-indigo-50 py-24 md:py-32 relative overflow-hidden">
-      <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(rgba(139, 92, 246, 0.02) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+    <section id="business" className="relative py-24 md:py-32 overflow-hidden">
+      {/* Gradient Mesh Background */}
+      <div className="absolute inset-0 bg-mesh-gradient" />
+      
+      {/* Decorative Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-0 left-1/4 w-72 h-72 bg-violet-200/40 rounded-full blur-3xl blob" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-200/30 rounded-full blur-3xl blob" style={{ animationDelay: '-3s' }} />
+      </div>
+      
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-30" />
       
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative">
         <motion.div 
@@ -840,8 +912,16 @@ const Pricing = () => {
   ];
   
   return (
-    <section id="pricing" className="bg-white py-24 md:py-32">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24">
+    <section id="pricing" className="relative py-24 md:py-32 overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white via-violet-50/30 to-white" />
+      <div className="absolute inset-0 bg-dot-pattern opacity-40" />
+      
+      {/* Decorative Blobs */}
+      <div className="absolute top-20 left-10 w-72 h-72 bg-violet-100/50 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-100/40 rounded-full blur-3xl" />
+      
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
         <motion.div 
           className="text-center mb-16"
           initial="hidden"
@@ -870,7 +950,7 @@ const Pricing = () => {
           {plans.map((plan, index) => (
             <motion.div 
               key={index}
-              className={`bg-white border ${plan.popular ? 'border-violet-500 ring-2 ring-violet-500' : 'border-gray-200'} rounded-2xl p-8 relative`}
+              className={`bg-white/80 backdrop-blur-sm border ${plan.popular ? 'border-violet-500 ring-2 ring-violet-500 shadow-xl shadow-violet-500/20' : 'border-gray-200'} rounded-2xl p-8 relative card-shine hover:shadow-lg transition-all duration-300`}
               variants={fadeUp}
               data-testid={`pricing-plan-${plan.name.toLowerCase()}`}
             >
@@ -1014,8 +1094,13 @@ const FAQ = () => {
   ];
 
   return (
-    <section id="faq" className="bg-white py-24 md:py-32">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24">
+    <section id="faq" className="relative py-24 md:py-32 overflow-hidden bg-white">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-30" />
+      <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-violet-50/50 to-transparent" />
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-violet-50/50 to-transparent" />
+      
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
         <motion.div 
           className="text-center mb-12"
           initial="hidden"
@@ -1061,12 +1146,36 @@ const FAQ = () => {
 const CTA = () => {
   return (
     <section className="py-24 md:py-32 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-indigo-600 opacity-[0.97]" />
-      <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-white/5 blur-[100px]" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-white/5 blur-[100px]" />
+      {/* Animated Gradient Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-700" />
+      
+      {/* Animated Aurora Effect */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-1/2 -left-1/4 w-full h-full bg-gradient-to-br from-violet-400/30 to-transparent rounded-full blur-3xl animate-pulse-soft" />
+        <div className="absolute -bottom-1/2 -right-1/4 w-full h-full bg-gradient-to-tl from-indigo-400/30 to-transparent rounded-full blur-3xl animate-pulse-soft" style={{ animationDelay: '-1.5s' }} />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-purple-400/20 rounded-full blur-[120px] animate-pulse-soft" style={{ animationDelay: '-3s' }} />
+      </div>
+      
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+      
+      {/* Floating Particles */}
+      <div className="absolute inset-0">
+        {[...Array(15)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-2 h-2 bg-white/20 rounded-full"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animation: `float ${4 + Math.random() * 4}s ease-in-out infinite`,
+              animationDelay: `${Math.random() * 4}s`
+            }}
+          />
+        ))}
+      </div>
 
-      <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-24 relative text-center">
+      <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-24 relative z-10 text-center">
         <motion.div
           initial="hidden"
           whileInView="visible"
