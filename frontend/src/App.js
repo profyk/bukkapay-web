@@ -603,37 +603,37 @@ const Features = () => {
     {
       icon: Wallet,
       title: "Digital Wallet",
-      description: "Store, send, and receive money instantly with your secure digital wallet.",
+      description: "Store, send, and receive money instantly. Your secure hub for all transactions.",
       color: "from-violet-500 to-purple-600"
     },
     {
       icon: QrCode,
       title: "Scan to Pay",
-      description: "Share your unique BKP code or QR — get paid instantly, no details needed.",
+      description: "Share your unique BKP code or QR — get paid instantly, no bank details needed.",
       color: "from-cyan-500 to-blue-600"
     },
     {
-      icon: Building2,
-      title: "Landlord Dashboard",
-      description: "Track properties, manage tenants, and monitor rental income at a glance.",
+      icon: BarChart3,
+      title: "Business Dashboard",
+      description: "Track payments, monitor payment links, and access powerful financial tools in real-time.",
       color: "from-pink-500 to-rose-600"
     },
     {
       icon: Zap,
       title: "Instant Transfers",
-      description: "Send money to anyone in seconds. No delays, no hidden fees.",
+      description: "Send money to anyone in seconds. Zero delays, transparent fees.",
       color: "from-orange-500 to-amber-600"
     },
     {
       icon: CreditCard,
       title: "Virtual Cards",
-      description: "Create virtual cards for secure online shopping anywhere in the world.",
+      description: "Create unlimited virtual cards for secure online shopping worldwide.",
       color: "from-emerald-500 to-teal-600"
     },
     {
       icon: ShieldCheck,
       title: "Bank-Level Security",
-      description: "256-bit encryption and AI fraud detection protect every transaction.",
+      description: "256-bit encryption and AI-powered fraud detection protect every transaction.",
       color: "from-indigo-500 to-violet-600"
     },
   ];
@@ -750,7 +750,7 @@ const Features = () => {
             </motion.div>
           </div>
 
-          {/* Become a Merchant Showcase */}
+          {/* Business Dashboard Showcase */}
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -761,7 +761,7 @@ const Features = () => {
             >
               <IPhoneMockup 
                 src="https://customer-assets.emergentagent.com/job_top-tier-web-1/artifacts/4deplevc_Screenshot_20260401_180413_com_bukkapay_app_MainActivity.jpg" 
-                alt="BukkaPay Merchant Features"
+                alt="BukkaPay Business Dashboard"
                 className="w-56 md:w-64"
               />
             </motion.div>
@@ -772,21 +772,28 @@ const Features = () => {
               transition={{ duration: 0.8 }}
               className="order-1 lg:order-2"
             >
-              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium bg-violet-500/10 text-violet-400 border border-violet-500/20 mb-6 font-dm">
-                <Building2 className="w-3.5 h-3.5" /> For Merchants
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium bg-pink-500/10 text-pink-400 border border-pink-500/20 mb-6 font-dm">
+                <BarChart3 className="w-3.5 h-3.5" /> Business Dashboard
               </span>
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 font-syne">
-                Become a Merchant
+                Your Business,<br />
+                <span className="text-shimmer">At a Glance</span>
               </h3>
               <p className="text-lg text-white/60 mb-8 leading-relaxed font-dm">
-                Transform your business with powerful payment tools. Accept QR payments, create payment links, 
-                attach invoices, and track everything with live analytics.
+                Take full control of your business finances. Track every payment, monitor active payment links, 
+                and access powerful financial tools — all from one intuitive dashboard.
               </p>
               <ul className="space-y-4">
-                {["QR Code Payments for in-person sales", "Payment Links for online invoicing", "Invoice Attachments for professional billing", "Live Analytics dashboard"].map((item, i) => (
+                {[
+                  "Real-time payment tracking & analytics",
+                  "Monitor all payment links in one place", 
+                  "Financial reporting & insights",
+                  "Revenue trends & forecasting",
+                  "Export data for accounting"
+                ].map((item, i) => (
                   <li key={i} className="flex items-center gap-3 text-white/70 font-dm">
-                    <div className="w-6 h-6 rounded-full bg-violet-500/20 flex items-center justify-center">
-                      <Check className="w-3.5 h-3.5 text-violet-400" />
+                    <div className="w-6 h-6 rounded-full bg-pink-500/20 flex items-center justify-center">
+                      <Check className="w-3.5 h-3.5 text-pink-400" />
                     </div>
                     {item}
                   </li>
