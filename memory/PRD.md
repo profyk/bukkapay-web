@@ -1,113 +1,84 @@
 # BukkaPay Website PRD - World Class Edition
 
 ## Original Problem Statement
-Build a world-class, elegant website for BukkaPay with the most stunning design possible. Clone the repository https://github.com/profyk/bukkapay-web and enhance it with best-in-class visual effects, animations, and premium fintech aesthetic.
+Build a world-class, elegant website for BukkaPay with premium iPhone mockups displaying actual app screenshots. Features include dark luxury theme, video backgrounds, custom cursor, and premium visual effects.
 
-## Product Overview
-BukkaPay is a payment platform that enables individuals, businesses, and service providers in Africa to send, receive, and collect payments easily, both locally and across borders.
+## Latest Update (Jan 2026)
+Replaced generic mockups with user's actual BukkaPay app screenshots displayed in premium iPhone frames with Dynamic Island, titanium styling, and reflections.
 
-## Design Philosophy: "Dark Luxury Fintech"
-A premium, futuristic dark theme inspired by high-end fintech apps like Stripe, Linear, and Vercel. Features:
-- Deep black backgrounds with subtle gradients
-- Neon accent colors (violet, cyan, pink)
+## Design System
+
+### Theme: "Dark Luxury Fintech"
+- Deep black backgrounds (#0a0a0f)
+- Neon accents (violet #a855f7, cyan #22d3ee, pink #ec4899)
 - Glass-morphism effects
-- Micro-animations everywhere
-- Premium typography
+- Premium iPhone mockups
 
-## Tech Stack
-- **Frontend**: React 19, Tailwind CSS, Framer Motion
-- **Animations**: react-countup, react-intersection-observer, framer-motion
-- **Design System**: Custom CSS with CSS variables for theming
-- **Fonts**: Syne (headings), Space Grotesk (accents), DM Sans (body)
+### Typography
+- **Headings**: Syne (bold, dramatic)
+- **Accents**: Space Grotesk
+- **Body**: DM Sans
 
-## Color Palette
-- **Background**: #0a0a0f (deep black), #12121a (secondary), #1a1a25 (tertiary)
-- **Primary Accent**: #a855f7 (neon violet)
-- **Secondary Accent**: #22d3ee (neon cyan)
-- **Tertiary Accent**: #ec4899 (neon pink)
-- **Warm Accent**: #f97316 (neon orange)
-- **Success**: #10b981 (neon green)
+## Premium iPhone Mockup Component
+Features:
+- Titanium-look frame with gradient
+- Dynamic Island with camera
+- Status bar simulation
+- Home indicator
+- Side buttons (volume, power)
+- Screen reflections
+- Bottom glow effect
+- Float animation
 
-## What's Been Implemented (Jan 2026)
+## Implemented Screens
 
-### Premium Visual Effects
-- [x] Video background in hero section (futuristic tech video)
-- [x] Custom cursor with dot + outline (hover effects)
-- [x] Scroll progress bar (gradient animated)
-- [x] Noise texture overlay (subtle grain)
-- [x] Scan line effect (cyberpunk aesthetic)
-- [x] Floating particles (65 particles, neon colors)
-- [x] Aurora background effects (animated conic gradients)
-- [x] Morphing blob shapes
-- [x] Grid and dot patterns
+### Hero Section
+- Smart Wallet screenshot in iPhone mockup
+- Floating notification cards:
+  - Payment Received (+R2,450)
+  - Virtual Card Ready to Use
+  - Instant Send
+- Video background with aurora effects
 
-### Typography & Text Effects
-- [x] Animated gradient text with shimmer effect
-- [x] Premium font stack (Syne + Space Grotesk + DM Sans)
-- [x] Text gradient animations
+### Features Section
+1. **Smart Wallet Showcase**
+   - "Your Money, Your Way"
+   - Features: Virtual cards, Quick actions, Real-time activity, Instant notifications
+   - iPhone mockup with wallet screenshot
 
-### Card & UI Effects
-- [x] Glass-morphism cards (backdrop-blur-20px)
-- [x] Neon border animations (glow pulse)
-- [x] Gradient borders on hover
-- [x] 3D tilt effects on cards
-- [x] Card shine effect on hover
+2. **Become a Merchant Showcase**
+   - "Transform your business"
+   - Features: QR Code Payments, Payment Links, Invoice Attachments, Live Analytics
+   - iPhone mockup with merchant screenshot
 
-### Interactive Elements
-- [x] Stats counter with CountUp animation (50K+, $12M+, 30+, 99.9%)
-- [x] Trust badges with star ratings
-- [x] Floating notification cards
-- [x] Button hover effects with glow
-- [x] Smooth scroll navigation
+3. **Dual Phone Display**
+   - "One App, Endless Possibilities"
+   - Both phones displayed together
+   - 3D perspective tilt effect
 
-### Sections Implemented
-- [x] **Hero**: Video background, phone mockup, floating cards, stats
-- [x] **Trust Marquee**: Partner logos scrolling
-- [x] **Features**: 6 feature cards with gradient icons, QR + Business showcases
-- [x] **How It Works**: 3 steps with animated wave line, spinning rings
-- [x] **Security**: Glass cards, animated security rings visual
-- [x] **For Business**: 3 benefit cards with gradient backgrounds
-- [x] **Pricing**: 3 plans (Personal Free, Business $15, Enterprise Custom)
-- [x] **Availability**: 12 countries grid
-- [x] **FAQ**: Accordion with glass styling
-- [x] **CTA**: Aurora gradient background with floating particles
-- [x] **Footer**: Glass styling, social links
+## User's Screenshots Integrated
+1. **Smart Wallet** (Screenshot_20260401_142427)
+   - Virtual Visa card display
+   - Quick Actions: Send, Request, Top Up, Travel
+   - Recent Activity feed
+   - R ZAR currency
 
-### Assets from BukkaPay Repo
-- [x] logo.png - BukkaPay logo
-- [x] hero-mockup.png - Mobile app mockup
-- [x] hero-bg.png - Billboard background
-- [x] qr-code-screen.jpg - QR payment screen
-- [x] business-dashboard-screen.jpg - Business dashboard
+2. **Become a Merchant** (Screenshot_20260401_180413)
+   - "Grow Your Business with BukkaPay"
+   - QR Code Payments
+   - Payment Links
+   - Invoice Attachments
+   - Billing Pay Links
+   - Live Analytics
 
 ## Testing Results
-- Frontend: 100% pass rate
-- All animations working
+- Frontend: 95% pass rate
+- All mockups loading correctly
+- Animations working
 - Mobile responsive
-- No console errors
-
-## Prioritized Backlog
-
-### P0 - Next Phase
-- [ ] User authentication (signup/login)
-- [ ] User dashboard
-- [ ] Wallet functionality
-- [ ] Dark/Light mode toggle
-
-### P1 - Should Have
-- [ ] QR code payment links
-- [ ] Invoice generator
-- [ ] Transaction history
-- [ ] Push notifications
-
-### P2 - Nice to Have
-- [ ] Stripe integration
-- [ ] 3D phone mockup with rotation
-- [ ] More micro-interactions
-- [ ] Sound effects on interactions
 
 ## Next Tasks
-1. Implement user authentication with JWT
-2. Create user dashboard with dark theme
-3. Build digital wallet functionality
-4. Add virtual card creation flow
+1. Add more app screens (Transaction history, Profile, etc.)
+2. Implement user authentication
+3. Build user dashboard
+4. Add dark/light mode toggle
