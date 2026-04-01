@@ -165,6 +165,94 @@ const StatCounter = ({ end, suffix = "", prefix = "", label }) => {
   );
 };
 
+// Premium iPhone Mockup Component
+const IPhoneMockup = ({ src, alt, className = "", animate = true }) => {
+  return (
+    <div className={`relative ${className}`}>
+      {/* Glow Effect */}
+      <div className="absolute inset-0 bg-gradient-to-r from-violet-500 via-cyan-500 to-pink-500 rounded-[3rem] blur-3xl opacity-30 scale-95" />
+      
+      {/* Phone Frame */}
+      <div className={`relative ${animate ? 'animate-float' : ''}`}>
+        {/* Outer Frame - Premium Titanium Look */}
+        <div className="relative bg-gradient-to-b from-[#2a2a35] via-[#1a1a25] to-[#2a2a35] rounded-[3rem] p-[3px] shadow-2xl">
+          {/* Inner Frame */}
+          <div className="relative bg-[#0a0a0f] rounded-[2.8rem] overflow-hidden">
+            {/* Status Bar */}
+            <div className="absolute top-0 left-0 right-0 h-8 bg-black/50 backdrop-blur-sm z-20 flex items-center justify-center">
+              {/* Dynamic Island */}
+              <div className="w-28 h-7 bg-black rounded-full flex items-center justify-center">
+                <div className="w-3 h-3 rounded-full bg-[#1a1a25] mr-2" />
+                <div className="w-2 h-2 rounded-full bg-[#2a2a35]" />
+              </div>
+            </div>
+            
+            {/* Screen Content */}
+            <div className="relative aspect-[9/19.5] overflow-hidden">
+              <img 
+                src={src} 
+                alt={alt} 
+                className="w-full h-full object-cover object-top"
+              />
+              
+              {/* Screen Reflection */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent pointer-events-none" />
+              
+              {/* Bottom Home Indicator */}
+              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-1 bg-white/30 rounded-full" />
+            </div>
+          </div>
+          
+          {/* Frame Highlights */}
+          <div className="absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+          <div className="absolute bottom-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+          
+          {/* Side Buttons */}
+          <div className="absolute left-0 top-24 w-[3px] h-8 bg-[#3a3a45] rounded-r-sm" />
+          <div className="absolute left-0 top-36 w-[3px] h-12 bg-[#3a3a45] rounded-r-sm" />
+          <div className="absolute left-0 top-52 w-[3px] h-12 bg-[#3a3a45] rounded-r-sm" />
+          <div className="absolute right-0 top-32 w-[3px] h-16 bg-[#3a3a45] rounded-l-sm" />
+        </div>
+        
+        {/* Bottom Reflection */}
+        <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-[80%] h-20 bg-gradient-to-b from-violet-500/20 to-transparent blur-2xl" />
+      </div>
+    </div>
+  );
+};
+
+// Dual Phone Display Component
+const DualPhoneDisplay = ({ leftSrc, rightSrc, leftAlt, rightAlt }) => {
+  return (
+    <div className="relative flex items-center justify-center gap-4 md:gap-8">
+      {/* Left Phone - Tilted */}
+      <motion.div
+        initial={{ opacity: 0, x: -50, rotateY: 15 }}
+        whileInView={{ opacity: 1, x: 0, rotateY: 5 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="relative z-10"
+        style={{ perspective: '1000px' }}
+      >
+        <div style={{ transform: 'rotateY(5deg)' }}>
+          <IPhoneMockup src={leftSrc} alt={leftAlt} className="w-48 md:w-56" animate={false} />
+        </div>
+      </motion.div>
+      
+      {/* Right Phone - Front */}
+      <motion.div
+        initial={{ opacity: 0, x: 50, scale: 0.9 }}
+        whileInView={{ opacity: 1, x: 0, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="relative z-20"
+      >
+        <IPhoneMockup src={rightSrc} alt={rightAlt} className="w-56 md:w-64" />
+      </motion.div>
+    </div>
+  );
+};
+
 // Header Component
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -411,53 +499,61 @@ const Hero = () => {
             className="flex justify-center lg:justify-end"
           >
             <div className="relative">
-              {/* Glow Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-violet-500 via-cyan-500 to-pink-500 rounded-[3rem] blur-3xl opacity-30 scale-90 animate-pulse" />
+              {/* Premium iPhone Mockup with User's Screenshot */}
+              <IPhoneMockup 
+                src="https://customer-assets.emergentagent.com/job_top-tier-web-1/artifacts/8ivsgv80_Screenshot_20260401_142427_com_bukkapay_app_MainActivity.jpg" 
+                alt="BukkaPay Smart Wallet - Digital Card & Quick Actions"
+                className="w-64 md:w-80"
+              />
               
-              {/* Phone Mockup */}
-              <div className="relative animate-float">
-                <img
-                  src="/assets/hero-mockup.png"
-                  alt="BukkaPay mobile app"
-                  className="relative w-72 md:w-96 drop-shadow-2xl"
-                  loading="eager"
-                />
-                
-                {/* Floating Cards */}
-                <motion.div 
-                  className="absolute -left-16 top-1/4 glass-card rounded-2xl p-4 neon-border"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1, duration: 0.6 }}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
-                      <TrendingUp className="w-5 h-5 text-emerald-400" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-white/60 font-dm">Payment Received</p>
-                      <p className="text-lg font-bold text-white font-syne">+$2,450</p>
-                    </div>
+              {/* Floating Cards */}
+              <motion.div 
+                className="absolute -left-20 top-1/4 glass-card rounded-2xl p-4 neon-border"
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1, duration: 0.6 }}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                    <TrendingUp className="w-5 h-5 text-emerald-400" />
                   </div>
-                </motion.div>
-                
-                <motion.div 
-                  className="absolute -right-12 bottom-1/3 glass-card rounded-2xl p-4 neon-border"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.3, duration: 0.6 }}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-violet-500/20 flex items-center justify-center">
-                      <BadgeCheck className="w-5 h-5 text-violet-400" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-white/60 font-dm">Verified</p>
-                      <p className="text-sm font-medium text-white font-dm">Instant Transfer</p>
-                    </div>
+                  <div>
+                    <p className="text-xs text-white/60 font-dm">Payment Received</p>
+                    <p className="text-lg font-bold text-white font-syne">+R2,450</p>
                   </div>
-                </motion.div>
-              </div>
+                </div>
+              </motion.div>
+              
+              <motion.div 
+                className="absolute -right-16 bottom-1/3 glass-card rounded-2xl p-4 neon-border"
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.3, duration: 0.6 }}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-violet-500/20 flex items-center justify-center">
+                    <BadgeCheck className="w-5 h-5 text-violet-400" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-white/60 font-dm">Virtual Card</p>
+                    <p className="text-sm font-medium text-white font-dm">Ready to Use</p>
+                  </div>
+                </div>
+              </motion.div>
+              
+              <motion.div 
+                className="absolute -left-8 bottom-1/4 glass-card rounded-2xl p-3 neon-border"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.6, duration: 0.6 }}
+              >
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center">
+                    <Zap className="w-4 h-4 text-cyan-400" />
+                  </div>
+                  <p className="text-xs font-medium text-white font-dm">Instant Send</p>
+                </div>
+              </motion.div>
             </div>
           </motion.div>
         </div>
@@ -610,7 +706,7 @@ const Features = () => {
 
         {/* Feature Showcase - Phone Mockups */}
         <div className="mt-32 space-y-32">
-          {/* QR Pay Showcase */}
+          {/* Smart Wallet Showcase */}
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -619,17 +715,17 @@ const Features = () => {
               transition={{ duration: 0.8 }}
             >
               <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 mb-6 font-dm">
-                <QrCode className="w-3.5 h-3.5" /> QR Payments
+                <Wallet className="w-3.5 h-3.5" /> Smart Wallet
               </span>
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 font-syne">
-                Scan. Pay. Done.
+                Your Money, Your Way
               </h3>
               <p className="text-lg text-white/60 mb-8 leading-relaxed font-dm">
-                Share your unique BKP code or QR with anyone. They scan, you get paid — instantly. 
-                No bank details, no hassle. Perfect for freelancers and everyday payments.
+                A beautiful digital wallet with virtual cards, quick actions, and real-time activity tracking. 
+                Send, request, top up, or travel — all from one elegant interface.
               </p>
               <ul className="space-y-4">
-                {["Unique BKP code for every user", "Instant payment confirmation", "Share via link, screenshot, or scan"].map((item, i) => (
+                {["Virtual debit cards for online shopping", "Quick actions: Send, Request, Top Up, Travel", "Real-time activity feed", "Instant notifications"].map((item, i) => (
                   <li key={i} className="flex items-center gap-3 text-white/70 font-dm">
                     <div className="w-6 h-6 rounded-full bg-cyan-500/20 flex items-center justify-center">
                       <Check className="w-3.5 h-3.5 text-cyan-400" />
@@ -646,14 +742,15 @@ const Features = () => {
               transition={{ duration: 0.8 }}
               className="flex justify-center"
             >
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-[2rem] blur-3xl opacity-20" />
-                <img src="/assets/qr-code-screen.jpg" alt="QR Code Screen" className="relative w-64 rounded-[2rem] shadow-2xl animate-float" />
-              </div>
+              <IPhoneMockup 
+                src="https://customer-assets.emergentagent.com/job_top-tier-web-1/artifacts/8ivsgv80_Screenshot_20260401_142427_com_bukkapay_app_MainActivity.jpg" 
+                alt="BukkaPay Smart Wallet"
+                className="w-56 md:w-64"
+              />
             </motion.div>
           </div>
 
-          {/* Business Dashboard Showcase */}
+          {/* Become a Merchant Showcase */}
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -662,10 +759,11 @@ const Features = () => {
               transition={{ duration: 0.8 }}
               className="order-2 lg:order-1 flex justify-center"
             >
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-pink-500 rounded-[2rem] blur-3xl opacity-20" />
-                <img src="/assets/business-dashboard-screen.jpg" alt="Business Dashboard" className="relative w-64 rounded-[2rem] shadow-2xl animate-float" style={{ animationDelay: '-2s' }} />
-              </div>
+              <IPhoneMockup 
+                src="https://customer-assets.emergentagent.com/job_top-tier-web-1/artifacts/4deplevc_Screenshot_20260401_180413_com_bukkapay_app_MainActivity.jpg" 
+                alt="BukkaPay Merchant Features"
+                className="w-56 md:w-64"
+              />
             </motion.div>
             <motion.div
               initial={{ opacity: 0, x: 50 }}
@@ -675,17 +773,17 @@ const Features = () => {
               className="order-1 lg:order-2"
             >
               <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium bg-violet-500/10 text-violet-400 border border-violet-500/20 mb-6 font-dm">
-                <BarChart3 className="w-3.5 h-3.5" /> Business Dashboard
+                <Building2 className="w-3.5 h-3.5" /> For Merchants
               </span>
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 font-syne">
-                Track Every Naira
+                Become a Merchant
               </h3>
               <p className="text-lg text-white/60 mb-8 leading-relaxed font-dm">
-                Real-time revenue tracking, payment status at a glance, and complete customer 
-                transaction history. Everything you need to run your business.
+                Transform your business with powerful payment tools. Accept QR payments, create payment links, 
+                attach invoices, and track everything with live analytics.
               </p>
               <ul className="space-y-4">
-                {["Real-time revenue tracking", "Payment status dashboard", "Customer transaction history"].map((item, i) => (
+                {["QR Code Payments for in-person sales", "Payment Links for online invoicing", "Invoice Attachments for professional billing", "Live Analytics dashboard"].map((item, i) => (
                   <li key={i} className="flex items-center gap-3 text-white/70 font-dm">
                     <div className="w-6 h-6 rounded-full bg-violet-500/20 flex items-center justify-center">
                       <Check className="w-3.5 h-3.5 text-violet-400" />
@@ -696,6 +794,32 @@ const Features = () => {
               </ul>
             </motion.div>
           </div>
+
+          {/* Dual Phone Display */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center"
+          >
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-pink-500/10 text-pink-400 border border-pink-500/20 mb-6 font-dm">
+              <Smartphone className="w-4 h-4" /> Complete Experience
+            </span>
+            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 font-syne">
+              One App, <span className="text-shimmer">Endless Possibilities</span>
+            </h3>
+            <p className="text-lg text-white/60 mb-12 max-w-2xl mx-auto font-dm">
+              Whether you're a freelancer, business owner, or everyday user — BukkaPay has everything you need.
+            </p>
+            
+            <DualPhoneDisplay 
+              leftSrc="https://customer-assets.emergentagent.com/job_top-tier-web-1/artifacts/4deplevc_Screenshot_20260401_180413_com_bukkapay_app_MainActivity.jpg"
+              rightSrc="https://customer-assets.emergentagent.com/job_top-tier-web-1/artifacts/8ivsgv80_Screenshot_20260401_142427_com_bukkapay_app_MainActivity.jpg"
+              leftAlt="BukkaPay Merchant Features"
+              rightAlt="BukkaPay Smart Wallet"
+            />
+          </motion.div>
         </div>
       </div>
     </section>
