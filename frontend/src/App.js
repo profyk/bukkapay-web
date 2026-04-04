@@ -446,17 +446,18 @@ const Hero = () => {
               variants={fadeUp}
               className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.05] text-white font-syne"
             >
-              The Future of
+              Payments Made
               <br />
-              <span className="text-shimmer">African Payments</span>
+              <span className="text-shimmer">Borderless</span>
             </motion.h1>
             
             <motion.p 
               variants={fadeUp}
               className="text-lg md:text-xl text-white/60 mt-8 leading-relaxed max-w-xl font-dm"
             >
-              Send, receive, and collect payments seamlessly across borders. 
-              Built for freelancers, businesses, and dreamers across Africa.
+              The all-in-one payment infrastructure for Africa. Send money, create invoices, 
+              accept payments, and grow your business — all in one powerful platform. 
+              No borders. No barriers. Just payments that work.
             </motion.p>
             
             <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mt-10">
