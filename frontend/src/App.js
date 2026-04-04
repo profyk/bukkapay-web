@@ -1920,11 +1920,14 @@ const Availability = () => {
 // FAQ Section
 const FAQ = () => {
   const faqs = [
-    { q: "What is BukkaPay?", a: "BukkaPay is a digital wallet and payment platform built for Africa. Send, receive, and manage money securely from your phone." },
-    { q: "How do I create a virtual card?", a: "After signing up and funding your wallet, generate a virtual card instantly from the app for secure online shopping." },
-    { q: "Is BukkaPay safe?", a: "Absolutely. We use 256-bit AES encryption, multi-factor authentication, and AI-powered fraud detection." },
-    { q: "What countries are supported?", a: "BukkaPay is live in 30+ African countries with expansion to Asia and Europe." },
-    { q: "Are there hidden fees?", a: "No hidden fees. All charges are transparent and shown before you confirm any transaction." },
+    { q: "What is BukkaPay?", a: "BukkaPay is a digital wallet and payment infrastructure platform built for Africa and beyond. Send money, create invoices, accept payments, and manage your finances — all from one app." },
+    { q: "How do I create a virtual card?", a: "After signing up and funding your wallet, generate a virtual card instantly from the app for secure online shopping anywhere Visa is accepted." },
+    { q: "Is BukkaPay safe?", a: "Absolutely. We use 256-bit AES encryption, multi-factor authentication, AI-powered fraud detection, and are PCI DSS compliant. Your money is protected by the same standards used by global banks." },
+    { q: "What countries are supported?", a: "BukkaPay is available in 30+ countries across Africa, with presence in the UK and India. We're expanding rapidly — new markets launch every quarter." },
+    { q: "Are there hidden fees?", a: "Never. All charges are shown upfront before you confirm. Our flat-rate pricing starts at just 0.5% — up to 80% lower than traditional payment processors." },
+    { q: "How fast are settlements?", a: "Payments settle in under 5 seconds. Whether you're receiving money from a payment link or a wallet transfer, funds appear in your account almost instantly." },
+    { q: "Can I use BukkaPay for my business?", a: "Yes! BukkaPay offers a full business suite — accept payments, send invoices, create payment links, access analytics, and integrate via API. Start with our free plan or upgrade for advanced features." },
+    { q: "How do payment links work?", a: "Create a link, set the amount, optionally attach an invoice, and share it via WhatsApp, email, or SMS. Your client clicks, pays, and you receive instant confirmation. It's that simple." },
   ];
 
   return (
