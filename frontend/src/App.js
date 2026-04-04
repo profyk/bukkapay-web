@@ -2180,7 +2180,10 @@ const Home = () => {
       <PaymentLinks />
       <HowItWorks />
       <Security />
+      <WhyBukkaPay />
       <ForBusiness />
+      <UseCases />
+      <Testimonials />
       <Pricing />
       <Availability />
       <FAQ />
