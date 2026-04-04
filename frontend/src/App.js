@@ -39,7 +39,18 @@ import {
   BadgeCheck,
   Smartphone,
   Send,
-  Receipt
+  Receipt,
+  Heart,
+  Quote,
+  Target,
+  Rocket,
+  HandCoins,
+  Store,
+  Laptop,
+  Home as HomeIcon,
+  Repeat,
+  DollarSign,
+  MessageCircle
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import {
