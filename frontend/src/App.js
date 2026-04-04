@@ -2000,13 +2000,14 @@ const CTA = () => {
           variants={fadeUp}
         >
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight font-syne">
-            Ready to Transform
+            Stop Chasing Payments.
             <br />
-            Your Payments?
+            Start Receiving Them.
           </h2>
           <p className="text-white/80 mt-8 text-lg md:text-xl max-w-2xl mx-auto font-dm">
-            Join 50,000+ users already experiencing the future of African payments. 
-            Start free today — no credit card required.
+            Join 50,000+ freelancers, merchants, and businesses across Africa 
+            who've already made the switch. Create your free account in 60 seconds 
+            — no credit card, no paperwork, no excuses.
           </p>
           
           <motion.div
