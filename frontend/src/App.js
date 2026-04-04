@@ -39,7 +39,18 @@ import {
   BadgeCheck,
   Smartphone,
   Send,
-  Receipt
+  Receipt,
+  Heart,
+  Quote,
+  Target,
+  Rocket,
+  HandCoins,
+  Store,
+  Laptop,
+  Home as HomeIcon,
+  Repeat,
+  DollarSign,
+  MessageCircle
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import {
@@ -435,17 +446,18 @@ const Hero = () => {
               variants={fadeUp}
               className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.05] text-white font-syne"
             >
-              The Future of
+              Payments Made
               <br />
-              <span className="text-shimmer">African Payments</span>
+              <span className="text-shimmer">Borderless</span>
             </motion.h1>
             
             <motion.p 
               variants={fadeUp}
               className="text-lg md:text-xl text-white/60 mt-8 leading-relaxed max-w-xl font-dm"
             >
-              Send, receive, and collect payments seamlessly across borders. 
-              Built for freelancers, businesses, and dreamers across Africa.
+              The all-in-one payment infrastructure for Africa. Send money, create invoices, 
+              accept payments, and grow your business — all in one powerful platform. 
+              No borders. No barriers. Just payments that work.
             </motion.p>
             
             <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mt-10">
@@ -1404,6 +1416,339 @@ const ForBusiness = () => {
   );
 };
 
+// Testimonials Section
+const Testimonials = () => {
+  const testimonials = [
+    {
+      name: "Amina Osei",
+      role: "Freelance Designer, Lagos",
+      quote: "BukkaPay changed my freelance game. I send invoices, attach my portfolio, and get paid the same day. No more chasing clients for weeks.",
+      rating: 5,
+      avatar: "AO"
+    },
+    {
+      name: "David Mensah",
+      role: "CEO, TechBridge Solutions",
+      quote: "We process over R500K monthly through BukkaPay. The business dashboard gives us full visibility, and the API integration was seamless.",
+      rating: 5,
+      avatar: "DM"
+    },
+    {
+      name: "Fatima Al-Hassan",
+      role: "E-commerce Merchant, Nairobi",
+      quote: "My customers love paying via BukkaPay links. I just create a link, share on WhatsApp, and money lands in my wallet instantly. It's magic.",
+      rating: 5,
+      avatar: "FA"
+    },
+    {
+      name: "Thabo Mokoena",
+      role: "Property Manager, Johannesburg",
+      quote: "Collecting rent used to be a nightmare. Now I send payment links to all my tenants. Automated, tracked, and hassle-free.",
+      rating: 5,
+      avatar: "TM"
+    }
+  ];
+
+  return (
+    <section className="relative py-32 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0f] via-[#0d0d14] to-[#0a0a0f]" />
+      <div className="absolute inset-0 dot-pattern opacity-20" />
+      
+      <div className="absolute top-1/3 left-0 w-80 h-80 bg-pink-500/10 rounded-full blur-[150px]" />
+      <div className="absolute bottom-1/3 right-0 w-96 h-96 bg-violet-500/10 rounded-full blur-[120px]" />
+      
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
+        <motion.div 
+          className="text-center mb-20"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+        >
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-pink-500/10 text-pink-400 border border-pink-500/20 mb-6 font-dm">
+            <Heart className="w-4 h-4" />
+            Loved by Thousands
+          </span>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white font-syne">
+            Real People,
+            <br />
+            <span className="text-shimmer">Real Results</span>
+          </h2>
+          <p className="text-lg text-white/60 mt-6 max-w-2xl mx-auto font-dm">
+            From freelancers in Lagos to enterprises in Johannesburg — hear how BukkaPay 
+            is transforming the way Africa does business.
+          </p>
+        </motion.div>
+
+        <motion.div 
+          className="grid md:grid-cols-2 gap-6"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={stagger}
+        >
+          {testimonials.map((t, i) => (
+            <motion.div
+              key={i}
+              variants={fadeUp}
+              className="glass-card rounded-3xl p-8 relative group"
+              data-testid={`testimonial-${i}`}
+              data-hover
+            >
+              <div className="absolute top-6 right-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                <Quote className="w-16 h-16 text-violet-400" />
+              </div>
+              
+              <div className="flex items-center gap-1 mb-4">
+                {[...Array(t.rating)].map((_, j) => (
+                  <Star key={j} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                ))}
+              </div>
+              
+              <p className="text-white/80 text-lg leading-relaxed mb-8 font-dm relative z-10">
+                "{t.quote}"
+              </p>
+              
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center">
+                  <span className="text-sm font-bold text-white font-syne">{t.avatar}</span>
+                </div>
+                <div>
+                  <p className="font-semibold text-white font-syne">{t.name}</p>
+                  <p className="text-sm text-white/50 font-dm">{t.role}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+// Why BukkaPay - Competitive Advantage
+const WhyBukkaPay = () => {
+  const advantages = [
+    {
+      icon: Zap,
+      title: "5-Second Settlements",
+      stat: "5s",
+      description: "While traditional banks take 3–5 days, BukkaPay settles payments in under 5 seconds. Your money moves at the speed of now.",
+      color: "from-yellow-500 to-orange-500"
+    },
+    {
+      icon: DollarSign,
+      title: "Up to 80% Lower Fees",
+      stat: "0.5%",
+      description: "We cut out the middlemen. Our flat-rate pricing means more money stays in your pocket — not lost to excessive charges.",
+      color: "from-emerald-500 to-teal-500"
+    },
+    {
+      icon: Globe2,
+      title: "30+ Countries, One App",
+      stat: "30+",
+      description: "Send money from Lagos to London, Nairobi to New Delhi. One wallet, no currency headaches, no hidden exchange markups.",
+      color: "from-violet-500 to-indigo-500"
+    },
+    {
+      icon: ShieldCheck,
+      title: "Bank-Level, Human-First",
+      stat: "99.9%",
+      description: "Military-grade encryption meets 24/7 human support. If something goes wrong, a real person helps you — not a chatbot.",
+      color: "from-cyan-500 to-blue-500"
+    }
+  ];
+
+  return (
+    <section className="relative py-32 overflow-hidden">
+      <div className="absolute inset-0 bg-[#0a0a0f]" />
+      <div className="absolute inset-0 grid-pattern opacity-20" />
+      
+      <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-violet-500/8 rounded-full blur-[180px]" />
+      
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
+        <motion.div 
+          className="text-center mb-20"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+        >
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-6 font-dm">
+            <Target className="w-4 h-4" />
+            The BukkaPay Advantage
+          </span>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white font-syne">
+            Why Africa Chooses
+            <br />
+            <span className="text-shimmer">BukkaPay</span>
+          </h2>
+          <p className="text-lg text-white/60 mt-6 max-w-2xl mx-auto font-dm">
+            We didn't just build another payment app. We built the payment infrastructure 
+            Africa deserves — fast, fair, and built for the way you actually do business.
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 gap-6">
+          {advantages.map((a, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className="glass-card rounded-3xl p-8 group relative overflow-hidden"
+              data-hover
+            >
+              <div className={`absolute inset-0 bg-gradient-to-br ${a.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
+              
+              <div className="flex items-start gap-6">
+                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${a.color} flex items-center justify-center shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                  <a.icon className="h-8 w-8 text-white" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-3 mb-2">
+                    <h3 className="text-xl font-semibold text-white font-syne">{a.title}</h3>
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-white/10 text-white/80 font-dm">{a.stat}</span>
+                  </div>
+                  <p className="text-white/60 leading-relaxed font-dm">{a.description}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// Use Cases Section
+const UseCases = () => {
+  const cases = [
+    {
+      icon: Laptop,
+      title: "Freelancers & Creators",
+      tagline: "Get paid for your talent, not your patience",
+      description: "Create professional invoices, send payment links to global clients, and receive funds directly to your wallet. No more waiting 30 days for international wire transfers.",
+      color: "from-violet-500 to-purple-600"
+    },
+    {
+      icon: Store,
+      title: "Merchants & SMEs",
+      tagline: "Turn every phone into a point of sale",
+      description: "Accept QR payments, generate branded payment links, and track every transaction from your dashboard. Built for the way African businesses actually operate.",
+      color: "from-cyan-500 to-blue-600"
+    },
+    {
+      icon: HomeIcon,
+      title: "Landlords & Property",
+      tagline: "Automate rent collection, eliminate excuses",
+      description: "Send recurring payment links to tenants, attach lease agreements, and get instant confirmations. No more cash collection headaches or bank deposit confusion.",
+      color: "from-orange-500 to-amber-600"
+    },
+    {
+      icon: Repeat,
+      title: "Cross-Border Trade",
+      tagline: "Move money where borders can't stop you",
+      description: "Pay suppliers in Nigeria from South Africa. Receive payments from the UK to Kenya. Real-time exchange rates, transparent fees, and instant settlement.",
+      color: "from-emerald-500 to-teal-600"
+    },
+    {
+      icon: HandCoins,
+      title: "Service Providers",
+      tagline: "Bill smarter, collect faster",
+      description: "Whether you're a consultant, tutor, or agency — send itemized invoices with payment links. Your clients pay in one click, you get paid instantly.",
+      color: "from-pink-500 to-rose-600"
+    },
+    {
+      icon: Globe2,
+      title: "NGOs & Fundraising",
+      tagline: "Collect donations with trust and transparency",
+      description: "Create shareable payment links for campaigns, track every contribution in real-time, and provide instant receipts to donors worldwide.",
+      color: "from-indigo-500 to-violet-600"
+    }
+  ];
+
+  return (
+    <section className="relative py-32 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0f] via-[#0d0d14] to-[#0a0a0f]" />
+      
+      <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-cyan-500/8 rounded-full blur-[150px]" />
+      
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
+        <motion.div 
+          className="text-center mb-20"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+        >
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-violet-500/10 text-violet-400 border border-violet-500/20 mb-6 font-dm">
+            <Rocket className="w-4 h-4" />
+            Built For You
+          </span>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white font-syne">
+            One Platform,
+            <br />
+            <span className="text-shimmer">Every Use Case</span>
+          </h2>
+          <p className="text-lg text-white/60 mt-6 max-w-2xl mx-auto font-dm">
+            Whether you're invoicing a client in London or collecting rent in Lagos, 
+            BukkaPay adapts to how you work — not the other way around.
+          </p>
+        </motion.div>
+
+        <motion.div 
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={stagger}
+        >
+          {cases.map((c, i) => (
+            <motion.div
+              key={i}
+              variants={fadeUp}
+              className="glass-card rounded-3xl p-8 group relative overflow-hidden"
+              data-testid={`usecase-${i}`}
+              data-hover
+            >
+              <div className={`absolute inset-0 bg-gradient-to-br ${c.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
+              
+              <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${c.color} flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                <c.icon className="h-7 w-7 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-1 font-syne">{c.title}</h3>
+              <p className="text-sm font-medium text-violet-400 mb-3 font-dm">{c.tagline}</p>
+              <p className="text-white/60 leading-relaxed text-sm font-dm">{c.description}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Bottom trust line */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mt-16"
+        >
+          <p className="text-white/40 text-sm font-dm mb-4">Trusted by businesses across 30+ countries</p>
+          <a 
+            href="https://app.bukkapay.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary text-white rounded-full px-8 py-4 font-medium inline-flex items-center gap-3 group font-dm"
+            data-hover
+          >
+            Find Your Use Case
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </a>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
 // Pricing Section
 const Pricing = () => {
   const plans = [
@@ -1575,11 +1920,14 @@ const Availability = () => {
 // FAQ Section
 const FAQ = () => {
   const faqs = [
-    { q: "What is BukkaPay?", a: "BukkaPay is a digital wallet and payment platform built for Africa. Send, receive, and manage money securely from your phone." },
-    { q: "How do I create a virtual card?", a: "After signing up and funding your wallet, generate a virtual card instantly from the app for secure online shopping." },
-    { q: "Is BukkaPay safe?", a: "Absolutely. We use 256-bit AES encryption, multi-factor authentication, and AI-powered fraud detection." },
-    { q: "What countries are supported?", a: "BukkaPay is live in 30+ African countries with expansion to Asia and Europe." },
-    { q: "Are there hidden fees?", a: "No hidden fees. All charges are transparent and shown before you confirm any transaction." },
+    { q: "What is BukkaPay?", a: "BukkaPay is a digital wallet and payment infrastructure platform built for Africa and beyond. Send money, create invoices, accept payments, and manage your finances — all from one app." },
+    { q: "How do I create a virtual card?", a: "After signing up and funding your wallet, generate a virtual card instantly from the app for secure online shopping anywhere Visa is accepted." },
+    { q: "Is BukkaPay safe?", a: "Absolutely. We use 256-bit AES encryption, multi-factor authentication, AI-powered fraud detection, and are PCI DSS compliant. Your money is protected by the same standards used by global banks." },
+    { q: "What countries are supported?", a: "BukkaPay is available in 30+ countries across Africa, with presence in the UK and India. We're expanding rapidly — new markets launch every quarter." },
+    { q: "Are there hidden fees?", a: "Never. All charges are shown upfront before you confirm. Our flat-rate pricing starts at just 0.5% — up to 80% lower than traditional payment processors." },
+    { q: "How fast are settlements?", a: "Payments settle in under 5 seconds. Whether you're receiving money from a payment link or a wallet transfer, funds appear in your account almost instantly." },
+    { q: "Can I use BukkaPay for my business?", a: "Yes! BukkaPay offers a full business suite — accept payments, send invoices, create payment links, access analytics, and integrate via API. Start with our free plan or upgrade for advanced features." },
+    { q: "How do payment links work?", a: "Create a link, set the amount, optionally attach an invoice, and share it via WhatsApp, email, or SMS. Your client clicks, pays, and you receive instant confirmation. It's that simple." },
   ];
 
   return (
@@ -1652,13 +2000,14 @@ const CTA = () => {
           variants={fadeUp}
         >
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight font-syne">
-            Ready to Transform
+            Stop Chasing Payments.
             <br />
-            Your Payments?
+            Start Receiving Them.
           </h2>
           <p className="text-white/80 mt-8 text-lg md:text-xl max-w-2xl mx-auto font-dm">
-            Join 50,000+ users already experiencing the future of African payments. 
-            Start free today — no credit card required.
+            Join 50,000+ freelancers, merchants, and businesses across Africa 
+            who've already made the switch. Create your free account in 60 seconds 
+            — no credit card, no paperwork, no excuses.
           </p>
           
           <motion.div
@@ -1835,7 +2184,10 @@ const Home = () => {
       <PaymentLinks />
       <HowItWorks />
       <Security />
+      <WhyBukkaPay />
       <ForBusiness />
+      <UseCases />
+      <Testimonials />
       <Pricing />
       <Availability />
       <FAQ />
