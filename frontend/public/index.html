@@ -1,38 +1,60 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#0a0a0f" />
-        <meta name="description" content="BukkaPay - The Future of African Payments. Send, receive, and collect payments seamlessly across borders." />
-        <meta name="keywords" content="BukkaPay, African payments, digital wallet, payment links, invoices, cross-border payments" />
-        <meta name="author" content="BukkaPay" />
-        <meta property="og:title" content="BukkaPay - The Future of African Payments" />
-        <meta property="og:description" content="Send, receive, and collect payments seamlessly across borders. Built for freelancers, businesses, and dreamers across Africa." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://bukkapay.com" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" rel="stylesheet" />
-        <title>BukkaPay - The Future of African Payments</title>
-        <style>
-            /* Hide any external badges */
-            #emergent-badge,
-            [id*="emergent"],
-            [class*="emergent"],
-            a[href*="emergent.sh"],
-            div[style*="Made with"] {
-                display: none !important;
-                visibility: hidden !important;
-                opacity: 0 !important;
-                pointer-events: none !important;
-                position: absolute !important;
-                left: -9999px !important;
-            }
-        </style>
-    </head>
-    <body>
-        <noscript>You need to enable JavaScript to run this app.</noscript>
-        <div id="root"></div>
-    </body>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a0a0f" />
+    <meta name="description" content="BukkaPay - The Future of African Payments. Send, receive, and collect payments seamlessly across borders." />
+    <meta name="keywords" content="BukkaPay, African payments, digital wallet, payment links, invoices, cross-border payments" />
+    <meta name="author" content="BukkaPay" />
+    <meta property="og:title" content="BukkaPay - The Future of African Payments" />
+    <meta property="og:description" content="Send, receive, and collect payments seamlessly across borders. Built for freelancers, businesses, and dreamers across Africa." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://bukkapay.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" rel="stylesheet" />
+    <title>BukkaPay - The Future of African Payments</title>
+
+    <style>
+        /* Hide Lovable and other platform-injected badges */
+        #lovable-badge,
+        [id*="lovable"],
+        [class*="lovable"],
+        a[href*="lovable"],
+        iframe[src*="lovable"],
+        div[style*="Lovable"],
+        div[style*="lovable"],
+        div:has(a[href*="lovable"]) {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            position: fixed !important;
+            bottom: -1000px !important;
+            right: -1000px !important;
+            z-index: -9999 !important;
+        }
+    </style>
+</head>
+<body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+
+    <script>
+        // Function to remove any dynamically injected Lovable badges
+        function removeLovableBadge() {
+            const elements = document.querySelectorAll(
+                '[id*="lovable"], [class*="lovable"], a[href*="lovable"], iframe[src*="lovable"]'
+            );
+            elements.forEach(el => el.remove());
+        }
+
+        // Run immediately
+        removeLovableBadge();
+
+        // Keep removing every second in case it gets re-injected
+        setInterval(removeLovableBadge, 1000);
+    </script>
+</body>
 </html>
