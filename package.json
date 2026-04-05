@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "cd frontend && node node_modules/@craco/craco/scripts/start.js",
-    "build": "cd frontend && node node_modules/@craco/craco/scripts/build.js",
-    "build:dev": "cd frontend && node node_modules/@craco/craco/scripts/build.js",
-    "start": "cd frontend && node node_modules/@craco/craco/scripts/start.js"
+    "dev": "cd frontend && react-scripts start",
+    "build": "cd frontend && react-scripts build",
+    "build:dev": "cd frontend && react-scripts build",
+    "start": "cd frontend && react-scripts start"
+  },
+  "dependencies": {
+    "react-scripts": "5.0.1"
   }
 }
