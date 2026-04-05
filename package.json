@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "preinstall": "cd frontend && bun install",
-    "dev": "cd frontend && bun run start",
-    "build": "cd frontend && bun run build",
-    "build:dev": "cd frontend && bun run build",
-    "start": "cd frontend && bun run start"
+    "dev": "cd frontend && bun install && bun run start",
+    "build": "cd frontend && bun install && bun run build",
+    "build:dev": "cd frontend && bun install && bun run build",
+    "start": "cd frontend && bun install && bun run start"
   }
 }
