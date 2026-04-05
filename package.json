@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "cd frontend && npx craco start",
-    "build": "cd frontend && npx craco build",
-    "build:dev": "cd frontend && npx craco build",
-    "start": "cd frontend && npx craco start"
+    "dev": "cd frontend && npx react-scripts start",
+    "build": "cd frontend && npx react-scripts build",
+    "build:dev": "cd frontend && npx react-scripts build",
+    "start": "cd frontend && npx react-scripts start"
   }
 }
