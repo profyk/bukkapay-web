@@ -280,7 +280,7 @@ const Header = () => {
     setMobileMenuOpen(false);
   };
 
-  const navLinks = ["Features", "How It Works", "Security", "Business", "Pricing", "FAQ"];
+  const navLinks = ["Features", "Payment Links", "How It Works", "Security", "Business", "Pricing", "FAQ"];
   
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
@@ -822,6 +822,156 @@ const Features = () => {
 
 
 // How It Works
+const PaymentLinks = () => {
+  const steps = [
+    { number: "01", title: "Create Payment Link", description: "Generate a unique payment link in seconds. Set amount, currency, and description.", icon: Link2, color: "from-violet-500 to-purple-600" },
+    { number: "02", title: "Attach Invoice", description: "Add professional invoices, quotations, or receipts directly to your payment request.", icon: FileCheck, color: "from-cyan-500 to-blue-600" },
+    { number: "03", title: "Send to Clients", description: "Share via WhatsApp, email, SMS, or any platform. Works for anyone, anywhere.", icon: Send, color: "from-pink-500 to-rose-600" },
+    { number: "04", title: "Get Paid Instantly", description: "Receive payments immediately with real-time confirmation and notifications.", icon: Zap, color: "from-emerald-500 to-teal-600" }
+  ];
+
+  return (
+    <section id="payment-links" className="relative py-32 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0f] via-[#0d0d14] to-[#0a0a0f]" />
+      <div className="absolute inset-0 grid-pattern opacity-20" />
+      <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-violet-500/10 rounded-full blur-[150px]" />
+      <div className="absolute bottom-1/4 right-0 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-[120px]" />
+      <FloatingParticles count={20} />
+
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
+        <motion.div className="text-center mb-20" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-violet-500/10 to-cyan-500/10 text-violet-400 border border-violet-500/20 mb-6 font-dm">
+            <Link2 className="w-4 h-4" />
+            Payment Links
+          </span>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white font-syne">
+            Get Paid in<br /><span className="text-shimmer">Four Simple Steps</span>
+          </h2>
+          <p className="text-lg text-white/60 mt-6 max-w-3xl mx-auto font-dm">
+            Create a payment link, attach your invoice, send it to clients anywhere in the world, and receive instant payments with immediate confirmation.
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+          {steps.map((step, index) => (
+            <motion.div key={index} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: index * 0.1 }} className="relative group">
+              {index < steps.length - 1 && (
+                <div className="hidden lg:block absolute top-12 left-[60%] w-[80%] h-px bg-gradient-to-r from-white/20 to-transparent" />
+              )}
+              <div className="glass-card rounded-3xl p-6 h-full relative overflow-hidden">
+                <div className={`absolute inset-0 bg-gradient-to-br ${step.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
+                <span className="absolute top-4 right-4 text-6xl font-bold text-white/5 font-syne">{step.number}</span>
+                <div className="relative">
+                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center mb-5 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <step.icon className="h-7 w-7 text-white" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-white mb-3 font-syne">{step.title}</h3>
+                  <p className="text-white/60 text-sm leading-relaxed font-dm">{step.description}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="relative">
+          <div className="glass-card rounded-3xl p-8 md:p-12 overflow-hidden">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-violet-500/20 to-cyan-500/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
+            <div className="grid lg:grid-cols-2 gap-12 items-center relative">
+              <div>
+                <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-6 font-dm">
+                  <BadgeCheck className="w-3.5 h-3.5" /> Professional Invoicing
+                </span>
+                <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 font-syne">
+                  Attach Invoices &<br /><span className="text-shimmer">Get Paid Faster</span>
+                </h3>
+                <p className="text-lg text-white/60 mb-8 font-dm leading-relaxed">
+                  Add professional invoices, quotations, and receipts directly to your payment links. Your clients see exactly what they're paying for — leading to faster payments and fewer disputes.
+                </p>
+                <ul className="space-y-4 mb-8">
+                  {["PDF invoices & quotations supported", "Automatic payment reconciliation", "Real-time payment notifications", "Payment history & analytics", "Multi-currency support (USD, EUR, ZAR, NGN...)"].map((item, i) => (
+                    <li key={i} className="flex items-center gap-3 text-white/70 font-dm">
+                      <div className="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                        <Check className="w-3.5 h-3.5 text-emerald-400" />
+                      </div>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <a href="https://app.bukkapay.com" target="_blank" rel="noopener noreferrer" className="btn-primary text-white rounded-full px-8 py-4 font-medium inline-flex items-center gap-3 group font-dm" data-hover>
+                  Create Your First Link
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </a>
+              </div>
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-cyan-500 rounded-3xl blur-2xl opacity-20" />
+                <div className="relative glass-card rounded-3xl p-6 border border-white/10">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center">
+                        <Link2 className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-white font-semibold font-syne">Payment Link</p>
+                        <p className="text-white/50 text-sm font-dm">pay.bukkapay.com/inv-2024-001</p>
+                      </div>
+                    </div>
+                    <span className="px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-400 font-dm">Active</span>
+                  </div>
+                  <div className="bg-white/5 rounded-2xl p-5 mb-6 border border-white/5">
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <p className="text-white/50 text-xs font-dm mb-1">Invoice</p>
+                        <p className="text-white font-semibold font-syne">Web Design Project</p>
+                        <p className="text-white/50 text-sm font-dm">Client: Acme Corp</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Receipt className="w-5 h-5 text-violet-400" />
+                        <span className="text-white/50 text-sm font-dm">INV-2024-001.pdf</span>
+                      </div>
+                    </div>
+                    <div className="space-y-2 mb-4 pt-4 border-t border-white/10">
+                      <div className="flex justify-between text-sm"><span className="text-white/60 font-dm">Website Redesign</span><span className="text-white font-dm">$2,500.00</span></div>
+                      <div className="flex justify-between text-sm"><span className="text-white/60 font-dm">Brand Identity</span><span className="text-white font-dm">$1,200.00</span></div>
+                      <div className="flex justify-between text-sm"><span className="text-white/60 font-dm">SEO Setup</span><span className="text-white font-dm">$800.00</span></div>
+                    </div>
+                    <div className="flex justify-between items-center pt-4 border-t border-white/10">
+                      <span className="text-white font-medium font-dm">Total Amount</span>
+                      <span className="text-2xl font-bold text-white font-syne">$4,500.00</span>
+                    </div>
+                  </div>
+                  <button className="w-full bg-gradient-to-r from-violet-500 to-cyan-500 text-white rounded-xl py-4 font-semibold font-dm hover:opacity-90 transition-opacity">Pay Now — Secure Payment</button>
+                  <div className="flex items-center justify-center gap-4 mt-4">
+                    <div className="flex items-center gap-1.5 text-white/40 text-xs font-dm"><Lock className="w-3.5 h-3.5" />256-bit SSL</div>
+                    <div className="flex items-center gap-1.5 text-white/40 text-xs font-dm"><ShieldCheck className="w-3.5 h-3.5" />PCI Compliant</div>
+                  </div>
+                </div>
+                <motion.div className="absolute -bottom-4 -right-4 glass-card rounded-2xl p-4 neon-border" initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.5, duration: 0.5 }}>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center"><Check className="w-5 h-5 text-emerald-400" /></div>
+                    <div>
+                      <p className="text-xs text-white/60 font-dm">Payment Confirmed</p>
+                      <p className="text-sm font-semibold text-white font-dm">Instant Notification</p>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mt-16">
+          <p className="text-white/50 mb-4 font-dm">Join 50,000+ businesses already using BukkaPay payment links</p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><Globe2 className="w-4 h-4 text-violet-400" /><span className="text-sm text-white/70 font-dm">Cross-border payments</span></div>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><Zap className="w-4 h-4 text-cyan-400" /><span className="text-sm text-white/70 font-dm">Instant settlement</span></div>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><Shield className="w-4 h-4 text-emerald-400" /><span className="text-sm text-white/70 font-dm">Secure & compliant</span></div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
 const HowItWorks = () => {
   const steps = [
     { icon: UserPlus, step: "01", title: "Create Account", description: "Sign up in 60 seconds with just your email or phone." },
@@ -1859,6 +2009,7 @@ const Home = () => {
       <TrustMarquee />
       <Features />
       
+      <PaymentLinks />
       <HowItWorks />
       <Security />
       <WhyBukkaPay />
