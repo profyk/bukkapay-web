@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "cd frontend && npx craco start",
     "build": "cd frontend && npx craco build",
+    "build:dev": "cd frontend && npx craco build",
     "start": "cd frontend && npx craco start"
   }
 }
