@@ -2009,6 +2009,7 @@ const Home = () => {
       <TrustMarquee />
       <Features />
       
+      <PaymentLinks />
       <HowItWorks />
       <Security />
       <WhyBukkaPay />
