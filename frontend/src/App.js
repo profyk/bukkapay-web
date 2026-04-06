@@ -446,18 +446,17 @@ const Hero = () => {
               variants={fadeUp}
               className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.05] text-white font-syne"
             >
-              Payments Made
+              Get Paid Instantly
               <br />
-              <span className="text-shimmer">Borderless</span>
+              <span className="text-shimmer">No More Payment Screenshots</span>
             </motion.h1>
             
             <motion.p 
               variants={fadeUp}
               className="text-lg md:text-xl text-white/60 mt-8 leading-relaxed max-w-xl font-dm"
             >
-              The all-in-one payment infrastructure for Africa. Send money, create invoices, 
-              accept payments, and grow your business — all in one powerful platform. 
-              No borders. No barriers. Just payments that work.
+              Create a payment link in seconds, share it anywhere, and get paid instantly with real-time confirmation. 
+              The fastest way to collect payments across Africa — no bank alerts, no fake screenshots, just money in your wallet.
             </motion.p>
             
             <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mt-10">
@@ -469,22 +468,34 @@ const Hero = () => {
                 data-testid="hero-cta-primary"
                 data-hover
               >
-                Start Free Today
+                Start Collecting Payments
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </a>
-              <button 
-                onClick={() => document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" })}
+              <a 
+                href="https://app.bukkapay.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-3 text-white/70 hover:text-white rounded-full px-8 py-4 font-medium border border-white/20 hover:border-white/40 hover:bg-white/5 transition-all duration-300 font-dm"
                 data-testid="hero-cta-secondary"
                 data-hover
               >
-                <Play className="w-5 h-5" />
-                Watch Demo
-              </button>
+                <Link2 className="w-5 h-5" />
+                Create Payment Link
+              </a>
             </motion.div>
             
+            {/* Trust Micro-Copy */}
+            <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-8">
+              {["No more waiting for bank alerts", "No more fake screenshots", "Instant confirmation"].map((text, i) => (
+                <span key={i} className="flex items-center gap-2 text-sm text-white/50 font-dm">
+                  <Check className="w-3.5 h-3.5 text-emerald-400" />
+                  {text}
+                </span>
+              ))}
+            </motion.div>
+
             {/* Trust Badges */}
-            <motion.div variants={fadeUp} className="flex items-center gap-6 mt-12">
+            <motion.div variants={fadeUp} className="flex items-center gap-6 mt-8">
               <div className="flex -space-x-3">
                 {[1,2,3,4,5].map((i) => (
                   <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 border-2 border-[#0a0a0f] flex items-center justify-center">
@@ -498,7 +509,7 @@ const Hero = () => {
                     <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
-                <p className="text-sm text-white/60 font-dm">50,000+ happy users</p>
+                <p className="text-sm text-white/60 font-dm">50,000+ businesses collecting payments</p>
               </div>
             </motion.div>
           </motion.div>
@@ -613,39 +624,39 @@ const TrustMarquee = () => {
 const Features = () => {
   const features = [
     {
-      icon: Wallet,
-      title: "Digital Wallet",
-      description: "Store, send, and receive money instantly. Your secure hub for all transactions.",
+      icon: Zap,
+      title: "Instant Payment Confirmation",
+      description: "Stop refreshing your bank app. Know the exact second money hits your account — no delays, no guessing, no fake screenshots.",
       color: "from-violet-500 to-purple-600"
     },
     {
-      icon: QrCode,
-      title: "Scan to Pay",
-      description: "Share your unique BKP code or QR — get paid instantly, no bank details needed.",
+      icon: Link2,
+      title: "Payment Links That Convert",
+      description: "Create a link in 10 seconds, share on WhatsApp or email, and get paid before you finish your coffee. No app downloads required for your clients.",
       color: "from-cyan-500 to-blue-600"
     },
     {
-      icon: BarChart3,
-      title: "Business Dashboard",
-      description: "Track payments, monitor payment links, and access powerful financial tools in real-time.",
+      icon: FileCheck,
+      title: "Professional Invoicing",
+      description: "Attach itemized invoices to every payment link. Look professional, get paid faster, and keep a clean paper trail for tax season.",
       color: "from-pink-500 to-rose-600"
     },
     {
-      icon: Zap,
-      title: "Instant Transfers",
-      description: "Send money to anyone in seconds. Zero delays, transparent fees.",
+      icon: Globe2,
+      title: "Cross-Border Payments",
+      description: "Collect payments from clients in London, Lagos, or Nairobi — all into one wallet. Real exchange rates, zero hidden markups.",
       color: "from-orange-500 to-amber-600"
     },
     {
       icon: CreditCard,
       title: "Virtual Cards",
-      description: "Create unlimited virtual cards for secure online shopping worldwide.",
+      description: "Shop globally without a dollar account. Create virtual Visa cards instantly and pay for tools, subscriptions, and ads from your wallet.",
       color: "from-emerald-500 to-teal-600"
     },
     {
       icon: ShieldCheck,
       title: "Bank-Level Security",
-      description: "256-bit encryption and AI-powered fraud detection protect every transaction.",
+      description: "256-bit encryption, biometric authentication, and AI fraud detection. Your money is safer here than in most traditional banks.",
       color: "from-indigo-500 to-violet-600"
     },
   ];
@@ -675,8 +686,12 @@ const Features = () => {
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white font-syne">
             Everything You Need to
             <br />
-            <span className="text-shimmer">Manage Money</span>
+            <span className="text-shimmer">Get Paid Faster</span>
           </h2>
+          <p className="text-lg text-white/60 mt-6 max-w-2xl mx-auto font-dm">
+            Every feature is built around one idea: helping you collect money faster, with less friction, 
+            and zero uncertainty about whether you actually got paid.
+          </p>
         </motion.div>
         
         <motion.div 
@@ -820,8 +835,31 @@ const Features = () => {
   );
 };
 
+// Micro-Conversion Trust Strip
+const TrustStrip = ({ text, ctaText, ctaHref = "https://app.bukkapay.com" }) => (
+  <section className="relative py-12 overflow-hidden">
+    <div className="absolute inset-0 bg-gradient-to-r from-violet-500/5 via-cyan-500/5 to-violet-500/5" />
+    <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
+        <p className="text-white/70 text-lg font-medium font-dm text-center">{text}</p>
+        {ctaText && (
+          <a
+            href={ctaHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary text-white rounded-full px-6 py-3 text-sm font-medium flex items-center gap-2 group font-dm shrink-0"
+            data-hover
+          >
+            {ctaText}
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </a>
+        )}
+      </div>
+    </div>
+  </section>
+);
 
-// How It Works
+
 const PaymentLinks = () => {
   const steps = [
     { number: "01", title: "Create Payment Link", description: "Generate a unique payment link in seconds. Set amount, currency, and description.", icon: Link2, color: "from-violet-500 to-purple-600" },
@@ -1169,9 +1207,9 @@ const Security = () => {
 // For Business Section
 const ForBusiness = () => {
   const benefits = [
-    { icon: Banknote, title: "Accept Payments", description: "Receive payments from customers across Africa and beyond." },
-    { icon: PieChart, title: "Manage Payouts", description: "Automate disbursements to vendors and employees." },
-    { icon: Code, title: "API Integration", description: "Developer-friendly APIs for seamless integration." },
+    { icon: Banknote, title: "Accept Payments Everywhere", description: "Payment links, QR codes, invoices — give your customers every way to pay you. Money lands in your wallet instantly." },
+    { icon: PieChart, title: "See Every Rand & Naira", description: "Real-time dashboard shows who paid, who hasn't, and where your revenue is growing. No more spreadsheet guesswork." },
+    { icon: Code, title: "Plug Into Your Stack", description: "REST APIs, webhooks, and SDKs. Integrate BukkaPay into your app, website, or workflow in under an hour." },
   ];
 
   return (
@@ -1455,43 +1493,43 @@ const UseCases = () => {
     {
       icon: Laptop,
       title: "Freelancers & Creators",
-      tagline: "Get paid for your talent, not your patience",
-      description: "Create professional invoices, send payment links to global clients, and receive funds directly to your wallet. No more waiting 30 days for international wire transfers.",
+      tagline: "Send a link, get paid in minutes — not months",
+      description: "For WhatsApp sellers, designers, and developers: create a payment link, send it to your client, and get paid before they forget. No invoicing apps, no bank details — just a link.",
       color: "from-violet-500 to-purple-600"
     },
     {
       icon: Store,
       title: "Merchants & SMEs",
-      tagline: "Turn every phone into a point of sale",
-      description: "Accept QR payments, generate branded payment links, and track every transaction from your dashboard. Built for the way African businesses actually operate.",
+      tagline: "Your phone is now a payment terminal",
+      description: "For market sellers and shop owners: generate a QR code or payment link, stick it at your counter, and watch money flow directly into your wallet. No POS machine required.",
       color: "from-cyan-500 to-blue-600"
     },
     {
       icon: HomeIcon,
       title: "Landlords & Property",
-      tagline: "Automate rent collection, eliminate excuses",
-      description: "Send recurring payment links to tenants, attach lease agreements, and get instant confirmations. No more cash collection headaches or bank deposit confusion.",
+      tagline: "Stop chasing tenants for rent",
+      description: "Send a payment link on the 1st, get paid by the 2nd. Attach lease agreements, get instant confirmations, and never hear 'I already paid' without proof again.",
       color: "from-orange-500 to-amber-600"
     },
     {
       icon: Repeat,
       title: "Cross-Border Trade",
-      tagline: "Move money where borders can't stop you",
-      description: "Pay suppliers in Nigeria from South Africa. Receive payments from the UK to Kenya. Real-time exchange rates, transparent fees, and instant settlement.",
+      tagline: "Pay a supplier in Lagos from Johannesburg in 5 seconds",
+      description: "Real exchange rates, transparent fees, instant settlement. No more SWIFT delays, no hidden markups. Just fast money movement across borders.",
       color: "from-emerald-500 to-teal-600"
     },
     {
       icon: HandCoins,
       title: "Service Providers",
-      tagline: "Bill smarter, collect faster",
-      description: "Whether you're a consultant, tutor, or agency — send itemized invoices with payment links. Your clients pay in one click, you get paid instantly.",
+      tagline: "Bill clients professionally, get paid the same day",
+      description: "For consultants, tutors, and agencies: send itemized invoices with a pay button. Your clients click once, you get paid instantly. No more 'payment pending'.",
       color: "from-pink-500 to-rose-600"
     },
     {
       icon: Globe2,
       title: "NGOs & Fundraising",
-      tagline: "Collect donations with trust and transparency",
-      description: "Create shareable payment links for campaigns, track every contribution in real-time, and provide instant receipts to donors worldwide.",
+      tagline: "Collect donations with one shareable link",
+      description: "Create a campaign link, share it everywhere, and track every contribution in real-time. Auto-send receipts to donors. Built for trust and transparency.",
       color: "from-indigo-500 to-violet-600"
     }
   ];
@@ -1842,18 +1880,28 @@ const CTA = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="mt-10"
+            className="mt-10 flex flex-col sm:flex-row gap-4 justify-center"
           >
             <a
               href="https://app.bukkapay.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-white text-gray-900 rounded-full px-10 py-5 font-bold hover:bg-gray-100 shadow-2xl transition-all duration-300 group font-dm"
+              className="inline-flex items-center justify-center gap-3 bg-white text-gray-900 rounded-full px-10 py-5 font-bold hover:bg-gray-100 shadow-2xl transition-all duration-300 group font-dm"
               data-testid="cta-primary"
               data-hover
             >
-              Get Started Free
+              Start Getting Paid
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            </a>
+            <a
+              href="https://app.bukkapay.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-3 border-2 border-white/30 text-white rounded-full px-10 py-5 font-bold hover:bg-white/10 transition-all duration-300 group font-dm"
+              data-hover
+            >
+              <Link2 className="h-5 w-5" />
+              Create Payment Link
             </a>
           </motion.div>
         </motion.div>
@@ -2008,13 +2056,15 @@ const Home = () => {
       <Hero />
       <TrustMarquee />
       <Features />
-      
+      <TrustStrip text="No more chasing clients. No more fake payment screenshots." ctaText="Start Getting Paid" />
       <PaymentLinks />
       <HowItWorks />
       <Security />
+      <TrustStrip text="Built for Africa. Trusted by 50,000+ businesses across 30+ countries." ctaText="Create Payment Link" />
       <WhyBukkaPay />
       <ForBusiness />
       <UseCases />
+      <TrustStrip text="Whether you sell on WhatsApp or run an enterprise — BukkaPay works for you." ctaText="Start Free Today" />
       <Testimonials />
       <Pricing />
       <Availability />
