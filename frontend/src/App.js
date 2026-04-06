@@ -2046,13 +2046,15 @@ const Home = () => {
       <Hero />
       <TrustMarquee />
       <Features />
-      
+      <TrustStrip text="No more chasing clients. No more fake payment screenshots." ctaText="Start Getting Paid" />
       <PaymentLinks />
       <HowItWorks />
       <Security />
+      <TrustStrip text="Built for Africa. Trusted by 50,000+ businesses across 30+ countries." ctaText="Create Payment Link" />
       <WhyBukkaPay />
       <ForBusiness />
       <UseCases />
+      <TrustStrip text="Whether you sell on WhatsApp or run an enterprise — BukkaPay works for you." ctaText="Start Free Today" />
       <Testimonials />
       <Pricing />
       <Availability />
