@@ -1618,29 +1618,49 @@ const UseCases = () => {
 const Pricing = () => {
   const plans = [
     {
-      name: "Personal",
+      name: "Starter",
       price: "Free",
-      description: "Perfect for individuals",
-      features: ["Digital wallet", "Send & receive money", "1 virtual card", "Basic history", "Email support"],
-      cta: "Get Started Free",
+      period: "",
+      description: "Best for individuals and small sellers getting started.",
+      features: [
+        "Create unlimited payment links",
+        "Basic invoicing",
+        "Accept payments instantly",
+        "Real-time payment confirmation",
+        "Dashboard access"
+      ],
+      cta: "Start for Free",
       popular: false,
       gradient: "from-slate-500 to-slate-600"
     },
     {
-      name: "Business",
-      price: "$15",
+      name: "Pro",
+      price: "$20",
       period: "/month",
-      description: "For growing businesses",
-      features: ["Everything in Personal", "Unlimited virtual cards", "Business dashboard", "API access", "Priority support"],
-      cta: "Start Free Trial",
+      description: "Best for freelancers and growing businesses.",
+      features: [
+        "Everything in Starter",
+        "Advanced invoicing (branding, notes, reminders)",
+        "Payment analytics & insights",
+        "Priority support",
+        "Better organization & tracking"
+      ],
+      cta: "Upgrade to Pro",
       popular: true,
       gradient: "from-violet-500 to-cyan-500"
     },
     {
-      name: "Enterprise",
+      name: "Business",
       price: "Custom",
-      description: "For large organizations",
-      features: ["Everything in Business", "Custom integrations", "Dedicated manager", "SLA guarantee", "White-label options"],
+      period: "",
+      description: "Best for companies and high-volume businesses.",
+      features: [
+        "Everything in Pro",
+        "Team access & roles",
+        "API access (for integrations)",
+        "Custom checkout experience",
+        "Dedicated support"
+      ],
       cta: "Contact Sales",
       popular: false,
       gradient: "from-orange-500 to-pink-500"
@@ -1654,7 +1674,7 @@ const Pricing = () => {
       
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
         <motion.div 
-          className="text-center mb-20"
+          className="text-center mb-6"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -1669,10 +1689,13 @@ const Pricing = () => {
             <br />
             <span className="text-shimmer">Pricing</span>
           </h2>
+          <p className="mt-4 text-lg text-white/60 font-dm max-w-xl mx-auto">
+            Start for free. Only pay when you get paid.
+          </p>
         </motion.div>
         
         <motion.div 
-          className="grid md:grid-cols-3 gap-6"
+          className="grid md:grid-cols-3 gap-6 lg:gap-8 mt-16 items-start"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -1681,29 +1704,36 @@ const Pricing = () => {
           {plans.map((plan, index) => (
             <motion.div 
               key={index}
-              className={`glass-card rounded-3xl p-8 relative ${plan.popular ? 'ring-2 ring-violet-500' : ''}`}
+              className={`glass-card rounded-3xl relative transition-all duration-500 hover:-translate-y-2 ${
+                plan.popular 
+                  ? 'ring-2 ring-violet-500 p-10 md:-mt-4 md:mb-[-16px] shadow-[0_0_60px_-12px_rgba(139,92,246,0.3)]' 
+                  : 'p-8'
+              }`}
               variants={fadeUp}
               data-testid={`pricing-plan-${plan.name.toLowerCase()}`}
               data-hover
+              whileHover={{ scale: 1.02 }}
             >
               {plan.popular && (
-                <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-violet-500 to-cyan-500 text-white text-xs font-bold px-4 py-1 rounded-full font-dm">
+                <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-violet-500 to-cyan-500 text-white text-xs font-bold px-5 py-1.5 rounded-full font-dm shadow-lg shadow-violet-500/25">
                   Most Popular
                 </span>
               )}
               
               <h3 className="text-xl font-semibold text-white font-syne">{plan.name}</h3>
-              <div className="mt-4 mb-2">
-                <span className="text-4xl font-bold text-white font-syne">{plan.price}</span>
-                {plan.period && <span className="text-white/60 font-dm">{plan.period}</span>}
+              <div className="mt-4 mb-2 flex items-baseline gap-1">
+                <span className="text-5xl font-bold text-white font-syne">{plan.price}</span>
+                {plan.period && <span className="text-white/50 text-lg font-dm">{plan.period}</span>}
               </div>
-              <p className="text-sm text-white/60 mb-6 font-dm">{plan.description}</p>
+              <p className="text-sm text-white/50 mb-8 font-dm leading-relaxed">{plan.description}</p>
               
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-4 mb-10">
                 {plan.features.map((feature, idx) => (
-                  <li key={idx} className="flex items-center gap-3">
-                    <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center">
-                      <Check className="w-3 h-3 text-emerald-400" />
+                  <li key={idx} className="flex items-start gap-3">
+                    <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${
+                      plan.popular ? 'bg-violet-500/20' : 'bg-emerald-500/20'
+                    }`}>
+                      <Check className={`w-3 h-3 ${plan.popular ? 'text-violet-400' : 'text-emerald-400'}`} />
                     </div>
                     <span className="text-white/70 text-sm font-dm">{feature}</span>
                   </li>
@@ -1711,10 +1741,10 @@ const Pricing = () => {
               </ul>
               
               <button 
-                className={`w-full rounded-full py-4 font-medium transition-all duration-300 font-dm ${
+                className={`w-full rounded-full py-4 font-medium transition-all duration-300 font-dm text-sm ${
                   plan.popular 
-                    ? 'btn-primary text-white' 
-                    : 'border border-white/20 text-white hover:bg-white/5'
+                    ? 'btn-primary text-white shadow-lg shadow-violet-500/20 hover:shadow-violet-500/40' 
+                    : 'border border-white/20 text-white hover:bg-white/5 hover:border-white/30'
                 }`}
                 data-hover
               >
@@ -1722,6 +1752,54 @@ const Pricing = () => {
               </button>
             </motion.div>
           ))}
+        </motion.div>
+
+        {/* Transaction fees note */}
+        <motion.p 
+          className="text-center text-white/40 text-sm font-dm mt-12"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+        >
+          Transaction fees apply per payment. No hidden charges.
+        </motion.p>
+
+        {/* Value Statement */}
+        <motion.div 
+          className="mt-24 text-center max-w-2xl mx-auto"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+        >
+          <h3 className="text-3xl sm:text-4xl font-bold text-white font-syne mb-4">
+            Stop Losing Time <span className="text-shimmer">Chasing Payments</span>
+          </h3>
+          <p className="text-white/50 text-lg font-dm leading-relaxed">
+            No more waiting for bank alerts. No more fake screenshots. BukkaPay helps you get paid instantly and focus on your business.
+          </p>
+        </motion.div>
+
+        {/* Final CTA */}
+        <motion.div 
+          className="mt-16 text-center"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+        >
+          <h4 className="text-2xl font-bold text-white font-syne mb-6">Start Collecting Payments Today</h4>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button className="btn-primary text-white px-8 py-4 rounded-full font-medium font-dm inline-flex items-center gap-2 hover:shadow-lg hover:shadow-violet-500/25 transition-all duration-300" data-hover>
+              Get Started for Free
+              <ArrowRight className="w-4 h-4" />
+            </button>
+            <button className="border border-white/20 text-white px-8 py-4 rounded-full font-medium font-dm inline-flex items-center gap-2 hover:bg-white/5 hover:border-white/30 transition-all duration-300" data-hover>
+              Create Payment Link
+              <Link2 className="w-4 h-4" />
+            </button>
+          </div>
         </motion.div>
       </div>
     </section>
