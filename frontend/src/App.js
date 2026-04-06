@@ -1207,9 +1207,9 @@ const Security = () => {
 // For Business Section
 const ForBusiness = () => {
   const benefits = [
-    { icon: Banknote, title: "Accept Payments", description: "Receive payments from customers across Africa and beyond." },
-    { icon: PieChart, title: "Manage Payouts", description: "Automate disbursements to vendors and employees." },
-    { icon: Code, title: "API Integration", description: "Developer-friendly APIs for seamless integration." },
+    { icon: Banknote, title: "Accept Payments Everywhere", description: "Payment links, QR codes, invoices — give your customers every way to pay you. Money lands in your wallet instantly." },
+    { icon: PieChart, title: "See Every Rand & Naira", description: "Real-time dashboard shows who paid, who hasn't, and where your revenue is growing. No more spreadsheet guesswork." },
+    { icon: Code, title: "Plug Into Your Stack", description: "REST APIs, webhooks, and SDKs. Integrate BukkaPay into your app, website, or workflow in under an hour." },
   ];
 
   return (
@@ -1880,18 +1880,28 @@ const CTA = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="mt-10"
+            className="mt-10 flex flex-col sm:flex-row gap-4 justify-center"
           >
             <a
               href="https://app.bukkapay.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-white text-gray-900 rounded-full px-10 py-5 font-bold hover:bg-gray-100 shadow-2xl transition-all duration-300 group font-dm"
+              className="inline-flex items-center justify-center gap-3 bg-white text-gray-900 rounded-full px-10 py-5 font-bold hover:bg-gray-100 shadow-2xl transition-all duration-300 group font-dm"
               data-testid="cta-primary"
               data-hover
             >
-              Get Started Free
+              Start Getting Paid
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            </a>
+            <a
+              href="https://app.bukkapay.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-3 border-2 border-white/30 text-white rounded-full px-10 py-5 font-bold hover:bg-white/10 transition-all duration-300 group font-dm"
+              data-hover
+            >
+              <Link2 className="h-5 w-5" />
+              Create Payment Link
             </a>
           </motion.div>
         </motion.div>
