@@ -1493,43 +1493,43 @@ const UseCases = () => {
     {
       icon: Laptop,
       title: "Freelancers & Creators",
-      tagline: "Get paid for your talent, not your patience",
-      description: "Create professional invoices, send payment links to global clients, and receive funds directly to your wallet. No more waiting 30 days for international wire transfers.",
+      tagline: "Send a link, get paid in minutes — not months",
+      description: "For WhatsApp sellers, designers, and developers: create a payment link, send it to your client, and get paid before they forget. No invoicing apps, no bank details — just a link.",
       color: "from-violet-500 to-purple-600"
     },
     {
       icon: Store,
       title: "Merchants & SMEs",
-      tagline: "Turn every phone into a point of sale",
-      description: "Accept QR payments, generate branded payment links, and track every transaction from your dashboard. Built for the way African businesses actually operate.",
+      tagline: "Your phone is now a payment terminal",
+      description: "For market sellers and shop owners: generate a QR code or payment link, stick it at your counter, and watch money flow directly into your wallet. No POS machine required.",
       color: "from-cyan-500 to-blue-600"
     },
     {
       icon: HomeIcon,
       title: "Landlords & Property",
-      tagline: "Automate rent collection, eliminate excuses",
-      description: "Send recurring payment links to tenants, attach lease agreements, and get instant confirmations. No more cash collection headaches or bank deposit confusion.",
+      tagline: "Stop chasing tenants for rent",
+      description: "Send a payment link on the 1st, get paid by the 2nd. Attach lease agreements, get instant confirmations, and never hear 'I already paid' without proof again.",
       color: "from-orange-500 to-amber-600"
     },
     {
       icon: Repeat,
       title: "Cross-Border Trade",
-      tagline: "Move money where borders can't stop you",
-      description: "Pay suppliers in Nigeria from South Africa. Receive payments from the UK to Kenya. Real-time exchange rates, transparent fees, and instant settlement.",
+      tagline: "Pay a supplier in Lagos from Johannesburg in 5 seconds",
+      description: "Real exchange rates, transparent fees, instant settlement. No more SWIFT delays, no hidden markups. Just fast money movement across borders.",
       color: "from-emerald-500 to-teal-600"
     },
     {
       icon: HandCoins,
       title: "Service Providers",
-      tagline: "Bill smarter, collect faster",
-      description: "Whether you're a consultant, tutor, or agency — send itemized invoices with payment links. Your clients pay in one click, you get paid instantly.",
+      tagline: "Bill clients professionally, get paid the same day",
+      description: "For consultants, tutors, and agencies: send itemized invoices with a pay button. Your clients click once, you get paid instantly. No more 'payment pending'.",
       color: "from-pink-500 to-rose-600"
     },
     {
       icon: Globe2,
       title: "NGOs & Fundraising",
-      tagline: "Collect donations with trust and transparency",
-      description: "Create shareable payment links for campaigns, track every contribution in real-time, and provide instant receipts to donors worldwide.",
+      tagline: "Collect donations with one shareable link",
+      description: "Create a campaign link, share it everywhere, and track every contribution in real-time. Auto-send receipts to donors. Built for trust and transparency.",
       color: "from-indigo-500 to-violet-600"
     }
   ];
