@@ -446,18 +446,17 @@ const Hero = () => {
               variants={fadeUp}
               className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.05] text-white font-syne"
             >
-              Payments Made
+              Get Paid Instantly
               <br />
-              <span className="text-shimmer">Borderless</span>
+              <span className="text-shimmer">No More Payment Screenshots</span>
             </motion.h1>
             
             <motion.p 
               variants={fadeUp}
               className="text-lg md:text-xl text-white/60 mt-8 leading-relaxed max-w-xl font-dm"
             >
-              The all-in-one payment infrastructure for Africa. Send money, create invoices, 
-              accept payments, and grow your business — all in one powerful platform. 
-              No borders. No barriers. Just payments that work.
+              Create a payment link in seconds, share it anywhere, and get paid instantly with real-time confirmation. 
+              The fastest way to collect payments across Africa — no bank alerts, no fake screenshots, just money in your wallet.
             </motion.p>
             
             <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mt-10">
@@ -469,22 +468,34 @@ const Hero = () => {
                 data-testid="hero-cta-primary"
                 data-hover
               >
-                Start Free Today
+                Start Collecting Payments
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </a>
-              <button 
-                onClick={() => document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" })}
+              <a 
+                href="https://app.bukkapay.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-3 text-white/70 hover:text-white rounded-full px-8 py-4 font-medium border border-white/20 hover:border-white/40 hover:bg-white/5 transition-all duration-300 font-dm"
                 data-testid="hero-cta-secondary"
                 data-hover
               >
-                <Play className="w-5 h-5" />
-                Watch Demo
-              </button>
+                <Link2 className="w-5 h-5" />
+                Create Payment Link
+              </a>
             </motion.div>
             
+            {/* Trust Micro-Copy */}
+            <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-8">
+              {["No more waiting for bank alerts", "No more fake screenshots", "Instant confirmation"].map((text, i) => (
+                <span key={i} className="flex items-center gap-2 text-sm text-white/50 font-dm">
+                  <Check className="w-3.5 h-3.5 text-emerald-400" />
+                  {text}
+                </span>
+              ))}
+            </motion.div>
+
             {/* Trust Badges */}
-            <motion.div variants={fadeUp} className="flex items-center gap-6 mt-12">
+            <motion.div variants={fadeUp} className="flex items-center gap-6 mt-8">
               <div className="flex -space-x-3">
                 {[1,2,3,4,5].map((i) => (
                   <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 border-2 border-[#0a0a0f] flex items-center justify-center">
@@ -498,7 +509,7 @@ const Hero = () => {
                     <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
-                <p className="text-sm text-white/60 font-dm">50,000+ happy users</p>
+                <p className="text-sm text-white/60 font-dm">50,000+ businesses collecting payments</p>
               </div>
             </motion.div>
           </motion.div>
@@ -613,39 +624,39 @@ const TrustMarquee = () => {
 const Features = () => {
   const features = [
     {
-      icon: Wallet,
-      title: "Digital Wallet",
-      description: "Store, send, and receive money instantly. Your secure hub for all transactions.",
+      icon: Zap,
+      title: "Instant Payment Confirmation",
+      description: "Stop refreshing your bank app. Know the exact second money hits your account — no delays, no guessing, no fake screenshots.",
       color: "from-violet-500 to-purple-600"
     },
     {
-      icon: QrCode,
-      title: "Scan to Pay",
-      description: "Share your unique BKP code or QR — get paid instantly, no bank details needed.",
+      icon: Link2,
+      title: "Payment Links That Convert",
+      description: "Create a link in 10 seconds, share on WhatsApp or email, and get paid before you finish your coffee. No app downloads required for your clients.",
       color: "from-cyan-500 to-blue-600"
     },
     {
-      icon: BarChart3,
-      title: "Business Dashboard",
-      description: "Track payments, monitor payment links, and access powerful financial tools in real-time.",
+      icon: FileCheck,
+      title: "Professional Invoicing",
+      description: "Attach itemized invoices to every payment link. Look professional, get paid faster, and keep a clean paper trail for tax season.",
       color: "from-pink-500 to-rose-600"
     },
     {
-      icon: Zap,
-      title: "Instant Transfers",
-      description: "Send money to anyone in seconds. Zero delays, transparent fees.",
+      icon: Globe2,
+      title: "Cross-Border Payments",
+      description: "Collect payments from clients in London, Lagos, or Nairobi — all into one wallet. Real exchange rates, zero hidden markups.",
       color: "from-orange-500 to-amber-600"
     },
     {
       icon: CreditCard,
       title: "Virtual Cards",
-      description: "Create unlimited virtual cards for secure online shopping worldwide.",
+      description: "Shop globally without a dollar account. Create virtual Visa cards instantly and pay for tools, subscriptions, and ads from your wallet.",
       color: "from-emerald-500 to-teal-600"
     },
     {
       icon: ShieldCheck,
       title: "Bank-Level Security",
-      description: "256-bit encryption and AI-powered fraud detection protect every transaction.",
+      description: "256-bit encryption, biometric authentication, and AI fraud detection. Your money is safer here than in most traditional banks.",
       color: "from-indigo-500 to-violet-600"
     },
   ];
@@ -675,8 +686,12 @@ const Features = () => {
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white font-syne">
             Everything You Need to
             <br />
-            <span className="text-shimmer">Manage Money</span>
+            <span className="text-shimmer">Get Paid Faster</span>
           </h2>
+          <p className="text-lg text-white/60 mt-6 max-w-2xl mx-auto font-dm">
+            Every feature is built around one idea: helping you collect money faster, with less friction, 
+            and zero uncertainty about whether you actually got paid.
+          </p>
         </motion.div>
         
         <motion.div 
