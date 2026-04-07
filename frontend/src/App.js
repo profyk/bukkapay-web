@@ -52,7 +52,8 @@ import {
   DollarSign,
   MessageCircle
 } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { Mail } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -432,13 +433,11 @@ const Hero = () => {
             animate={inView ? "visible" : "hidden"}
             variants={stagger}
           >
+            {/* Launching Soon Badge */}
             <motion.div variants={fadeUp} className="flex items-center gap-3 mb-8">
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-              </span>
-              <span className="text-sm font-medium text-emerald-400 font-dm">
-                Now Live in 30+ African Countries
+              <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold bg-gradient-to-r from-violet-500/20 to-cyan-500/20 text-white border border-violet-500/30 shadow-[0_0_20px_-5px_rgba(139,92,246,0.4)] font-dm">
+                <Rocket className="w-4 h-4 text-violet-400" />
+                🚀 Launching Soon
               </span>
             </motion.div>
             
@@ -448,44 +447,49 @@ const Hero = () => {
             >
               Get Paid Instantly
               <br />
-              <span className="text-shimmer">No More Payment Screenshots</span>
+              <span className="text-shimmer">Across Africa</span>
             </motion.h1>
             
             <motion.p 
               variants={fadeUp}
               className="text-lg md:text-xl text-white/60 mt-8 leading-relaxed max-w-xl font-dm"
             >
-              Create a payment link in seconds, share it anywhere, and get paid instantly with real-time confirmation. 
-              The fastest way to collect payments across Africa — no bank alerts, no fake screenshots, just money in your wallet.
+              We're launching soon. Send payment links, invoices, and bills — no more screenshots or waiting.
+              Be the first to experience the fastest way to collect payments across Africa.
             </motion.p>
             
             <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mt-10">
-              <a 
-                href="https://app.bukkapay.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
+              <button 
+                onClick={() => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' })}
                 className="btn-primary text-white rounded-full px-8 py-4 font-medium flex items-center gap-3 group font-dm"
                 data-testid="hero-cta-primary"
                 data-hover
               >
-                Start Collecting Payments
+                Join the Waitlist
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a 
-                href="https://app.bukkapay.com"
-                target="_blank"
-                rel="noopener noreferrer"
+              </button>
+              <button 
+                onClick={() => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' })}
                 className="flex items-center gap-3 text-white/70 hover:text-white rounded-full px-8 py-4 font-medium border border-white/20 hover:border-white/40 hover:bg-white/5 transition-all duration-300 font-dm"
                 data-testid="hero-cta-secondary"
                 data-hover
               >
-                <Link2 className="w-5 h-5" />
-                Create Payment Link
-              </a>
+                <Sparkles className="w-5 h-5" />
+                Get Early Access
+              </button>
             </motion.div>
             
+            {/* Urgency */}
+            <motion.p variants={fadeUp} className="mt-6 text-sm text-amber-400/80 font-medium font-dm flex items-center gap-2">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+              </span>
+              Limited early access spots available.
+            </motion.p>
+            
             {/* Trust Micro-Copy */}
-            <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-8">
+            <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-6">
               {["No more waiting for bank alerts", "No more fake screenshots", "Instant confirmation"].map((text, i) => (
                 <span key={i} className="flex items-center gap-2 text-sm text-white/50 font-dm">
                   <Check className="w-3.5 h-3.5 text-emerald-400" />
@@ -494,8 +498,8 @@ const Hero = () => {
               ))}
             </motion.div>
 
-            {/* Trust Badges */}
-            <motion.div variants={fadeUp} className="flex items-center gap-6 mt-8">
+            {/* Social Proof */}
+            <motion.div variants={fadeUp} className="flex items-center gap-4 mt-8">
               <div className="flex -space-x-3">
                 {[1,2,3,4,5].map((i) => (
                   <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 border-2 border-[#0a0a0f] flex items-center justify-center">
@@ -504,12 +508,8 @@ const Hero = () => {
                 ))}
               </div>
               <div>
-                <div className="flex items-center gap-1">
-                  {[1,2,3,4,5].map((i) => (
-                    <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-                <p className="text-sm text-white/60 font-dm">50,000+ businesses collecting payments</p>
+                <p className="text-sm font-medium text-white font-dm">100+ people joined</p>
+                <p className="text-xs text-white/50 font-dm">Trusted by early users and growing businesses</p>
               </div>
             </motion.div>
           </motion.div>
@@ -589,10 +589,10 @@ const Hero = () => {
           transition={{ duration: 0.8 }}
           className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 p-8 glass-card rounded-3xl"
         >
-          <StatCounter end={50} suffix="K+" label="Active Users" />
-          <StatCounter end={12} prefix="$" suffix="M+" label="Monthly Volume" />
-          <StatCounter end={30} suffix="+" label="Countries" />
-          <StatCounter end={99.9} suffix="%" label="Uptime" />
+          <StatCounter end={100} suffix="+" label="Waitlist Signups" />
+          <StatCounter end={10} suffix="+" label="Target Countries" />
+          <StatCounter end={30} suffix="+" label="Countries Planned" />
+          <StatCounter end={99.9} suffix="%" label="Uptime Target" />
         </motion.div>
       </div>
     </section>
