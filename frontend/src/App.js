@@ -2069,14 +2069,13 @@ const CTA = () => {
           variants={fadeUp}
         >
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight font-syne">
-            Stop Chasing Payments.
+            Be First to
             <br />
-            Start Receiving Them.
+            Get Paid Smarter.
           </h2>
           <p className="text-white/80 mt-8 text-lg md:text-xl max-w-2xl mx-auto font-dm">
-            Join 50,000+ freelancers, merchants, and businesses across Africa 
-            who've already made the switch. Create your free account in 60 seconds 
-            — no credit card, no paperwork, no excuses.
+            BukkaPay is launching soon. Join the waitlist now and be among the first 
+            to experience the fastest way to collect payments across Africa.
           </p>
           
           <motion.div
@@ -2086,27 +2085,23 @@ const CTA = () => {
             transition={{ delay: 0.2 }}
             className="mt-10 flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <a
-              href="https://app.bukkapay.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' })}
               className="inline-flex items-center justify-center gap-3 bg-white text-gray-900 rounded-full px-10 py-5 font-bold hover:bg-gray-100 shadow-2xl transition-all duration-300 group font-dm"
               data-testid="cta-primary"
               data-hover
             >
-              Start Getting Paid
+              Join the Waitlist
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a
-              href="https://app.bukkapay.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            </button>
+            <button
+              onClick={() => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' })}
               className="inline-flex items-center justify-center gap-3 border-2 border-white/30 text-white rounded-full px-10 py-5 font-bold hover:bg-white/10 transition-all duration-300 group font-dm"
               data-hover
             >
-              <Link2 className="h-5 w-5" />
-              Create Payment Link
-            </a>
+              <Sparkles className="h-5 w-5" />
+              Get Early Access
+            </button>
           </motion.div>
         </motion.div>
       </div>
