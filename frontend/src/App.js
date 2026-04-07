@@ -823,17 +823,15 @@ const Features = () => {
 };
 
 // Micro-Conversion Trust Strip
-const TrustStrip = ({ text, ctaText, ctaHref = "https://app.bukkapay.com" }) => (
+const TrustStrip = ({ text, ctaText }) => (
   <section className="relative py-12 overflow-hidden">
     <div className="absolute inset-0 bg-gradient-to-r from-violet-500/5 via-cyan-500/5 to-violet-500/5" />
     <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
         <p className="text-white/70 text-lg font-medium font-dm text-center">{text}</p>
         {ctaText && (
-          <a
-            href={ctaHref}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={() => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' })}
             className="btn-primary text-white rounded-full px-6 py-3 text-sm font-medium flex items-center gap-2 group font-dm shrink-0"
             data-hover
           >
