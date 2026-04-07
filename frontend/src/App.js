@@ -2226,7 +2226,6 @@ const Home = () => {
       
       <Header />
       <Hero />
-      <TrustMarquee />
       <Waitlist />
       <EarlyAccessBenefits />
       <Features />
@@ -2239,7 +2238,6 @@ const Home = () => {
       <ForBusiness />
       <UseCases />
       <TrustStrip text="Whether you sell on WhatsApp or run an enterprise — BukkaPay works for you." ctaText="Join Waitlist" />
-      <Testimonials />
       <Pricing />
       <Availability />
       <FAQ />
