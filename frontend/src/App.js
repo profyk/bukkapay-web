@@ -1750,7 +1750,7 @@ const Pricing = () => {
         "Real-time payment confirmation",
         "Dashboard access"
       ],
-      cta: "Start for Free",
+      cta: "Coming Soon",
       popular: false,
       gradient: "from-slate-500 to-slate-600"
     },
@@ -1766,7 +1766,7 @@ const Pricing = () => {
         "Priority support",
         "Better organization & tracking"
       ],
-      cta: "Upgrade to Pro",
+      cta: "Coming Soon",
       popular: true,
       gradient: "from-violet-500 to-cyan-500"
     },
