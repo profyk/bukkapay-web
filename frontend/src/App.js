@@ -846,6 +846,140 @@ const TrustStrip = ({ text, ctaText, ctaHref = "https://app.bukkapay.com" }) => 
   </section>
 );
 
+// Waitlist Section
+const Waitlist = () => {
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (email.trim()) {
+      setSubmitted(true);
+      setEmail('');
+    }
+  };
+
+  return (
+    <section id="waitlist" className="relative py-32 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0f] via-[#12121a] to-[#0a0a0f]" />
+      <div className="absolute inset-0 grid-pattern opacity-20" />
+      
+      {/* Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-violet-500/15 rounded-full blur-[150px]" />
+      
+      <div className="max-w-3xl mx-auto px-6 md:px-12 relative z-10 text-center">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={stagger}
+        >
+          <motion.span variants={fadeUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-violet-500/10 text-violet-400 border border-violet-500/20 mb-6 font-dm">
+            <Mail className="w-4 h-4" />
+            Join the Waitlist
+          </motion.span>
+          
+          <motion.h2 variants={fadeUp} className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white font-syne">
+            Be First to <span className="text-shimmer">Get Paid Smarter</span>
+          </motion.h2>
+          
+          <motion.p variants={fadeUp} className="text-lg text-white/60 mt-6 max-w-xl mx-auto font-dm">
+            Sign up now and get early access when we launch. Limited spots available.
+          </motion.p>
+
+          <motion.div variants={fadeUp} className="mt-10">
+            {submitted ? (
+              <div className="glass-card rounded-2xl p-8 max-w-md mx-auto neon-border">
+                <div className="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-4">
+                  <Check className="w-8 h-8 text-emerald-400" />
+                </div>
+                <h3 className="text-xl font-bold text-white font-syne mb-2">You're on the list! 🎉</h3>
+                <p className="text-white/60 font-dm">We'll notify you as soon as BukkaPay launches.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  required
+                  className="flex-1 px-5 py-4 rounded-full bg-white/5 border border-white/10 text-white placeholder:text-white/40 focus:outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all font-dm"
+                />
+                <button
+                  type="submit"
+                  className="btn-primary text-white rounded-full px-8 py-4 font-medium flex items-center justify-center gap-2 group font-dm shrink-0 shadow-lg shadow-violet-500/20"
+                  data-hover
+                >
+                  Join Waitlist
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </form>
+            )}
+          </motion.div>
+          
+          <motion.p variants={fadeUp} className="text-sm text-white/40 mt-4 font-dm">
+            Be the first to experience faster payments with BukkaPay.
+          </motion.p>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+// Early Access Benefits
+const EarlyAccessBenefits = () => {
+  const benefits = [
+    { icon: Rocket, title: "Early Access", description: "Get access to BukkaPay before anyone else and start collecting payments from day one.", color: "from-violet-500 to-purple-600" },
+    { icon: DollarSign, title: "Lower Fees at Launch", description: "Early adopters enjoy reduced transaction fees — pay less, keep more of what you earn.", color: "from-emerald-500 to-teal-600" },
+    { icon: UserPlus, title: "Priority Onboarding", description: "Skip the queue with dedicated onboarding support to get your business set up fast.", color: "from-cyan-500 to-blue-600" },
+    { icon: Heart, title: "Shape the Product", description: "Your feedback helps us build BukkaPay. Help shape the future of payments in Africa.", color: "from-pink-500 to-rose-600" },
+  ];
+
+  return (
+    <section className="relative py-32 overflow-hidden">
+      <div className="absolute inset-0 bg-[#0a0a0f]" />
+      <div className="absolute inset-0 dot-pattern opacity-20" />
+      
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
+        <motion.div 
+          className="text-center mb-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+        >
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20 mb-6 font-dm">
+            <Star className="w-4 h-4" />
+            Early Adopter Perks
+          </span>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white font-syne">
+            Why <span className="text-shimmer">Join Early?</span>
+          </h2>
+        </motion.div>
+
+        <motion.div
+          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={stagger}
+        >
+          {benefits.map((b, i) => (
+            <motion.div key={i} variants={fadeUp} className="glass-card rounded-3xl p-8 group text-center" data-hover>
+              <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${b.color} flex items-center justify-center mb-6 mx-auto shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                <b.icon className="h-7 w-7 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-2 font-syne">{b.title}</h3>
+              <p className="text-white/60 text-sm font-dm">{b.description}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
 
 const PaymentLinks = () => {
   const steps = [
