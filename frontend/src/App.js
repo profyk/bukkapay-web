@@ -52,7 +52,8 @@ import {
   DollarSign,
   MessageCircle
 } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { Mail } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -320,27 +321,15 @@ const Header = () => {
           
           {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center gap-4">
-            <a 
-              href="https://app.bukkapay.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-white/70 hover:text-white font-medium transition-colors font-dm"
-              data-testid="login-btn"
-              data-hover
-            >
-              Sign In
-            </a>
-            <a 
-              href="https://app.bukkapay.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
+            <button 
+              onClick={() => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' })}
               className="btn-primary text-white rounded-full px-6 py-3 font-medium flex items-center gap-2 group font-dm"
               data-testid="get-started-btn"
               data-hover
             >
-              Get Started
+              Join Waitlist
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
+            </button>
           </div>
           
           {/* Mobile Menu Button */}
@@ -376,8 +365,7 @@ const Header = () => {
                   </motion.button>
                 ))}
                 <div className="flex gap-3 pt-4 mt-2 border-t border-white/10">
-                  <a href="https://app.bukkapay.com" className="flex-1 text-center py-3 text-white/70 border border-white/20 rounded-full font-medium font-dm">Sign In</a>
-                  <a href="https://app.bukkapay.com" className="flex-1 text-center py-3 btn-primary text-white rounded-full font-medium font-dm">Get Started</a>
+                  <button onClick={() => { document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' }); setMobileMenuOpen(false); }} className="flex-1 text-center py-3 btn-primary text-white rounded-full font-medium font-dm">Join Waitlist</button>
                 </div>
               </nav>
             </motion.div>
@@ -432,13 +420,11 @@ const Hero = () => {
             animate={inView ? "visible" : "hidden"}
             variants={stagger}
           >
+            {/* Launching Soon Badge */}
             <motion.div variants={fadeUp} className="flex items-center gap-3 mb-8">
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-              </span>
-              <span className="text-sm font-medium text-emerald-400 font-dm">
-                Now Live in 30+ African Countries
+              <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold bg-gradient-to-r from-violet-500/20 to-cyan-500/20 text-white border border-violet-500/30 shadow-[0_0_20px_-5px_rgba(139,92,246,0.4)] font-dm">
+                <Rocket className="w-4 h-4 text-violet-400" />
+                🚀 Launching Soon
               </span>
             </motion.div>
             
@@ -448,44 +434,49 @@ const Hero = () => {
             >
               Get Paid Instantly
               <br />
-              <span className="text-shimmer">No More Payment Screenshots</span>
+              <span className="text-shimmer">Across Africa</span>
             </motion.h1>
             
             <motion.p 
               variants={fadeUp}
               className="text-lg md:text-xl text-white/60 mt-8 leading-relaxed max-w-xl font-dm"
             >
-              Create a payment link in seconds, share it anywhere, and get paid instantly with real-time confirmation. 
-              The fastest way to collect payments across Africa — no bank alerts, no fake screenshots, just money in your wallet.
+              We're launching soon. Send payment links, invoices, and bills — no more screenshots or waiting.
+              Be the first to experience the fastest way to collect payments across Africa.
             </motion.p>
             
             <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mt-10">
-              <a 
-                href="https://app.bukkapay.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
+              <button 
+                onClick={() => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' })}
                 className="btn-primary text-white rounded-full px-8 py-4 font-medium flex items-center gap-3 group font-dm"
                 data-testid="hero-cta-primary"
                 data-hover
               >
-                Start Collecting Payments
+                Join the Waitlist
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a 
-                href="https://app.bukkapay.com"
-                target="_blank"
-                rel="noopener noreferrer"
+              </button>
+              <button 
+                onClick={() => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' })}
                 className="flex items-center gap-3 text-white/70 hover:text-white rounded-full px-8 py-4 font-medium border border-white/20 hover:border-white/40 hover:bg-white/5 transition-all duration-300 font-dm"
                 data-testid="hero-cta-secondary"
                 data-hover
               >
-                <Link2 className="w-5 h-5" />
-                Create Payment Link
-              </a>
+                <Sparkles className="w-5 h-5" />
+                Get Early Access
+              </button>
             </motion.div>
             
+            {/* Urgency */}
+            <motion.p variants={fadeUp} className="mt-6 text-sm text-amber-400/80 font-medium font-dm flex items-center gap-2">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+              </span>
+              Limited early access spots available.
+            </motion.p>
+            
             {/* Trust Micro-Copy */}
-            <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-8">
+            <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-6">
               {["No more waiting for bank alerts", "No more fake screenshots", "Instant confirmation"].map((text, i) => (
                 <span key={i} className="flex items-center gap-2 text-sm text-white/50 font-dm">
                   <Check className="w-3.5 h-3.5 text-emerald-400" />
@@ -494,8 +485,8 @@ const Hero = () => {
               ))}
             </motion.div>
 
-            {/* Trust Badges */}
-            <motion.div variants={fadeUp} className="flex items-center gap-6 mt-8">
+            {/* Social Proof */}
+            <motion.div variants={fadeUp} className="flex items-center gap-4 mt-8">
               <div className="flex -space-x-3">
                 {[1,2,3,4,5].map((i) => (
                   <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 border-2 border-[#0a0a0f] flex items-center justify-center">
@@ -504,12 +495,8 @@ const Hero = () => {
                 ))}
               </div>
               <div>
-                <div className="flex items-center gap-1">
-                  {[1,2,3,4,5].map((i) => (
-                    <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-                <p className="text-sm text-white/60 font-dm">50,000+ businesses collecting payments</p>
+                <p className="text-sm font-medium text-white font-dm">100+ people joined</p>
+                <p className="text-xs text-white/50 font-dm">Trusted by early users and growing businesses</p>
               </div>
             </motion.div>
           </motion.div>
@@ -589,10 +576,10 @@ const Hero = () => {
           transition={{ duration: 0.8 }}
           className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 p-8 glass-card rounded-3xl"
         >
-          <StatCounter end={50} suffix="K+" label="Active Users" />
-          <StatCounter end={12} prefix="$" suffix="M+" label="Monthly Volume" />
-          <StatCounter end={30} suffix="+" label="Countries" />
-          <StatCounter end={99.9} suffix="%" label="Uptime" />
+          <StatCounter end={100} suffix="+" label="Waitlist Signups" />
+          <StatCounter end={10} suffix="+" label="Target Countries" />
+          <StatCounter end={30} suffix="+" label="Countries Planned" />
+          <StatCounter end={99.9} suffix="%" label="Uptime Target" />
         </motion.div>
       </div>
     </section>
@@ -836,28 +823,160 @@ const Features = () => {
 };
 
 // Micro-Conversion Trust Strip
-const TrustStrip = ({ text, ctaText, ctaHref = "https://app.bukkapay.com" }) => (
+const TrustStrip = ({ text, ctaText }) => (
   <section className="relative py-12 overflow-hidden">
     <div className="absolute inset-0 bg-gradient-to-r from-violet-500/5 via-cyan-500/5 to-violet-500/5" />
     <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
         <p className="text-white/70 text-lg font-medium font-dm text-center">{text}</p>
         {ctaText && (
-          <a
-            href={ctaHref}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={() => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' })}
             className="btn-primary text-white rounded-full px-6 py-3 text-sm font-medium flex items-center gap-2 group font-dm shrink-0"
             data-hover
           >
             {ctaText}
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </a>
+          </button>
         )}
       </div>
     </div>
   </section>
 );
+
+// Waitlist Section
+const Waitlist = () => {
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (email.trim()) {
+      setSubmitted(true);
+      setEmail('');
+    }
+  };
+
+  return (
+    <section id="waitlist" className="relative py-32 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0f] via-[#12121a] to-[#0a0a0f]" />
+      <div className="absolute inset-0 grid-pattern opacity-20" />
+      
+      {/* Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-violet-500/15 rounded-full blur-[150px]" />
+      
+      <div className="max-w-3xl mx-auto px-6 md:px-12 relative z-10 text-center">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={stagger}
+        >
+          <motion.span variants={fadeUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-violet-500/10 text-violet-400 border border-violet-500/20 mb-6 font-dm">
+            <Mail className="w-4 h-4" />
+            Join the Waitlist
+          </motion.span>
+          
+          <motion.h2 variants={fadeUp} className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white font-syne">
+            Be First to <span className="text-shimmer">Get Paid Smarter</span>
+          </motion.h2>
+          
+          <motion.p variants={fadeUp} className="text-lg text-white/60 mt-6 max-w-xl mx-auto font-dm">
+            Sign up now and get early access when we launch. Limited spots available.
+          </motion.p>
+
+          <motion.div variants={fadeUp} className="mt-10">
+            {submitted ? (
+              <div className="glass-card rounded-2xl p-8 max-w-md mx-auto neon-border">
+                <div className="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-4">
+                  <Check className="w-8 h-8 text-emerald-400" />
+                </div>
+                <h3 className="text-xl font-bold text-white font-syne mb-2">You're on the list! 🎉</h3>
+                <p className="text-white/60 font-dm">We'll notify you as soon as BukkaPay launches.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  required
+                  className="flex-1 px-5 py-4 rounded-full bg-white/5 border border-white/10 text-white placeholder:text-white/40 focus:outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all font-dm"
+                />
+                <button
+                  type="submit"
+                  className="btn-primary text-white rounded-full px-8 py-4 font-medium flex items-center justify-center gap-2 group font-dm shrink-0 shadow-lg shadow-violet-500/20"
+                  data-hover
+                >
+                  Join Waitlist
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </form>
+            )}
+          </motion.div>
+          
+          <motion.p variants={fadeUp} className="text-sm text-white/40 mt-4 font-dm">
+            Be the first to experience faster payments with BukkaPay.
+          </motion.p>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+// Early Access Benefits
+const EarlyAccessBenefits = () => {
+  const benefits = [
+    { icon: Rocket, title: "Early Access", description: "Get access to BukkaPay before anyone else and start collecting payments from day one.", color: "from-violet-500 to-purple-600" },
+    { icon: DollarSign, title: "Lower Fees at Launch", description: "Early adopters enjoy reduced transaction fees — pay less, keep more of what you earn.", color: "from-emerald-500 to-teal-600" },
+    { icon: UserPlus, title: "Priority Onboarding", description: "Skip the queue with dedicated onboarding support to get your business set up fast.", color: "from-cyan-500 to-blue-600" },
+    { icon: Heart, title: "Shape the Product", description: "Your feedback helps us build BukkaPay. Help shape the future of payments in Africa.", color: "from-pink-500 to-rose-600" },
+  ];
+
+  return (
+    <section className="relative py-32 overflow-hidden">
+      <div className="absolute inset-0 bg-[#0a0a0f]" />
+      <div className="absolute inset-0 dot-pattern opacity-20" />
+      
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
+        <motion.div 
+          className="text-center mb-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+        >
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20 mb-6 font-dm">
+            <Star className="w-4 h-4" />
+            Early Adopter Perks
+          </span>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white font-syne">
+            Why <span className="text-shimmer">Join Early?</span>
+          </h2>
+        </motion.div>
+
+        <motion.div
+          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={stagger}
+        >
+          {benefits.map((b, i) => (
+            <motion.div key={i} variants={fadeUp} className="glass-card rounded-3xl p-8 group text-center" data-hover>
+              <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${b.color} flex items-center justify-center mb-6 mx-auto shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                <b.icon className="h-7 w-7 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-2 font-syne">{b.title}</h3>
+              <p className="text-white/60 text-sm font-dm">{b.description}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+};
 
 
 const PaymentLinks = () => {
@@ -1629,7 +1748,7 @@ const Pricing = () => {
         "Real-time payment confirmation",
         "Dashboard access"
       ],
-      cta: "Start for Free",
+      cta: "Coming Soon",
       popular: false,
       gradient: "from-slate-500 to-slate-600"
     },
@@ -1645,7 +1764,7 @@ const Pricing = () => {
         "Priority support",
         "Better organization & tracking"
       ],
-      cta: "Upgrade to Pro",
+      cta: "Coming Soon",
       popular: true,
       gradient: "from-violet-500 to-cyan-500"
     },
@@ -1680,9 +1799,14 @@ const Pricing = () => {
           viewport={{ once: true }}
           variants={fadeUp}
         >
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 mb-6 font-dm">
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 mb-4 font-dm">
             <Receipt className="w-4 h-4" />
             Pricing
+          </span>
+          <span className="block mb-6">
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20 font-dm">
+              Available at launch
+            </span>
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white font-syne">
             Simple, Transparent
@@ -1943,14 +2067,13 @@ const CTA = () => {
           variants={fadeUp}
         >
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight font-syne">
-            Stop Chasing Payments.
+            Be First to
             <br />
-            Start Receiving Them.
+            Get Paid Smarter.
           </h2>
           <p className="text-white/80 mt-8 text-lg md:text-xl max-w-2xl mx-auto font-dm">
-            Join 50,000+ freelancers, merchants, and businesses across Africa 
-            who've already made the switch. Create your free account in 60 seconds 
-            — no credit card, no paperwork, no excuses.
+            BukkaPay is launching soon. Join the waitlist now and be among the first 
+            to experience the fastest way to collect payments across Africa.
           </p>
           
           <motion.div
@@ -1960,27 +2083,23 @@ const CTA = () => {
             transition={{ delay: 0.2 }}
             className="mt-10 flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <a
-              href="https://app.bukkapay.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' })}
               className="inline-flex items-center justify-center gap-3 bg-white text-gray-900 rounded-full px-10 py-5 font-bold hover:bg-gray-100 shadow-2xl transition-all duration-300 group font-dm"
               data-testid="cta-primary"
               data-hover
             >
-              Start Getting Paid
+              Join the Waitlist
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a
-              href="https://app.bukkapay.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            </button>
+            <button
+              onClick={() => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' })}
               className="inline-flex items-center justify-center gap-3 border-2 border-white/30 text-white rounded-full px-10 py-5 font-bold hover:bg-white/10 transition-all duration-300 group font-dm"
               data-hover
             >
-              <Link2 className="h-5 w-5" />
-              Create Payment Link
-            </a>
+              <Sparkles className="h-5 w-5" />
+              Get Early Access
+            </button>
           </motion.div>
         </motion.div>
       </div>
@@ -2133,16 +2252,18 @@ const Home = () => {
       <Header />
       <Hero />
       <TrustMarquee />
+      <Waitlist />
+      <EarlyAccessBenefits />
       <Features />
-      <TrustStrip text="No more chasing clients. No more fake payment screenshots." ctaText="Start Getting Paid" />
+      <TrustStrip text="No more chasing clients. No more fake payment screenshots." ctaText="Join the Waitlist" />
       <PaymentLinks />
       <HowItWorks />
       <Security />
-      <TrustStrip text="Built for Africa. Trusted by 50,000+ businesses across 30+ countries." ctaText="Create Payment Link" />
+      <TrustStrip text="Built for Africa. Launching soon in 10+ countries." ctaText="Get Early Access" />
       <WhyBukkaPay />
       <ForBusiness />
       <UseCases />
-      <TrustStrip text="Whether you sell on WhatsApp or run an enterprise — BukkaPay works for you." ctaText="Start Free Today" />
+      <TrustStrip text="Whether you sell on WhatsApp or run an enterprise — BukkaPay works for you." ctaText="Join Waitlist" />
       <Testimonials />
       <Pricing />
       <Availability />
