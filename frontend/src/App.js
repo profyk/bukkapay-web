@@ -321,27 +321,15 @@ const Header = () => {
           
           {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center gap-4">
-            <a 
-              href="https://app.bukkapay.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-white/70 hover:text-white font-medium transition-colors font-dm"
-              data-testid="login-btn"
-              data-hover
-            >
-              Sign In
-            </a>
-            <a 
-              href="https://app.bukkapay.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
+            <button 
+              onClick={() => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' })}
               className="btn-primary text-white rounded-full px-6 py-3 font-medium flex items-center gap-2 group font-dm"
               data-testid="get-started-btn"
               data-hover
             >
-              Get Started
+              Join Waitlist
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
+            </button>
           </div>
           
           {/* Mobile Menu Button */}
@@ -377,8 +365,7 @@ const Header = () => {
                   </motion.button>
                 ))}
                 <div className="flex gap-3 pt-4 mt-2 border-t border-white/10">
-                  <a href="https://app.bukkapay.com" className="flex-1 text-center py-3 text-white/70 border border-white/20 rounded-full font-medium font-dm">Sign In</a>
-                  <a href="https://app.bukkapay.com" className="flex-1 text-center py-3 btn-primary text-white rounded-full font-medium font-dm">Get Started</a>
+                  <button onClick={() => { document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' }); setMobileMenuOpen(false); }} className="flex-1 text-center py-3 btn-primary text-white rounded-full font-medium font-dm">Join Waitlist</button>
                 </div>
               </nav>
             </motion.div>
