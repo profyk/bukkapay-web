@@ -485,20 +485,7 @@ const Hero = () => {
               ))}
             </motion.div>
 
-            {/* Social Proof */}
-            <motion.div variants={fadeUp} className="flex items-center gap-4 mt-8">
-              <div className="flex -space-x-3">
-                {[1,2,3,4,5].map((i) => (
-                  <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 border-2 border-[#0a0a0f] flex items-center justify-center">
-                    <span className="text-xs font-bold text-white">{String.fromCharCode(64 + i)}</span>
-                  </div>
-                ))}
-              </div>
-              <div>
-                <p className="text-sm font-medium text-white font-dm">100+ people joined</p>
-                <p className="text-xs text-white/50 font-dm">Trusted by early users and growing businesses</p>
-              </div>
-            </motion.div>
+            {/* Social Proof - will be added when real users join */}
           </motion.div>
           
           {/* Right Content - Phone Mockup */}
@@ -569,18 +556,6 @@ const Hero = () => {
         </div>
 
         {/* Stats Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 p-8 glass-card rounded-3xl"
-        >
-          <StatCounter end={100} suffix="+" label="Waitlist Signups" />
-          <StatCounter end={10} suffix="+" label="Target Countries" />
-          <StatCounter end={30} suffix="+" label="Countries Planned" />
-          <StatCounter end={99.9} suffix="%" label="Uptime Target" />
-        </motion.div>
       </div>
     </section>
   );
@@ -1117,7 +1092,7 @@ const PaymentLinks = () => {
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mt-16">
-          <p className="text-white/50 mb-4 font-dm">Join 50,000+ businesses already using BukkaPay payment links</p>
+          <p className="text-white/50 mb-4 font-dm">Create a payment link and start collecting payments instantly</p>
           <div className="flex flex-wrap gap-4 justify-center">
             <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><Globe2 className="w-4 h-4 text-violet-400" /><span className="text-sm text-white/70 font-dm">Cross-border payments</span></div>
             <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><Zap className="w-4 h-4 text-cyan-400" /><span className="text-sm text-white/70 font-dm">Instant settlement</span></div>
@@ -1716,7 +1691,7 @@ const UseCases = () => {
           viewport={{ once: true }}
           className="text-center mt-16"
         >
-          <p className="text-white/40 text-sm font-dm mb-4">Trusted by businesses across 30+ countries</p>
+          <p className="text-white/40 text-sm font-dm mb-4">Built for businesses across Africa</p>
           <a 
             href="https://app.bukkapay.com"
             target="_blank"
