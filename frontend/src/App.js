@@ -485,20 +485,7 @@ const Hero = () => {
               ))}
             </motion.div>
 
-            {/* Social Proof */}
-            <motion.div variants={fadeUp} className="flex items-center gap-4 mt-8">
-              <div className="flex -space-x-3">
-                {[1,2,3,4,5].map((i) => (
-                  <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 border-2 border-[#0a0a0f] flex items-center justify-center">
-                    <span className="text-xs font-bold text-white">{String.fromCharCode(64 + i)}</span>
-                  </div>
-                ))}
-              </div>
-              <div>
-                <p className="text-sm font-medium text-white font-dm">100+ people joined</p>
-                <p className="text-xs text-white/50 font-dm">Trusted by early users and growing businesses</p>
-              </div>
-            </motion.div>
+            {/* Social Proof - will be added when real users join */}
           </motion.div>
           
           {/* Right Content - Phone Mockup */}
@@ -569,43 +556,14 @@ const Hero = () => {
         </div>
 
         {/* Stats Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 p-8 glass-card rounded-3xl"
-        >
-          <StatCounter end={100} suffix="+" label="Waitlist Signups" />
-          <StatCounter end={10} suffix="+" label="Target Countries" />
-          <StatCounter end={30} suffix="+" label="Countries Planned" />
-          <StatCounter end={99.9} suffix="%" label="Uptime Target" />
-        </motion.div>
       </div>
     </section>
   );
 };
 
 // Trust Marquee Section
-const TrustMarquee = () => {
-  const partners = [
-    "MTN Mobile Money", "Flutterwave", "Paystack", "Chipper Cash", 
-    "M-Pesa", "Access Bank", "Zenith Bank", "GTBank", "UBA", "Visa", "Mastercard"
-  ];
-  
-  return (
-    <section className="bg-[#0a0a0f] border-y border-white/5 py-8 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0f] via-transparent to-[#0a0a0f] z-10 pointer-events-none" />
-      <Marquee speed={40} gradient={false}>
-        {[...partners, ...partners].map((partner, index) => (
-          <div key={index} className="flex items-center mx-12">
-            <span className="text-xl font-semibold text-white/30 font-space">{partner}</span>
-          </div>
-        ))}
-      </Marquee>
-    </section>
-  );
-};
+
+
 
 // Features Section
 const Features = () => {
@@ -1117,7 +1075,7 @@ const PaymentLinks = () => {
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mt-16">
-          <p className="text-white/50 mb-4 font-dm">Join 50,000+ businesses already using BukkaPay payment links</p>
+          <p className="text-white/50 mb-4 font-dm">Create a payment link and start collecting payments instantly</p>
           <div className="flex flex-wrap gap-4 justify-center">
             <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><Globe2 className="w-4 h-4 text-violet-400" /><span className="text-sm text-white/70 font-dm">Cross-border payments</span></div>
             <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><Zap className="w-4 h-4 text-cyan-400" /><span className="text-sm text-white/70 font-dm">Instant settlement</span></div>
@@ -1401,116 +1359,8 @@ const ForBusiness = () => {
 };
 
 // Testimonials Section
-const Testimonials = () => {
-  const testimonials = [
-    {
-      name: "Amina Osei",
-      role: "Freelance Designer, Lagos",
-      quote: "BukkaPay changed my freelance game. I send invoices, attach my portfolio, and get paid the same day. No more chasing clients for weeks.",
-      rating: 5,
-      avatar: "AO"
-    },
-    {
-      name: "David Mensah",
-      role: "CEO, TechBridge Solutions",
-      quote: "We process over R500K monthly through BukkaPay. The business dashboard gives us full visibility, and the API integration was seamless.",
-      rating: 5,
-      avatar: "DM"
-    },
-    {
-      name: "Fatima Al-Hassan",
-      role: "E-commerce Merchant, Nairobi",
-      quote: "My customers love paying via BukkaPay links. I just create a link, share on WhatsApp, and money lands in my wallet instantly. It's magic.",
-      rating: 5,
-      avatar: "FA"
-    },
-    {
-      name: "Thabo Mokoena",
-      role: "Property Manager, Johannesburg",
-      quote: "Collecting rent used to be a nightmare. Now I send payment links to all my tenants. Automated, tracked, and hassle-free.",
-      rating: 5,
-      avatar: "TM"
-    }
-  ];
 
-  return (
-    <section className="relative py-32 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0f] via-[#0d0d14] to-[#0a0a0f]" />
-      <div className="absolute inset-0 dot-pattern opacity-20" />
-      
-      <div className="absolute top-1/3 left-0 w-80 h-80 bg-pink-500/10 rounded-full blur-[150px]" />
-      <div className="absolute bottom-1/3 right-0 w-96 h-96 bg-violet-500/10 rounded-full blur-[120px]" />
-      
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
-        <motion.div 
-          className="text-center mb-20"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeUp}
-        >
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-pink-500/10 text-pink-400 border border-pink-500/20 mb-6 font-dm">
-            <Heart className="w-4 h-4" />
-            Loved by Thousands
-          </span>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white font-syne">
-            Real People,
-            <br />
-            <span className="text-shimmer">Real Results</span>
-          </h2>
-          <p className="text-lg text-white/60 mt-6 max-w-2xl mx-auto font-dm">
-            From freelancers in Lagos to enterprises in Johannesburg — hear how BukkaPay 
-            is transforming the way Africa does business.
-          </p>
-        </motion.div>
 
-        <motion.div 
-          className="grid md:grid-cols-2 gap-6"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={stagger}
-        >
-          {testimonials.map((t, i) => (
-            <motion.div
-              key={i}
-              variants={fadeUp}
-              className="glass-card rounded-3xl p-8 relative group"
-              data-testid={`testimonial-${i}`}
-              data-hover
-            >
-              <div className="absolute top-6 right-8 opacity-10 group-hover:opacity-20 transition-opacity">
-                <Quote className="w-16 h-16 text-violet-400" />
-              </div>
-              
-              <div className="flex items-center gap-1 mb-4">
-                {[...Array(t.rating)].map((_, j) => (
-                  <Star key={j} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                ))}
-              </div>
-              
-              <p className="text-white/80 text-lg leading-relaxed mb-8 font-dm relative z-10">
-                "{t.quote}"
-              </p>
-              
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center">
-                  <span className="text-sm font-bold text-white font-syne">{t.avatar}</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-white font-syne">{t.name}</p>
-                  <p className="text-sm text-white/50 font-dm">{t.role}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
-// Why BukkaPay - Competitive Advantage
 const WhyBukkaPay = () => {
   const advantages = [
     {
@@ -1716,7 +1566,7 @@ const UseCases = () => {
           viewport={{ once: true }}
           className="text-center mt-16"
         >
-          <p className="text-white/40 text-sm font-dm mb-4">Trusted by businesses across 30+ countries</p>
+          <p className="text-white/40 text-sm font-dm mb-4">Built for businesses across Africa</p>
           <a 
             href="https://app.bukkapay.com"
             target="_blank"
@@ -2251,7 +2101,6 @@ const Home = () => {
       
       <Header />
       <Hero />
-      <TrustMarquee />
       <Waitlist />
       <EarlyAccessBenefits />
       <Features />
@@ -2264,7 +2113,6 @@ const Home = () => {
       <ForBusiness />
       <UseCases />
       <TrustStrip text="Whether you sell on WhatsApp or run an enterprise — BukkaPay works for you." ctaText="Join Waitlist" />
-      <Testimonials />
       <Pricing />
       <Availability />
       <FAQ />

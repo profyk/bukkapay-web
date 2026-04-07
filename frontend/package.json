@@ -63,7 +63,7 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "BUILD_PATH=dist craco build",
+    "build": "BUILD_PATH=dist craco build && ([ -d dist ] || mv build dist)",
     "test": "react-scripts test"
   },
   "browserslist": {
