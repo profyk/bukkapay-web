@@ -1801,9 +1801,14 @@ const Pricing = () => {
           viewport={{ once: true }}
           variants={fadeUp}
         >
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 mb-6 font-dm">
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 mb-4 font-dm">
             <Receipt className="w-4 h-4" />
             Pricing
+          </span>
+          <span className="block mb-6">
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20 font-dm">
+              Available at launch
+            </span>
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white font-syne">
             Simple, Transparent
