@@ -320,16 +320,28 @@ const Header = () => {
           </nav>
           
           {/* Desktop CTAs */}
-          <div className="hidden lg:flex items-center gap-4">
-            <button 
-              onClick={() => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' })}
-              className="btn-primary text-white rounded-full px-6 py-3 font-medium flex items-center gap-2 group font-dm"
-              data-testid="get-started-btn"
+          <div className="hidden lg:flex items-center gap-3">
+            <a 
+              href="https://app.bukkapay.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-2.5 text-sm text-white/80 hover:text-white rounded-full border border-white/15 hover:border-white/30 hover:bg-white/5 transition-all duration-300 font-medium font-dm"
+              data-testid="login-btn"
               data-hover
             >
-              Join Waitlist
+              Log In
+            </a>
+            <a 
+              href="https://app.bukkapay.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary text-white rounded-full px-6 py-2.5 text-sm font-medium flex items-center gap-2 group font-dm"
+              data-testid="signup-btn"
+              data-hover
+            >
+              Sign Up
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </button>
+            </a>
           </div>
           
           {/* Mobile Menu Button */}
@@ -351,7 +363,7 @@ const Header = () => {
               exit={{ opacity: 0, height: 0 }}
               className="lg:hidden py-6 border-t border-white/10 overflow-hidden"
             >
-              <nav className="flex flex-col gap-2">
+              <nav className="flex flex-col gap-1">
                 {navLinks.map((link, i) => (
                   <motion.button
                     key={link}
@@ -359,14 +371,37 @@ const Header = () => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.05 }}
                     onClick={() => scrollTo(link.toLowerCase().replace(/\s+/g, "-"))}
-                    className="text-left py-3 text-white/70 hover:text-white transition-colors font-medium font-dm"
+                    className="text-left py-3 px-4 text-white/70 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-200 font-medium font-dm flex items-center gap-3"
                   >
+                    <ChevronRight className="w-4 h-4 text-violet-400" />
                     {link}
                   </motion.button>
                 ))}
-                <div className="flex gap-3 pt-4 mt-2 border-t border-white/10">
-                  <button onClick={() => { document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' }); setMobileMenuOpen(false); }} className="flex-1 text-center py-3 btn-primary text-white rounded-full font-medium font-dm">Join Waitlist</button>
-                </div>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                  className="flex flex-col gap-3 pt-4 mt-3 border-t border-white/10"
+                >
+                  <a 
+                    href="https://app.bukkapay.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-center py-3 text-white/80 hover:text-white rounded-full border border-white/15 hover:border-white/30 hover:bg-white/5 transition-all duration-300 font-medium font-dm"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Log In
+                  </a>
+                  <a 
+                    href="https://app.bukkapay.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-center py-3 btn-primary text-white rounded-full font-medium font-dm"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Sign Up Free
+                  </a>
+                </motion.div>
               </nav>
             </motion.div>
           )}
