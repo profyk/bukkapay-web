@@ -322,6 +322,15 @@ const Header = () => {
           {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center gap-3">
             <a 
+              href="mailto:marketing@bukkapay.com"
+              className="px-5 py-2.5 text-sm text-white/80 hover:text-white rounded-full hover:bg-white/5 transition-all duration-300 font-medium font-dm flex items-center gap-2"
+              data-testid="contact-sales-btn"
+              data-hover
+            >
+              <Mail className="w-4 h-4" />
+              Contact Sales
+            </a>
+            <a 
               href="https://app.bukkapay.com"
               target="_blank"
               rel="noopener noreferrer"
@@ -383,6 +392,14 @@ const Header = () => {
                   transition={{ delay: 0.4 }}
                   className="flex flex-col gap-3 pt-4 mt-3 border-t border-white/10"
                 >
+                  <a 
+                    href="mailto:marketing@bukkapay.com"
+                    className="text-center py-3 text-white/80 hover:text-white rounded-full hover:bg-white/5 transition-all duration-300 font-medium font-dm flex items-center justify-center gap-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <Mail className="w-4 h-4" />
+                    Contact Sales
+                  </a>
                   <a 
                     href="https://app.bukkapay.com"
                     target="_blank"
