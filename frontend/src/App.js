@@ -386,6 +386,33 @@ const Header = () => {
                     {link}
                   </motion.button>
                 ))}
+                
+                {/* Legal Links */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.35 }}
+                  className="pt-3 mt-2 border-t border-white/10"
+                >
+                  <p className="px-4 text-xs uppercase tracking-wider text-white/30 font-dm mb-2">Legal</p>
+                  {[
+                    { label: "Privacy Policy", path: "/privacy" },
+                    { label: "Terms & Conditions", path: "/terms" },
+                    { label: "Cookie Policy", path: "/cookies" },
+                  ].map((item, i) => (
+                    <Link
+                      key={item.label}
+                      to={item.path}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block text-left py-2.5 px-4 text-white/50 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-200 text-sm font-dm flex items-center gap-3"
+                    >
+                      <ChevronRight className="w-3 h-3 text-violet-400/60" />
+                      {item.label}
+                    </Link>
+                  ))}
+                </motion.div>
+
+                {/* CTA Buttons */}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
