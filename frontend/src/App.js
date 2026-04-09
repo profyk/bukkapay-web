@@ -1039,10 +1039,10 @@ const PaymentLinks = () => {
             Payment Links
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white font-syne">
-            Get Paid in<br /><span className="text-shimmer">Four Simple Steps</span>
+            Payment Links with<br /><span className="text-shimmer">Billing & Auto-Reconciliation</span>
           </h2>
           <p className="text-lg text-white/60 mt-6 max-w-3xl mx-auto font-dm">
-            Create a payment link, attach your invoice, send it to clients anywhere in the world, and receive instant payments with immediate confirmation.
+            Create payment links, attach invoices and bills, and let BukkaPay automatically reconcile every transaction — no manual matching, no spreadsheets, just instant clarity.
           </p>
         </motion.div>
 
@@ -1076,13 +1076,13 @@ const PaymentLinks = () => {
                   <BadgeCheck className="w-3.5 h-3.5" /> Professional Invoicing
                 </span>
                 <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 font-syne">
-                  Attach Invoices &<br /><span className="text-shimmer">Get Paid Faster</span>
+                  Billing & Invoicing with<br /><span className="text-shimmer">Auto-Reconciliation</span>
                 </h3>
                 <p className="text-lg text-white/60 mb-8 font-dm leading-relaxed">
-                  Add professional invoices, quotations, and receipts directly to your payment links. Your clients see exactly what they're paying for — leading to faster payments and fewer disputes.
+                  Attach professional invoices, bills, and quotations to your payment links. BukkaPay automatically matches every payment to the right invoice — eliminating manual reconciliation and giving you real-time financial clarity.
                 </p>
                 <ul className="space-y-4 mb-8">
-                  {["PDF invoices & quotations supported", "Automatic payment reconciliation", "Real-time payment notifications", "Payment history & analytics", "Multi-currency support (USD, EUR, ZAR, NGN...)"].map((item, i) => (
+                  {["Auto-reconciliation — payments matched to invoices instantly", "Billing schedules for recurring clients", "PDF invoices, quotations & receipts supported", "Real-time payment notifications & reminders", "Multi-currency support (USD, EUR, ZAR, NGN...)", "Full payment history & financial reporting"].map((item, i) => (
                     <li key={i} className="flex items-center gap-3 text-white/70 font-dm">
                       <div className="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
                         <Check className="w-3.5 h-3.5 text-emerald-400" />
