@@ -2031,16 +2031,30 @@ const Footer = () => {
           </div>
 
           {[
-            { title: "Product", links: ["Features", "Security", "Pricing", "API Docs"] },
-            { title: "Company", links: ["About", "Careers", "Blog", "Press"] },
-            { title: "Legal", links: ["Privacy", "Terms", "Cookies"] },
+            { title: "Product", links: [
+              { label: "Features", href: "#features" },
+              { label: "Security", href: "#security" },
+              { label: "Pricing", href: "#pricing" },
+              { label: "API Docs", href: "#" },
+            ]},
+            { title: "Company", links: [
+              { label: "About", href: "/about" },
+              { label: "Careers", href: "#" },
+              { label: "Blog", href: "#" },
+              { label: "Press", href: "#" },
+            ]},
+            { title: "Legal", links: [
+              { label: "Privacy Policy", href: "/privacy" },
+              { label: "Terms & Conditions", href: "/terms" },
+              { label: "Cookie Policy", href: "/cookies" },
+            ]},
           ].map((col) => (
             <div key={col.title}>
               <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-white/40 font-dm">{col.title}</h4>
               <ul className="space-y-3">
                 {col.links.map((link) => (
-                  <li key={link}>
-                    <a href="#" className="text-white/60 hover:text-white transition-colors text-sm font-dm" data-hover>{link}</a>
+                  <li key={link.label}>
+                    <Link to={link.href} className="text-white/60 hover:text-white transition-colors text-sm font-dm" data-hover>{link.label}</Link>
                   </li>
                 ))}
               </ul>
@@ -2174,12 +2188,254 @@ const Home = () => {
   );
 };
 
+// Privacy Policy Page
+const PrivacyPolicy = () => {
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+  return (
+    <div className="min-h-screen bg-[#0a0a0f] text-white">
+      <Header />
+      <div className="max-w-4xl mx-auto px-6 md:px-12 pt-32 pb-20">
+        <motion.div initial="hidden" animate="visible" variants={fadeUp}>
+          <h1 className="text-4xl md:text-5xl font-bold font-syne mb-4 gradient-text">Privacy Policy</h1>
+          <p className="text-white/40 font-dm mb-12">Last updated: April 2026</p>
+          
+          <div className="space-y-10 text-white/70 font-dm leading-relaxed">
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">1. Introduction</h2>
+              <p>BukkaPay ("we", "our", or "us") is committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our platform, website, and services.</p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">2. Information We Collect</h2>
+              <p className="mb-3">We collect information that you provide directly to us, including:</p>
+              <ul className="list-disc list-inside space-y-2 ml-4">
+                <li>Personal identification information (name, email address, phone number)</li>
+                <li>Financial information (bank account details, payment card information)</li>
+                <li>Identity verification documents (government-issued ID, proof of address)</li>
+                <li>Transaction data and payment history</li>
+                <li>Device information and usage data</li>
+              </ul>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">3. How We Use Your Information</h2>
+              <ul className="list-disc list-inside space-y-2 ml-4">
+                <li>Process transactions and send related notifications</li>
+                <li>Verify your identity and prevent fraud</li>
+                <li>Comply with legal and regulatory requirements</li>
+                <li>Improve and personalize our services</li>
+                <li>Communicate with you about products, services, and promotions</li>
+                <li>Provide customer support</li>
+              </ul>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">4. Data Sharing & Disclosure</h2>
+              <p>We do not sell your personal information. We may share your data with:</p>
+              <ul className="list-disc list-inside space-y-2 ml-4 mt-3">
+                <li>Payment processors and banking partners to facilitate transactions</li>
+                <li>Identity verification services</li>
+                <li>Law enforcement or regulatory bodies when required by law</li>
+                <li>Service providers who assist in operating our platform</li>
+              </ul>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">5. Data Security</h2>
+              <p>We implement industry-standard security measures including encryption, secure servers, and regular security audits to protect your personal information. However, no method of transmission over the Internet is 100% secure.</p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">6. Your Rights</h2>
+              <p>Depending on your jurisdiction, you may have the right to:</p>
+              <ul className="list-disc list-inside space-y-2 ml-4 mt-3">
+                <li>Access and receive a copy of your personal data</li>
+                <li>Rectify or update inaccurate information</li>
+                <li>Request deletion of your personal data</li>
+                <li>Object to or restrict processing of your data</li>
+                <li>Data portability</li>
+              </ul>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">7. Cookies & Tracking</h2>
+              <p>We use cookies and similar tracking technologies to enhance your experience, analyze usage patterns, and deliver targeted content. You can manage cookie preferences through your browser settings.</p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">8. Contact Us</h2>
+              <p>If you have questions about this Privacy Policy, please contact us at:</p>
+              <p className="mt-3 text-white/90">Email: <a href="mailto:privacy@bukkapay.com" className="text-violet-400 hover:text-violet-300 transition-colors">privacy@bukkapay.com</a></p>
+            </section>
+          </div>
+
+          <div className="mt-16 pt-8 border-t border-white/10">
+            <Link to="/" className="text-violet-400 hover:text-violet-300 transition-colors font-dm flex items-center gap-2">
+              <ArrowRight className="w-4 h-4 rotate-180" /> Back to Home
+            </Link>
+          </div>
+        </motion.div>
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
+// Terms & Conditions Page
+const TermsConditions = () => {
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+  return (
+    <div className="min-h-screen bg-[#0a0a0f] text-white">
+      <Header />
+      <div className="max-w-4xl mx-auto px-6 md:px-12 pt-32 pb-20">
+        <motion.div initial="hidden" animate="visible" variants={fadeUp}>
+          <h1 className="text-4xl md:text-5xl font-bold font-syne mb-4 gradient-text">Terms & Conditions</h1>
+          <p className="text-white/40 font-dm mb-12">Last updated: April 2026</p>
+          
+          <div className="space-y-10 text-white/70 font-dm leading-relaxed">
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">1. Acceptance of Terms</h2>
+              <p>By accessing or using BukkaPay's services, website, or mobile application, you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, you must not use our services.</p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">2. Eligibility</h2>
+              <p>To use BukkaPay, you must be at least 18 years old, have the legal capacity to enter into a binding agreement, and comply with all applicable laws and regulations in your jurisdiction.</p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">3. Account Registration</h2>
+              <ul className="list-disc list-inside space-y-2 ml-4">
+                <li>You must provide accurate and complete registration information</li>
+                <li>You are responsible for maintaining the confidentiality of your account credentials</li>
+                <li>You must notify us immediately of any unauthorized use of your account</li>
+                <li>We reserve the right to suspend or terminate accounts that violate these terms</li>
+              </ul>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">4. Services</h2>
+              <p>BukkaPay provides digital payment services including but not limited to:</p>
+              <ul className="list-disc list-inside space-y-2 ml-4 mt-3">
+                <li>Sending and receiving payments</li>
+                <li>Payment link generation and management</li>
+                <li>Invoice creation and billing</li>
+                <li>Cross-border payment processing</li>
+                <li>Business payment solutions</li>
+              </ul>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">5. Fees & Charges</h2>
+              <p>BukkaPay charges fees for certain services as outlined on our pricing page. We reserve the right to modify our fee structure with prior notice. All fees are non-refundable unless otherwise stated.</p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">6. Prohibited Activities</h2>
+              <p>You agree not to use BukkaPay for:</p>
+              <ul className="list-disc list-inside space-y-2 ml-4 mt-3">
+                <li>Money laundering or terrorist financing</li>
+                <li>Fraudulent transactions or deceptive practices</li>
+                <li>Transactions involving illegal goods or services</li>
+                <li>Violating any applicable laws or regulations</li>
+                <li>Interfering with the security or functionality of our platform</li>
+              </ul>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">7. Limitation of Liability</h2>
+              <p>BukkaPay shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of our services. Our total liability shall not exceed the fees paid by you in the twelve months preceding the claim.</p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">8. Dispute Resolution</h2>
+              <p>Any disputes arising from these Terms shall be resolved through binding arbitration in accordance with the laws of the applicable jurisdiction. You agree to first attempt to resolve disputes informally by contacting our support team.</p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">9. Changes to Terms</h2>
+              <p>We may update these Terms from time to time. We will notify you of material changes via email or through our platform. Your continued use of BukkaPay after changes constitutes acceptance of the updated terms.</p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">10. Contact</h2>
+              <p>For questions about these Terms & Conditions, contact us at:</p>
+              <p className="mt-3 text-white/90">Email: <a href="mailto:legal@bukkapay.com" className="text-violet-400 hover:text-violet-300 transition-colors">legal@bukkapay.com</a></p>
+            </section>
+          </div>
+
+          <div className="mt-16 pt-8 border-t border-white/10">
+            <Link to="/" className="text-violet-400 hover:text-violet-300 transition-colors font-dm flex items-center gap-2">
+              <ArrowRight className="w-4 h-4 rotate-180" /> Back to Home
+            </Link>
+          </div>
+        </motion.div>
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
+// Cookie Policy Page
+const CookiePolicy = () => {
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+  return (
+    <div className="min-h-screen bg-[#0a0a0f] text-white">
+      <Header />
+      <div className="max-w-4xl mx-auto px-6 md:px-12 pt-32 pb-20">
+        <motion.div initial="hidden" animate="visible" variants={fadeUp}>
+          <h1 className="text-4xl md:text-5xl font-bold font-syne mb-4 gradient-text">Cookie Policy</h1>
+          <p className="text-white/40 font-dm mb-12">Last updated: April 2026</p>
+          
+          <div className="space-y-10 text-white/70 font-dm leading-relaxed">
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">1. What Are Cookies</h2>
+              <p>Cookies are small text files stored on your device when you visit our website. They help us provide you with a better experience by remembering your preferences and understanding how you use our platform.</p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">2. Types of Cookies We Use</h2>
+              <ul className="list-disc list-inside space-y-2 ml-4">
+                <li><strong className="text-white">Essential Cookies:</strong> Required for the platform to function properly</li>
+                <li><strong className="text-white">Analytics Cookies:</strong> Help us understand how visitors interact with our site</li>
+                <li><strong className="text-white">Functional Cookies:</strong> Remember your preferences and settings</li>
+                <li><strong className="text-white">Marketing Cookies:</strong> Used to deliver relevant advertisements</li>
+              </ul>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">3. Managing Cookies</h2>
+              <p>You can control and manage cookies through your browser settings. Please note that disabling certain cookies may affect the functionality of our platform.</p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-white mb-4 font-syne">4. Contact</h2>
+              <p>For questions about our Cookie Policy, contact us at:</p>
+              <p className="mt-3 text-white/90">Email: <a href="mailto:privacy@bukkapay.com" className="text-violet-400 hover:text-violet-300 transition-colors">privacy@bukkapay.com</a></p>
+            </section>
+          </div>
+
+          <div className="mt-16 pt-8 border-t border-white/10">
+            <Link to="/" className="text-violet-400 hover:text-violet-300 transition-colors font-dm flex items-center gap-2">
+              <ArrowRight className="w-4 h-4 rotate-180" /> Back to Home
+            </Link>
+          </div>
+        </motion.div>
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsConditions />} />
+          <Route path="/cookies" element={<CookiePolicy />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </BrowserRouter>
