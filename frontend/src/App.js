@@ -2046,7 +2046,7 @@ const Footer = () => {
       <div className="absolute inset-0 grid-pattern opacity-10" />
       
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10">
-        <div className="grid md:grid-cols-5 gap-10 mb-16">
+        <div className="grid md:grid-cols-6 gap-10 mb-16">
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-6">
               <img src="/assets/logo.png" alt="BukkaPay" className="h-10 w-10 rounded-xl" />
@@ -2070,6 +2070,10 @@ const Footer = () => {
               { label: "Blog", href: "#" },
               { label: "Press", href: "#" },
             ]},
+            { title: "Contact", links: [
+              { label: "hello@bukkapay.com", href: "mailto:hello@bukkapay.com", external: true },
+              { label: "marketing@bukkapay.com", href: "mailto:marketing@bukkapay.com", external: true },
+            ]},
             { title: "Legal", links: [
               { label: "Privacy Policy", href: "/privacy" },
               { label: "Terms & Conditions", href: "/terms" },
@@ -2080,8 +2084,14 @@ const Footer = () => {
               <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-white/40 font-dm">{col.title}</h4>
               <ul className="space-y-3">
                 {col.links.map((link) => (
-                  <li key={link.label}>
-                    <Link to={link.href} className="text-white/60 hover:text-white transition-colors text-sm font-dm" data-hover>{link.label}</Link>
+                   <li key={link.label}>
+                     {link.external ? (
+                       <a href={link.href} className="text-white/60 hover:text-white transition-colors text-sm font-dm flex items-center gap-2" data-hover>
+                         <Mail className="w-3.5 h-3.5" />{link.label}
+                       </a>
+                     ) : (
+                       <Link to={link.href} className="text-white/60 hover:text-white transition-colors text-sm font-dm" data-hover>{link.label}</Link>
+                     )}
                   </li>
                 ))}
               </ul>
