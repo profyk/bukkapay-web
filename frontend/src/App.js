@@ -2070,6 +2070,10 @@ const Footer = () => {
               { label: "Blog", href: "#" },
               { label: "Press", href: "#" },
             ]},
+            { title: "Contact", links: [
+              { label: "hello@bukkapay.com", href: "mailto:hello@bukkapay.com", external: true },
+              { label: "marketing@bukkapay.com", href: "mailto:marketing@bukkapay.com", external: true },
+            ]},
             { title: "Legal", links: [
               { label: "Privacy Policy", href: "/privacy" },
               { label: "Terms & Conditions", href: "/terms" },
