@@ -593,7 +593,7 @@ const PaymentLinks = () => {
                   <div className="flex items-center gap-1"><Receipt className="w-3.5 h-3.5 text-[#1A362D]" /><span className="text-xs text-[#586C62] font-manrope">INV-001.pdf</span></div>
                 </div>
                 <div className="space-y-2 mb-4 pt-3 border-t border-[#E2DCD0]">
-                  {[["Website Redesign", "$2,500"], ["Brand Identity", "$1,200"], ["SEO Setup", "$800"]].map(([l, v]) => (
+                  {[["Website Redesign", "R45,000"], ["Brand Identity", "R22,000"], ["SEO Setup", "R15,000"]].map(([l, v]) => (
                     <div key={l} className="flex justify-between text-sm">
                       <span className="text-[#586C62] font-manrope">{l}</span>
                       <span className="text-[#1A2421] font-outfit font-medium">{v}</span>
@@ -602,7 +602,7 @@ const PaymentLinks = () => {
                 </div>
                 <div className="flex justify-between items-center pt-3 border-t border-[#E2DCD0]">
                   <span className="text-sm font-medium text-[#1A2421] font-manrope">Total</span>
-                  <span className="text-xl font-bold text-[#1A2421] font-outfit">$4,500.00</span>
+                  <span className="text-xl font-bold text-[#1A2421] font-outfit">R82,000.00</span>
                 </div>
               </div>
               <button className="w-full bg-[#1A362D] text-[#F7F5F0] rounded-xl py-3.5 font-semibold font-manrope text-sm hover:bg-[#142922] transition-colors">
@@ -839,7 +839,7 @@ const UseCases = () => {
 const Pricing = () => {
   const plans = [
     { name: "Starter", price: "Free", period: "", description: "Best for individuals and small sellers getting started.", features: ["Create unlimited payment links", "Basic invoicing", "Accept payments instantly", "Real-time payment confirmation", "Dashboard access"], cta: "Coming Soon", popular: false },
-    { name: "Pro", price: "$20", period: "/month", description: "Best for freelancers and growing businesses.", features: ["Everything in Starter", "Advanced invoicing (branding, notes, reminders)", "Payment analytics & insights", "Priority support", "Better organization & tracking"], cta: "Coming Soon", popular: true },
+    { name: "Pro", price: "R299", period: "/month", description: "Best for freelancers and growing businesses.", features: ["Everything in Starter", "Advanced invoicing (branding, notes, reminders)", "Payment analytics & insights", "Priority support", "Better organization & tracking"], cta: "Coming Soon", popular: true },
     { name: "Business", price: "Custom", period: "", description: "Best for companies and high-volume businesses.", features: ["Everything in Pro", "Team access & roles", "API access (for integrations)", "Custom checkout experience", "Dedicated support"], cta: "Contact Sales", popular: false }
   ];
   return (
